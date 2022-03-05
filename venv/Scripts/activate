@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\Mahdy F\Desktop\cse442-spring2022-team-team-pentaneers\venv"
+VIRTUAL_ENV="C:\Users\f4iii\OneDrive\Desktop\cse442-spring2022-team-team-pentaneers\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\Mahdy F\Desktop\cse442-spring2022-team-team-pentaneers\venv
+set VIRTUAL_ENV=C:\Users\f4iii\OneDrive\Desktop\cse442-spring2022-team-team-pentaneers\venv
 
 if not defined PROMPT set PROMPT=$P$G
 

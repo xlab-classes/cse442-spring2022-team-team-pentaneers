@@ -8,10 +8,8 @@ app.config['SECRET_KEY']
 
 # The path to our homepage.
 @app.route("/")
-def hello_world():
-    return "Hello, World!"
-#def home():
-    #return render_template('home.html', title = "Homepage")
+def home():
+    return render_template('home.html', title = "Homepage")
 
 # The path to our sign up page.
 @app.route("/signup", methods = ['GET', 'POST'])
