@@ -30,7 +30,7 @@ def createSurvey():
     Database = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="Ferdaosm50313245!",
+        password="",
         database="test_db"
     )
     
@@ -245,7 +245,7 @@ def createResponse():
     Database = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="Ferdaosm50313245!",
+        password="",
         database="test_db"
     )
     #get body of the request
@@ -294,7 +294,7 @@ def retrieveSurveysUsers(email):
     Database = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="Ferdaosm50313245!",
+        password="",
         database="test_db"
     )
     # Access the Database
@@ -336,7 +336,7 @@ def retrieveSurveyResults(email, survey_id):
     Database = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="Ferdaosm50313245!",
+        password="",
         database="test_db"
     )
     # Access the Database
@@ -367,7 +367,7 @@ def retrievePublicSurveys():
     Database = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="Ferdaosm50313245!",
+        password="",
         database="test_db"
     )
     # Access the Database
