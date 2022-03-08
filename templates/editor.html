@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='editor.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+        <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+        <link href="https://fonts.googleapis.com/css2?family=Fredoka+One" rel="stylesheet">
+        <script src="{{url_for('static', filename='editor.js')}}"></script>
+    </head>
+    <!-- <h1 class = "animate__animated animate__zoomInDown">Name of Website</h1> -->
+    <body>
+        
+        <!-- <div class="duck">
+            <img src="{{url_for('static', filename='duck.png')}}">
+        </div> -->
+
+        <a button class = "buttonlogin" href = "{{ url_for('home') }}" >Logout</button></a>
+    
+        <!-- <a button class = "buttonsignup" href = "{{ url_for('home') }}" >Register</button></a>
+
+        <a button class = "buttonbrowse" href = "{{ url_for('home') }}" >Browse</button></a> -->
+    
+        <h1> Create your survey below! </h1>
+
+        <button onclick="isConnect()" type="button">Connected to js</button>
+        <button type="button">Public</button>
+        <button type="button">Private</button>
+
+        <h2>Title</h2>
+        <form>
+            <input type="text" id="Title" name="fname"><br>
+        </form>
+
+        <h2>Description(Optional)</h2>
+        <form>
+            <input type="text" id="Description" name="fname"><br>
+        </form>
+        <h2>Question(s)</h2>
+        <form>
+            <input type="text" id="Question" name="fname"><br>
+        </form>
+
+    </body>
+</html>
