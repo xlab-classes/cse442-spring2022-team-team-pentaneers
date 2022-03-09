@@ -322,7 +322,6 @@ def createResponse():
     '''
     mydb.close()
     return json.dumps(survey_id)
-
 @app.route("/survey/delete/<email>/<id>", methods = ['DELETE'])
 def deleteSurvey(email, id):
     print(email)
@@ -331,7 +330,7 @@ def deleteSurvey(email, id):
         host="localhost",
         user="root",
         password="",
-        database="test_db"
+        database="testdb"
     )
     # Access the Database
     mydb = Database
@@ -345,31 +344,39 @@ def deleteSurvey(email, id):
     mycursor.execute(query, values)
     # fetch all the matching rows 
     result = mycursor.fetchall()
-
-    survey_id = result[0]
+    
+    print(result)
 
     # Delete from Surveys table
     query = "DELETE FROM Surveys WHERE email = %s AND id = %s"
     values = (email, id)
     mycursor.execute(query, values)
-
+    mydb.commit()
+    print("Surveys Table: ", mycursor.rowcount, "record(s) deleted")
+   
     # Delete from Questions
     query = "DELETE FROM Questions WHERE survey_id = %s"
-    values = (survey_id)
+    values = (id,)
     mycursor.execute(query, values)
+    mydb.commit()
+    print("Questions Table: ", mycursor.rowcount, "record(s) deleted")
 
     # Delete from Survey_Question table
     query = "DELETE FROM Survey_Questions WHERE survey_id = %s"
-    values = (survey_id)
+    values = (id,)
     mycursor.execute(query, values)
+    mydb.commit()
+    print("Survey_Questions: ", mycursor.rowcount, "record(s) deleted")
 
     # Delete from Response table
     query = "DELETE FROM Response WHERE email = %s AND survey_id = %s"
-    values = (email, survey_id)
+    values = (email, id)
     mycursor.execute(query, values)
+    mydb.commit()
+    print("Response Table: ", mycursor.rowcount, "record(s) deleted")
     
     
-    return "Survey has been deleted for email: %s with survey_id %s".format(email, survey_id)
+    return ("Survey has been deleted for email: {} with survey_id = {}").format(email, id)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8000)
