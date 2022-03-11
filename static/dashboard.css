@@ -1,7 +1,4 @@
 body{
-	width: 100vw;
-	height: 100vh;
-
 	background: #81D1FE;
 }
 
@@ -10,9 +7,6 @@ div.vertical_flex{
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	
-	width: 100vw;
-	height: 100vh;
 }
 
 h1{
@@ -61,7 +55,7 @@ button.logout{
 	width: 12.1vw;
 	height: 6.5vh;
 	left: 85.8vw;
-	top: 2.8vh;
+	top: 2.7vh;
 	
 	font-family: Montserrat;
 	font-style: normal;
