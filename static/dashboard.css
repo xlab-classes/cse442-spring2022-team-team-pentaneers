@@ -1,0 +1,56 @@
+body{
+	position: relative;
+	width: 1920px;
+	height: 1080px;
+
+	background: #81D1FE;
+}
+
+h1{
+	position: absolute;
+	width: 1585px;
+	height: 104px;
+	left: 168px;
+	top: 146px;
+
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 144px;
+	line-height: 176px;
+	display: flex;
+	align-items: center;
+	text-align: center;
+	letter-spacing: -0.015em;
+
+	color: #FFFFFF;
+
+	border: 1px solid #E4E2E2;
+	text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+img.corner_duck{
+	position: absolute;
+	width: 453px;
+	height: 456px;
+	left: -112px;
+	top: -166px;
+
+	background: url(duck.png);
+}
+
+button{
+	position: absolute;
+	width: 545px;
+	height: 152px;
+	left: 688px;
+	top: 338px;
+}
+
+button.logout{
+	position: absolute;
+	width: 232px;
+	height: 66px;
+	left: 1648px;
+	top: 29px;
+}
