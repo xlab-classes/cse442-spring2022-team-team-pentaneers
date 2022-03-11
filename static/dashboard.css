@@ -20,7 +20,7 @@ h1{
 
 	color: #FFFFFF;
 
-	text-shadow: 0px 0.4vh 0.4vh rgba(0, 0, 0, 0.25);
+	text-shadow: 0px 0.28em 0.28em rgba(0, 0, 0, 0.25);
 }
 
 ul{
@@ -45,6 +45,19 @@ button{
 	height: 14.9vh;
 	left: 35.8vw;
 	top: 33.1vh;
+	
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 2.5vw;
+	text-align: center;
+	letter-spacing: -0.015em;
+	
+	color: #FFFFFF;
+	background-color: #60ABDD;
+	
+	border: none;
+	border-radius: 0.3125vw;
 }
 
 button.logout{
@@ -53,4 +66,17 @@ button.logout{
 	height: 6.5vh;
 	left: 85.8vw;
 	top: 2.8vh;
+	
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 1.5625vw;
+	text-align: center;
+	letter-spacing: -0.015em;
+	
+	color: #60ABDD;
+	background-color: #FFFFFF;
+	
+	border: none;
+	border-radius: 0.3125vw;
 }
