@@ -2,11 +2,14 @@ import datetime
 import email
 import json
 from typing import List
-import mysql.connector
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask,request
 import mysql.connector
 from datetime import date
+import db_connector
+from Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyForResponse, RetrieveSurveyResults, RetrieveUserSurveys
+from Delete import Delete
+from create import Survey, Response, Account
 
 app = Flask(__name__)
 
@@ -14,12 +17,10 @@ app = Flask(__name__)
 app.config['SECRET_KEY']
 
 # Adding in UB's MYSQL Database (Make sure to change the formatting)
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://mahdyfer:50313245@oceanus.cse.buffalo.edu/cse442_2022_spring_team_ab_db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://mahdyfer:@oceanus.cse.buffalo.edu/cse442_2022_spring_team_ab_db'
 
 # Initialize the database
 #Database = SQLAlchemy(app)
-
-
 
 
 app = Flask(__name__)
@@ -28,317 +29,33 @@ app = Flask(__name__)
 def hello_world():
     return "Hello, World!"
 
+#path to create Surveys
 @app.route("/submitSurvey", methods=['POST'])
 def createSurvey():
-
-    #Assume data are send in json map format
+    #print("hi!!!")
     data=json.loads(request.get_data(as_text=True))
     #print(data)
-    email=data['email']
-    title=data['title']
-    description=data['description']
-    questions=data['questions']
-    expired=data['expired_date']
-    expired=datetime.datetime.strptime(expired,"%Y-%m-%d").date()
-
-    #get current date,YYYY-MM-DD format
-    created_date=date.today()
-
-    #var need to be calculated
-    countrow = -1
-    id = -1
-    surveys_id = -1
-    question_id = -1 #id in Questions
-    relation_id = -1
-
-    mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database = "testdb"
-    )
-    mycursor = mydb.cursor()
-
-    # create table Surveys if not exists
-    '''
-    sql = "drop TABLE IF EXISTS Surveys"
-    mycursor.execute(sql)
-    mydb.commit()
-    '''
-    sql = "CREATE TABLE IF NOT EXISTS Surveys (id int, email varchar(255), title varchar(255), description varchar(255), created_on DATE, expired_on Date, surveys_id int)"
-    mycursor.execute(sql)
-    mydb.commit()
-
-    # create table Survey_Questions if not exists
-    '''
-    sql = "drop TABLE IF EXISTS Survey_Questions"
-    mycursor.execute(sql)
-    mydb.commit()
-    '''
-    sql = "CREATE TABLE IF NOT EXISTS Survey_Questions (id int, question_id int, survey_id int)"
-    mycursor.execute(sql)
-    mydb.commit()
-
-    # create table Questions if not exists
-    '''
-    sql = "drop TABLE IF EXISTS Questions"
-    mycursor.execute(sql)
-    mydb.commit()
-    '''
-    sql = "CREATE TABLE IF NOT EXISTS Questions (id int, survey_id int, question_id int, question_title varchar(255), question_type varchar(255), options varchar(255))"
-    mycursor.execute(sql)
-    mydb.commit()
-
-    #count if any content in Surveys
-    sqlcountSurvey="select count(*) from Surveys"
-    mycursor.execute(sqlcountSurvey)
-    countresult = mycursor.fetchall()
-    for row in countresult:
-        countrow = row[0]
-    # select id
-    if(countrow==0):
-        id=1
-    else:
-        sqlId="select max(id) from Surveys"
-        mycursor.execute(sqlId)
-        maxId = mycursor.fetchall()
-        for row in maxId:
-            id = row[0]
-        id+=1
-
-    # select surveys_id
-    if (countrow == 0):
-        surveys_id = 1
-    else:
-        sqlmax = "select max(surveys_id) from Surveys where email= %s"
-        val=(email,)
-        mycursor.execute(sqlmax,val)
-        surveys = mycursor.fetchall()
-        for row in surveys:
-            surveys_id = row[0]
-        if(surveys_id is None):
-            surveys_id=1
-        else: surveys_id += 1
-
-    #insert data into Surveys
-    sql="Insert into Surveys (id, email, title, description, created_on, expired_on, surveys_id) values (%s,%s,%s,%s,%s,%s,%s)"
-    val=(id,email,title,description,created_date,expired,surveys_id)
-    mycursor.execute(sql,val)
-    mydb.commit()
-
-    # for Questions table
-    questionnumberList=[]
-    sqlcountSurvey = "select count(*) from Questions"
-    mycursor.execute(sqlcountSurvey)
-    countresult = mycursor.fetchall()
-
-    for row in countresult:
-        countrow = row[0]
-    # select id
-    if (countrow == 0):
-        question_id = 0
-    else:
-        sqlmax = "select max(id) from Questions"
-        mycursor.execute(sqlmax)
-        question_ids = mycursor.fetchall()
-        for row in question_ids:
-            question_id = row[0]
-
-
-    # insert data into Questions
-    for question in questions:
-        question_number=question[0] #question_id in Questions
-        question_title=question[1]
-        question_type=question[2]
-        question_id += 1
-        questionnumberList.append(question_number)
-        if(question[3] is None):
-            sql = "Insert into Questions (id, survey_id, question_id, question_title, question_type) values (%s,%s,%s,%s,%s)"
-            val = (question_id, id,question_number, question_title, question_type)
-            mycursor.execute(sql, val)
-            mydb.commit()
-        else:
-            index=0
-            options=""
-            for choice in question[3]:
-                index+=1
-                options+=str(index)+":"+choice+";"
-            sql = "Insert into Questions (id, survey_id, question_id, question_title, question_type, options) values (%s,%s,%s,%s,%s,%s)"
-            val = (question_id, id,question_number, question_title, question_type, options)
-            mycursor.execute(sql, val)
-            mydb.commit()
-
-    #insert into Survey_Questions
-    sqlcountSurvey = "select count(*) from Survey_Questions"
-    mycursor.execute(sqlcountSurvey)
-    countresult = mycursor.fetchall()
-    for row in countresult:
-        countrow = row[0]
-    # select id
-    if (countrow == 0):
-        relation_id = 0
-    else:
-        sqlmax = "select max(id) from Survey_Questions"
-        mycursor.execute(sqlmax)
-        relations = mycursor.fetchall()
-        for row in relations:
-            relation_id = row[0]
-    for question in questionnumberList:
-        relation_id += 1
-        sql = "Insert into Survey_Questions (id, question_id, survey_id) values (%s,%s,%s)"
-        val = (relation_id,question,id)
-        mycursor.execute(sql, val)
-        mydb.commit()
-
-    # used for testing values are inserted correctly
-    '''
-    returnstring="Surveys: "
-    sql = "select * from Surveys"
-    #val = (id,)
-    mycursor.execute(sql)
-    myresult = mycursor.fetchall()
-    for x in myresult:
-        returnstring+=str(x)
-        returnstring+='\n'
-    returnstring += '\n'
-    returnstring+="Survey_Questions: "
-    sql = "select * from Survey_Questions"
-    #val = (id,)
-    mycursor.execute(sql)
-    # mydb.commit()
-    myresult = mycursor.fetchall()
-    for x in myresult:
-        returnstring += str(x)
-        returnstring += '\n'
-    #returnstring+="Surveys: "+
-    returnstring += '\n'
-    returnstring += "Questions: "
-    #for questionid in questionidList:
-    sql = "select * from Questions"
-    #val=(questionid,)
-    # val = (relation_id, question, id)
-    mycursor.execute(sql)
-    # mydb.commit()
-    myresult = mycursor.fetchall()
-    for x in myresult:
-        returnstring += str(x)
-        returnstring += '\n'
-    '''
-    mydb.close()
-
+    id=Survey.survey(data)
+    #print(id)
     return json.dumps(id)
-    #pass
 
+
+#path to create account
 @app.route("/signup", methods=['POST'])
 def createAccount():
     data=json.loads(request.get_data(as_text=True))
-    email=data['email']
-    password=data['password']
-    created_date = date.today()
-    mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="testdb"
-    )
-    mycursor = mydb.cursor()
-    '''
-    sql = "drop table if exists Users"
-    mycursor.execute(sql)
-    mydb.commit()
-    '''
-    #create table if not exists
-    sql = "create table if not exists Users (id int AUTO_INCREMENT PRIMARY KEY, email varchar(255), password varchar(255), date_created DATE )"
-    mycursor.execute(sql)
-    mydb.commit()
+    returnid=Account.account(data)
+    return returnid
 
-    #check account is created or not
-    sql = "select * from Users where email=%s"
-    val = (email,)
-    mycursor.execute(sql, val)
-    # mydb.commit()
-    myresult = mycursor.fetchall()
-    if(len(myresult)!=0): return "account exists"
 
-    #insert user information
-    sql = "Insert into Users (email, password, date_created) values (%s,%s,%s)"
-    val = (email, password, created_date)
-    mycursor.execute(sql, val)
-    mydb.commit()
 
-    #select user_id
-    sql = "select id from Users where email=%s"
-    val = (email,)
-    mycursor.execute(sql, val)
-    myresult = mycursor.fetchall()
-    returnid=0
-    print(myresult)
-    for result in myresult:
-        returnid+=int(str(result[0]))
-    #mydb.commit()
-
-    # return tuples in Users(used for testing)
-    '''
-    sql = "select * from Users"
-    #val = (email,)
-    mycursor.execute(sql)
-    myresult = mycursor.fetchall()
-    returnid=""
-    for x in myresult:
-        returnid += str(x)
-    '''
-    mydb.close()
-    return json.dumps(returnid)
-    #pass
-
+#path to create response
 @app.route("/submitResponse", methods=['POST'])
 def createResponse():
-
-    #get body of the request
     data=json.loads(request.get_data(as_text=True))
-    responses=data['response']
-    survey_id=data['survey_id']
-    email=data['email']
-    mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="testdb"
-    )
-    mycursor = mydb.cursor()
-    sql = "create table if not exists Response (response_id int AUTO_INCREMENT PRIMARY KEY, question_id int, survey_id int,short_answer varchar(255), multiple_choice_answer varchar(255), email varchar(255))"
-    mycursor.execute(sql)
-    mydb.commit()
+    survey_id=Response.response(data)
+    return survey_id
 
-    #insert each response
-    print(responses)
-    for response in responses:
-        question_number = response[0]  # question_id in Questions
-        question_type = response[1]
-        answer = response[2]
-        if(question_type=="Short Response"):
-            sql = "Insert into Response (question_id, survey_id, short_answer, email) values (%s,%s,%s,%s)"
-            val = (question_number, survey_id, answer, email)
-            mycursor.execute(sql, val)
-            mydb.commit()
-        else:
-            sql = "Insert into Response (question_id, survey_id, multiple_choice_answer, email) values (%s,%s,%s,%s)"
-            val = (question_number, survey_id, int(answer),email)
-            mycursor.execute(sql, val)
-            mydb.commit()
-
-    #return tuples in Response(used for testing)
-    '''
-    sql = "select * from Response"
-    # val = (email,)
-    mycursor.execute(sql)
-    myresult = mycursor.fetchall()
-    returnid = ""
-    for x in myresult:
-        returnid += str(x)
-    '''
-    mydb.close()
-    return json.dumps(survey_id)
 
 
 @app.route("/retrieve/userSurveys/<email>", methods=['GET'])
@@ -346,172 +63,49 @@ def createResponse():
 
 # Retrieve all surveys created by the user by their EMAIL
 def retrieveSurveysUsers(email):
-    List_to_return = []
-    Database = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="Ferdaosm50313245!",
-        database="test_db"
-    )
-    # Access the Database
-    mydb = Database
-    mycursor = mydb.cursor()
-    # Select only the rows that have our requested "email" 
-    query = "SELECT * FROM Surveys WHERE email = %s"
-    user_email = (email, )
-
-    # Execute our MySQL Query to get what we want
-    mycursor.execute(query, user_email)
-    # fetch all the matching rows 
-    result = mycursor.fetchall()
+    retrieve = RetrieveUserSurveys.retrieveSurveysUsers(email)
+    return retrieve
     
-    # loop through the rows that have only the requested email in them and 
-    # row format = [id, email, title, description, created_on, expire, surveys_id]
-    for row in result:
-        dictionary = {}
-        # Get the surveys_id, this will act as a Value
-        surveys_id = row[6]
-        # Get the survey_title, this will act as a Key
-        survey_title = row[2]
-        dictionary[survey_title] = surveys_id
-        # Append the created dictionary to the list that we are going to return
-        List_to_return.append(dictionary)
-
-    final_content = [email, List_to_return]
-
-    return str(final_content)
 
 
-@app.route("/retrieve/survey/<email>/<survey_id>/results", methods=['GET'])
+@app.route("/retrieve/survey/<email>/<surveys_id>/results", methods=['GET'])
 #User must be logged in, and must also be retreiving data on their own surveys
 
 # Retrieve specific survey results
-def retrieveSurveyResults(email, survey_id):
-    multiple_choice = {}
-    short_response = []
-    Database = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="Ferdaosm50313245!",
-        database="test_db"
-    )
-    # Access the Database
-    mydb = Database
-    mycursor = mydb.cursor()
+def retrieveSurveyResults(email, surveys_id):
+    survey_results = RetrieveSurveyResults.retrieveSurveyResults(email, surveys_id)
+    return survey_results
+   
 
-    query = "SELECT * FROM Response WHERE email = %s AND survey_id = %s"
-    values = (email, survey_id)
-
-    # # Execute our MySQL Query to get what we want
-    mycursor.execute(query, values)
-
-    # fetch all the matching rows 
-    result = mycursor.fetchall()
-
-    for row in result:
-        Question_id = row[1]
-
-        print(row)
-    
-
-    return "testing retrieval of responses"
 
 @app.route('/retrieve/PublicSurveys')
 # User does NOT have to be logged in to see public surveys
 def retrievePublicSurveys():
-    List_to_return = []
-    Database = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="Ferdaosm50313245!",
-        database="test_db"
-    )
-    # Access the Database
-    mydb = Database
-    mycursor = mydb.cursor()
+    all_surveys = RetrievePublicSurveys.retrievePublicSurveys()
+    
+    return all_surveys
+    
+@app.route('/survey/form/<survey_id>', methods = ['GET'])
 
-    # Get all of the surveys from the 'Surveys' table.
-    query = "SELECT * FROM Surveys"
-    # Execute our MySQL Query to get what we want
-    mycursor.execute(query)
-    # fetch all the matching rows 
-    result = mycursor.fetchall()
-    # Get todyas date to check whether or not the survey has expired.
-    todays_date = date.today()
+def retrieveSurveyForResponse(survey_id):
+    survey = RetrieveSurveyForResponse.retrieveSurveyForResponse(survey_id)
+    return survey
 
-    # row format = [id, email, title, description, created_on, expire, surveys_id]
-    for row in result:
-        # This will be the dictionary that we use to add in all Surveys that have not expired
-        Dictionary_to_append = {}
-        # If the expiration date has not passed, then we add it to a list that we will return.
-        expiration_date = row[5]
+@app.route('/retrieve/survey/<email>/<survey_id>', methods = ['GET'])
 
-        if expiration_date > todays_date:
-            survey_id = row[6]
-            survey_title = row[2]
-            survey_description = row[3]
-            Dictionary_to_append['survey_id'] = survey_id
-            Dictionary_to_append['survey_title'] = survey_title
-            Dictionary_to_append['survey_description'] = survey_description
-            List_to_return.append(Dictionary_to_append)
-
-    return str(List_to_return)
-
-
-
-
+def retrieveSurveyById(survey_id, email):
+    user_survey = RetrieveSurveyById.retrieveSurveyById(survey_id, email)
+    return user_survey
 
 @app.route("/survey/delete/<email>/<id>", methods = ['DELETE'])
+
 def deleteSurvey(email, id):
-    print(email)
-    print(id)
-    Database = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="test_db"
-    )
-    # Access the Database
-    mydb = Database
-    mycursor = mydb.cursor()
-    # Select only the rows that have our requested "email" 
-    
-    query = "SELECT * FROM Surveys WHERE email = %s AND id = %s"
-    values = (email, id)
-    
-    # Execute our MySQL Query to get what we want
-    mycursor.execute(query, values)
-    # fetch all the matching rows 
-    result = mycursor.fetchall()
-
-    survey_id = result[0]
-
-    # Delete from Surveys table
-    query = "DELETE FROM Surveys WHERE email = %s AND id = %s"
-    values = (email, id)
-    mycursor.execute(query, values)
-
-    # Delete from Questions
-    query = "DELETE FROM Questions WHERE survey_id = %s"
-    values = (survey_id)
-    mycursor.execute(query, values)
-
-    # Delete from Survey_Question table
-    query = "DELETE FROM Survey_Questions WHERE survey_id = %s"
-    values = (survey_id)
-    mycursor.execute(query, values)
-
-    # Delete from Response table
-    query = "DELETE FROM Response WHERE email = %s AND survey_id = %s"
-    values = (email, survey_id)
-    mycursor.execute(query, values)
-    
-    
-    return "Survey has been deleted for email: %s with survey_id %s".format(email, survey_id)
+    deleted_surveys = Delete.deleteSurvey(email, id)
+    return deleted_surveys
 
 
 
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8000)
-    #app.run(debug = True) # Set to false for production
+    app.run(debug = True) # Set to false for production
