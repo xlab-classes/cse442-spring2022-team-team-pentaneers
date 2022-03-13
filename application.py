@@ -1,9 +1,28 @@
 import datetime
+import email
 import json
-
+from typing import List
+import mysql.connector
+from flask_sqlalchemy import SQLAlchemy
 from flask import Flask,request
 import mysql.connector
 from datetime import date
+import db_connector, Retrieve
+from Delete import Delete
+
+app = Flask(__name__)
+
+# IMPORTANT: Set to environment variable!
+app.config['SECRET_KEY']
+
+# Adding in UB's MYSQL Database (Make sure to change the formatting)
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://mahdyfer:@oceanus.cse.buffalo.edu/cse442_2022_spring_team_ab_db'
+
+# Initialize the database
+#Database = SQLAlchemy(app)
+
+
+
 
 app = Flask(__name__)
 
@@ -34,60 +53,24 @@ def createSurvey():
     question_id = -1 #id in Questions
     relation_id = -1
 
-    mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database = "testdb"
-    )
+    # connect database
+    mydb = db_connector.dbConnector("root","Ferdaosm50313245!")
     mycursor = mydb.cursor()
 
     # create table Surveys if not exists
-    '''
-    sql = "drop TABLE IF EXISTS Surveys"
-    mycursor.execute(sql)
-    mydb.commit()
-    '''
-    sql = "CREATE TABLE IF NOT EXISTS Surveys (id int, email varchar(255), title varchar(255), description varchar(255), created_on DATE, expired_on Date, surveys_id int)"
+    sql = "CREATE TABLE IF NOT EXISTS Surveys (id int AUTO_INCREMENT PRIMARY KEY, email varchar(255), title varchar(255), description varchar(255), created_on DATE, expired_on Date, surveys_id int)"
     mycursor.execute(sql)
     mydb.commit()
 
     # create table Survey_Questions if not exists
-    '''
-    sql = "drop TABLE IF EXISTS Survey_Questions"
-    mycursor.execute(sql)
-    mydb.commit()
-    '''
-    sql = "CREATE TABLE IF NOT EXISTS Survey_Questions (id int, question_id int, survey_id int)"
+    sql = "CREATE TABLE IF NOT EXISTS Survey_Questions (id int AUTO_INCREMENT PRIMARY KEY, question_id int, survey_id int)"
     mycursor.execute(sql)
     mydb.commit()
 
     # create table Questions if not exists
-    '''
-    sql = "drop TABLE IF EXISTS Questions"
+    sql = "CREATE TABLE IF NOT EXISTS Questions (id int AUTO_INCREMENT PRIMARY KEY, survey_id int, question_id int, question_title varchar(255), question_type varchar(255), options varchar(255))"
     mycursor.execute(sql)
     mydb.commit()
-    '''
-    sql = "CREATE TABLE IF NOT EXISTS Questions (id int, survey_id int, question_id int, question_title varchar(255), question_type varchar(255), options varchar(255))"
-    mycursor.execute(sql)
-    mydb.commit()
-
-    #count if any content in Surveys
-    sqlcountSurvey="select count(*) from Surveys"
-    mycursor.execute(sqlcountSurvey)
-    countresult = mycursor.fetchall()
-    for row in countresult:
-        countrow = row[0]
-    # select id
-    if(countrow==0):
-        id=1
-    else:
-        sqlId="select max(id) from Surveys"
-        mycursor.execute(sqlId)
-        maxId = mycursor.fetchall()
-        for row in maxId:
-            id = row[0]
-        id+=1
 
     # select surveys_id
     if (countrow == 0):
@@ -104,29 +87,23 @@ def createSurvey():
         else: surveys_id += 1
 
     #insert data into Surveys
-    sql="Insert into Surveys (id, email, title, description, created_on, expired_on, surveys_id) values (%s,%s,%s,%s,%s,%s,%s)"
-    val=(id,email,title,description,created_date,expired,surveys_id)
+    sql="Insert into Surveys (email, title, description, created_on, expired_on, surveys_id) values (%s,%s,%s,%s,%s,%s)"
+    val=(email,title,description,created_date,expired,surveys_id)
     mycursor.execute(sql,val)
     mydb.commit()
 
     # for Questions table
     questionnumberList=[]
-    sqlcountSurvey = "select count(*) from Questions"
-    mycursor.execute(sqlcountSurvey)
-    countresult = mycursor.fetchall()
 
-    for row in countresult:
-        countrow = row[0]
-    # select id
-    if (countrow == 0):
-        question_id = 0
-    else:
-        sqlmax = "select max(id) from Questions"
-        mycursor.execute(sqlmax)
-        question_ids = mycursor.fetchall()
-        for row in question_ids:
-            question_id = row[0]
-
+    #select created id
+    sql = "select max(id) from Surveys where email=%s"
+    val = (email,)
+    mycursor.execute(sql, val)
+    myresult = mycursor.fetchall()
+    returnid = 0
+    for result in myresult:
+        returnid += int(str(result[0]))
+    id=returnid
 
     # insert data into Questions
     for question in questions:
@@ -136,8 +113,8 @@ def createSurvey():
         question_id += 1
         questionnumberList.append(question_number)
         if(question[3] is None):
-            sql = "Insert into Questions (id, survey_id, question_id, question_title, question_type) values (%s,%s,%s,%s,%s)"
-            val = (question_id, id,question_number, question_title, question_type)
+            sql = "Insert into Questions (survey_id, question_id, question_title, question_type) values (%s,%s,%s,%s)"
+            val = (id,question_number, question_title, question_type)
             mycursor.execute(sql, val)
             mydb.commit()
         else:
@@ -146,71 +123,21 @@ def createSurvey():
             for choice in question[3]:
                 index+=1
                 options+=str(index)+":"+choice+";"
-            sql = "Insert into Questions (id, survey_id, question_id, question_title, question_type, options) values (%s,%s,%s,%s,%s,%s)"
-            val = (question_id, id,question_number, question_title, question_type, options)
+            sql = "Insert into Questions (survey_id, question_id, question_title, question_type, options) values (%s,%s,%s,%s,%s)"
+            val = (id,question_number, question_title, question_type, options)
             mycursor.execute(sql, val)
             mydb.commit()
 
     #insert into Survey_Questions
-    sqlcountSurvey = "select count(*) from Survey_Questions"
-    mycursor.execute(sqlcountSurvey)
-    countresult = mycursor.fetchall()
-    for row in countresult:
-        countrow = row[0]
-    # select id
-    if (countrow == 0):
-        relation_id = 0
-    else:
-        sqlmax = "select max(id) from Survey_Questions"
-        mycursor.execute(sqlmax)
-        relations = mycursor.fetchall()
-        for row in relations:
-            relation_id = row[0]
     for question in questionnumberList:
         relation_id += 1
-        sql = "Insert into Survey_Questions (id, question_id, survey_id) values (%s,%s,%s)"
-        val = (relation_id,question,id)
+        sql = "Insert into Survey_Questions ( question_id, survey_id) values (%s,%s)"
+        val = (question,id)
         mycursor.execute(sql, val)
         mydb.commit()
 
-    # used for testing values are inserted correctly
-    '''
-    returnstring="Surveys: "
-    sql = "select * from Surveys"
-    #val = (id,)
-    mycursor.execute(sql)
-    myresult = mycursor.fetchall()
-    for x in myresult:
-        returnstring+=str(x)
-        returnstring+='\n'
-    returnstring += '\n'
-    returnstring+="Survey_Questions: "
-    sql = "select * from Survey_Questions"
-    #val = (id,)
-    mycursor.execute(sql)
-    # mydb.commit()
-    myresult = mycursor.fetchall()
-    for x in myresult:
-        returnstring += str(x)
-        returnstring += '\n'
-    #returnstring+="Surveys: "+
-    returnstring += '\n'
-    returnstring += "Questions: "
-    #for questionid in questionidList:
-    sql = "select * from Questions"
-    #val=(questionid,)
-    # val = (relation_id, question, id)
-    mycursor.execute(sql)
-    # mydb.commit()
-    myresult = mycursor.fetchall()
-    for x in myresult:
-        returnstring += str(x)
-        returnstring += '\n'
-    '''
     mydb.close()
-
     return json.dumps(id)
-    #pass
 
 @app.route("/signup", methods=['POST'])
 def createAccount():
@@ -218,18 +145,11 @@ def createAccount():
     email=data['email']
     password=data['password']
     created_date = date.today()
-    mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="testdb"
-    )
+
+    # connect database
+    mydb = db_connector.dbConnector("root","Ferdaosm50313245!")
     mycursor = mydb.cursor()
-    '''
-    sql = "drop table if exists Users"
-    mycursor.execute(sql)
-    mydb.commit()
-    '''
+
     #create table if not exists
     sql = "create table if not exists Users (id int AUTO_INCREMENT PRIMARY KEY, email varchar(255), password varchar(255), date_created DATE )"
     mycursor.execute(sql)
@@ -239,7 +159,6 @@ def createAccount():
     sql = "select * from Users where email=%s"
     val = (email,)
     mycursor.execute(sql, val)
-    # mydb.commit()
     myresult = mycursor.fetchall()
     if(len(myresult)!=0): return "account exists"
 
@@ -258,21 +177,9 @@ def createAccount():
     print(myresult)
     for result in myresult:
         returnid+=int(str(result[0]))
-    #mydb.commit()
 
-    # return tuples in Users(used for testing)
-    '''
-    sql = "select * from Users"
-    #val = (email,)
-    mycursor.execute(sql)
-    myresult = mycursor.fetchall()
-    returnid=""
-    for x in myresult:
-        returnid += str(x)
-    '''
     mydb.close()
     return json.dumps(returnid)
-    #pass
 
 @app.route("/submitResponse", methods=['POST'])
 def createResponse():
@@ -282,19 +189,16 @@ def createResponse():
     responses=data['response']
     survey_id=data['survey_id']
     email=data['email']
-    mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="testdb"
-    )
+
+    #connect database
+    mydb = db_connector.dbConnector("root","Ferdaosm50313245!")
     mycursor = mydb.cursor()
+
     sql = "create table if not exists Response (response_id int AUTO_INCREMENT PRIMARY KEY, question_id int, survey_id int,short_answer varchar(255), multiple_choice_answer varchar(255), email varchar(255))"
     mycursor.execute(sql)
     mydb.commit()
 
     #insert each response
-    print(responses)
     for response in responses:
         question_number = response[0]  # question_id in Questions
         question_type = response[1]
@@ -310,73 +214,50 @@ def createResponse():
             mycursor.execute(sql, val)
             mydb.commit()
 
-    #return tuples in Response(used for testing)
-    '''
-    sql = "select * from Response"
-    # val = (email,)
-    mycursor.execute(sql)
-    myresult = mycursor.fetchall()
-    returnid = ""
-    for x in myresult:
-        returnid += str(x)
-    '''
     mydb.close()
     return json.dumps(survey_id)
-@app.route("/survey/delete/<email>/<id>", methods = ['DELETE'])
-def deleteSurvey(email, id):
-    print(email)
-    print(id)
-    Database = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="testdb"
-    )
-    # Access the Database
-    mydb = Database
-    mycursor = mydb.cursor()
-    # Select only the rows that have our requested "email" 
-    
-    query = "SELECT * FROM Surveys WHERE email = %s AND id = %s"
-    values = (email, id)
-    
-    # Execute our MySQL Query to get what we want
-    mycursor.execute(query, values)
-    # fetch all the matching rows 
-    result = mycursor.fetchall()
-    
-    print(result)
 
-    # Delete from Surveys table
-    query = "DELETE FROM Surveys WHERE email = %s AND id = %s"
-    values = (email, id)
-    mycursor.execute(query, values)
-    mydb.commit()
-    print("Surveys Table: ", mycursor.rowcount, "record(s) deleted")
+@app.route("/retrieve/userSurveys/<email>", methods=['GET'])
+#User must be logged in, and must also be retreiving their own surveys
+
+# Retrieve all surveys created by the user by their EMAIL
+def retrieveSurveysUsers(email):
+    retrieve = Retrieve.retrieveSurveysUsers(email)
+    return retrieve
+    
+
+
+
+@app.route("/retrieve/survey/<email>/<survey_id>/results", methods=['GET'])
+#User must be logged in, and must also be retreiving data on their own surveys
+
+# Retrieve specific survey results
+def retrieveSurveyResults(email, survey_id):
+
+    return "Still need to implement"
    
-    # Delete from Questions
-    query = "DELETE FROM Questions WHERE survey_id = %s"
-    values = (id,)
-    mycursor.execute(query, values)
-    mydb.commit()
-    print("Questions Table: ", mycursor.rowcount, "record(s) deleted")
 
-    # Delete from Survey_Question table
-    query = "DELETE FROM Survey_Questions WHERE survey_id = %s"
-    values = (id,)
-    mycursor.execute(query, values)
-    mydb.commit()
-    print("Survey_Questions: ", mycursor.rowcount, "record(s) deleted")
+@app.route('/retrieve/PublicSurveys')
+# User does NOT have to be logged in to see public surveys
+def retrievePublicSurveys():
+    all_surveys = Retrieve.retrievePublicSurveys()
+    
+    return all_surveys
+    
 
-    # Delete from Response table
-    query = "DELETE FROM Response WHERE email = %s AND survey_id = %s"
-    values = (email, id)
-    mycursor.execute(query, values)
-    mydb.commit()
-    print("Response Table: ", mycursor.rowcount, "record(s) deleted")
-    
-    
-    return ("Survey has been deleted for email: {} with survey_id = {}").format(email, id)
+
+
+
+
+@app.route("/survey/delete/<email>/<id>", methods = ['DELETE'])
+
+def deleteSurvey(email, id):
+    deleted_surveys = Delete.deleteSurvey(email, id)
+    return deleted_surveys
+
+
+
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8000)
