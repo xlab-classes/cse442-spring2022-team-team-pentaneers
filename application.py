@@ -1,4 +1,6 @@
-from flask import Flask, redirect, url_for, render_template
+import json
+from create import Survey,Response,Account
+from flask import Flask, request, redirect, url_for, render_template
 #from forms import RegistrationForm, LoginForm
 
 application = app = Flask(__name__)
@@ -13,13 +15,6 @@ def hello_world():
 #def home():
     #return render_template('home.html', title = "Homepage")
 
-# The path to our sign up page.
-@app.route("/signup", methods = ['GET', 'POST'])
-def signup():
-    pass
-    #form = RegistrationForm()
-    #return render_template('signup.html', title = "Sign up", form = form)
-
 # The path to our login page.
 @app.route("/login", methods = ['GET', 'POST'])
 def login():
@@ -32,6 +27,30 @@ def login():
 def error(error):
     pass
     #return f"page '{error}' does not exist!"
+
+#path to create Surveys
+@app.route("/submitSurvey", methods=['POST'])
+def createSurvey():
+    #print("hi!!!")
+    data=json.loads(request.get_data(as_text=True))
+    #print(data)
+    id=Survey.survey(data)
+    #print(id)
+    return json.dumps(id)
+
+#path to create account
+@app.route("/signup", methods=['POST'])
+def createAccount():
+    data=json.loads(request.get_data(as_text=True))
+    returnid=Account.account(data)
+    return returnid
+
+#path to create response
+@app.route("/submitResponse", methods=['POST'])
+def createResponse():
+    data=json.loads(request.get_data(as_text=True))
+    survey_id=Response.response(data)
+    return survey_id
 
 # @app.route("/admin/")
 # def admin():
