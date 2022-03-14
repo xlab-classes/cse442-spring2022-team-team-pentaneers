@@ -1,10 +1,10 @@
-import Database
+import db_connector
 
 def retrieveSurveyResults(email, surveys_id):
     final_list = []
 
     # Access the Database
-    mydb = Database.dbConnector("root","")
+    mydb = db_connector.dbConnector("root")
     mycursor = mydb.cursor()
     # Access the Surveys table to get the specific Survey for the user.
     query = "SELECT * FROM Surveys WHERE email = %s AND surveys_id = %s"
