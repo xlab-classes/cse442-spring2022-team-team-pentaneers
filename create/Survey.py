@@ -12,7 +12,7 @@ def survey(data):
     expired=data['expired_date']
     expired=datetime.datetime.strptime(expired,"%Y-%m-%d").date()
     status=data['visibility']
-    print(data)
+    
     #get current date,YYYY-MM-DD format
     created_date=date.today()
 
@@ -20,11 +20,11 @@ def survey(data):
     countrow = -1
     id = -1
     surveys_id = -1
-    question_id = -1 #id in Questions
+    question_id = 0 #id in Questions
     relation_id = -1
 
     # connect database
-    mydb = db_connector.dbConnector("root","")
+    mydb = db_connector.dbConnector("root")
     mycursor = mydb.cursor()
 
     # create table Surveys if not exists
@@ -78,24 +78,23 @@ def survey(data):
 
     # insert data into Questions
     for question in questions:
-        question_number=question[0] #question_id in Questions
-        question_title=question[1]
-        question_type=question[2]
+        question_title=question[0]
+        question_type=question[1]
         question_id += 1
-        questionnumberList.append(question_number)
-        if(question[3] is None):
+        questionnumberList.append(question_id)
+        if(question[2] is None):
             sql = "Insert into Questions (survey_id, question_id, question_title, question_type) values (%s,%s,%s,%s)"
-            val = (id,question_number, question_title, question_type)
+            val = (id,question_id, question_title, question_type)
             mycursor.execute(sql, val)
             mydb.commit()
         else:
             index=0
             options=""
-            for choice in question[3]:
+            for choice in question[2]:
                 index+=1
                 options+=str(index)+":"+choice+";"
             sql = "Insert into Questions (survey_id, question_id, question_title, question_type, options) values (%s,%s,%s,%s,%s)"
-            val = (id,question_number, question_title, question_type, options)
+            val = (id,question_id, question_title, question_type, options)
             mycursor.execute(sql, val)
             mydb.commit()
 
