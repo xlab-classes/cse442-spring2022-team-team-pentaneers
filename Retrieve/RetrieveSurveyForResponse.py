@@ -1,10 +1,10 @@
-import Database
+import db_connector
 
 # Complete surveys (Action)
 def retrieveSurveyForResponse(survey_id):
 
     # Access the Database
-    mydb = Database.dbConnector("root","")
+    mydb = db_connector.dbConnector("root")
     mycursor = mydb.cursor()
 
     query = "SELECT * FROM Questions WHERE survey_id = %s"
@@ -24,6 +24,9 @@ def retrieveSurveyForResponse(survey_id):
     
     # Fetch the information belonging to the requested Survey
     survey = mycursor.fetchall()
+    if len(survey) == 0:
+        # Make this a 404 message
+        return "The survey that you are trying to access does not exist!"
     survey = survey[0]
     
     # Appending the survey information ('survey' index 1 = email, 'survey' index 2 = title, 'survey' index 3 = description)
@@ -32,11 +35,23 @@ def retrieveSurveyForResponse(survey_id):
 
     for row in survey_questions:
         dic = {}
+        choice_list = []
         question_number = 'question_' + str(row[2])
         question_title =row[3]
         question_type = row[4]
         choice = row[5]
-        question_info = [question_title, question_type, choice]
+        if choice != None:
+            choices = choice.split(";")
+            choices.remove('')
+            for choice in choices:
+                start_choice = choice.find(":") + 1
+                choice = choice[start_choice:]
+                choice_list.append(choice)
+            question_info = [question_title, question_type, choice_list]
+        else:
+            question_info = [question_title, question_type, choice]
+
+
         dic[question_number] = question_info
         list_to_return.append(dic)
         
