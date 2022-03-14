@@ -7,9 +7,11 @@ from flask import Flask,request
 import mysql.connector
 from datetime import date
 import db_connector
-from Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyForResponse, RetrieveSurveyResults, RetrieveUserSurveys
+from Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyResults, RetrieveUserSurveys, RetrieveSurveyForResponse 
 from Delete import Delete
 from create import Survey, Response, Account
+from Update import ModifySurvey
+
 
 app = Flask(__name__)
 
@@ -97,7 +99,17 @@ def retrieveSurveyById(survey_id, email):
     user_survey = RetrieveSurveyById.retrieveSurveyById(survey_id, email)
     return user_survey
 
-@app.route("/survey/delete/<email>/<id>", methods = ['DELETE'])
+@app.route("/survey/modify/<id>", methods = ['PUT'])
+# User must be logged in, and the Sruvey must belong to him
+def modifySurvey(id):
+    # Add user validation later
+
+    # Data that contains any updated information
+    data = json.loads(request.get_data(as_text=True))
+    modified_survey = ModifySurvey.modifySurvey(id, data)
+    return modified_survey
+
+@app.route("/survey/delete/<email>/<surveys_id>", methods = ['DELETE'])
 
 def deleteSurvey(email, id):
     deleted_surveys = Delete.deleteSurvey(email, id)
