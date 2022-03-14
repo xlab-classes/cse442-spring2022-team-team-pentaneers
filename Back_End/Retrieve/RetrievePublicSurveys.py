@@ -24,9 +24,10 @@ def retrievePublicSurveys():
         Dictionary_to_append = {}
         # If the expiration date has not passed, then we add it to a list that we will return.
         expiration_date = row[5]
+        
         visibility = row[7]
 
-        if expiration_date > todays_date and visibility == 'public':
+        if expiration_date == None and visibility == 'public':
             survey_id = row[0]
             survey_title = row[2]
             survey_description = row[3]
@@ -34,5 +35,17 @@ def retrievePublicSurveys():
             Dictionary_to_append['survey_title'] = survey_title
             Dictionary_to_append['survey_description'] = survey_description
             List_to_return.append(Dictionary_to_append)
+
+        if expiration_date != None:
+            if expiration_date > todays_date and visibility == 'public':
+                survey_id = row[0]
+                survey_title = row[2]
+                survey_description = row[3]
+                Dictionary_to_append['survey_id'] = survey_id
+                Dictionary_to_append['survey_title'] = survey_title
+                Dictionary_to_append['survey_description'] = survey_description
+                List_to_return.append(Dictionary_to_append)
+
+            
 
     return str(List_to_return)
