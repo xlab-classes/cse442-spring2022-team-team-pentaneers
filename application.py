@@ -109,7 +109,7 @@ def modifySurvey(id):
     modified_survey = ModifySurvey.modifySurvey(id, data)
     return modified_survey
 
-@app.route("/survey/delete/<email>/<surveys_id>", methods = ['DELETE'])
+@app.route("/survey/delete/<email>/<id>", methods = ['DELETE'])
 
 def deleteSurvey(email, id):
     deleted_surveys = Delete.deleteSurvey(email, id)
