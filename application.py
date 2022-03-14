@@ -7,10 +7,10 @@ from flask import Flask,request
 import mysql.connector
 from datetime import date
 import db_connector
-from Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyResults, RetrieveUserSurveys, RetrieveSurveyForResponse 
-from Delete import Delete
-from create import Survey, Response, Account
-from Update import ModifySurvey
+from Back_End.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyResults, RetrieveUserSurveys, RetrieveSurveyForResponse 
+from Back_End.Delete import Delete
+from Back_End.create import Survey, Response, Account
+from Back_End.Update import ModifySurvey
 
 
 app = Flask(__name__)
