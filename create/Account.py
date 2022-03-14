@@ -9,7 +9,7 @@ def account(data):
     created_date = date.today()
 
     # connect database
-    mydb = db_connector.dbConnector("root", "")
+    mydb = db_connector.dbConnector("root")
     mycursor = mydb.cursor()
 
     # create table if not exists
