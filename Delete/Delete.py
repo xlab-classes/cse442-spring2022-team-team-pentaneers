@@ -1,10 +1,10 @@
-import Database
+import db_connector
 
 
 def deleteSurvey(email, id):
 
     # Access the Database
-    mydb = Database.dbConnector("root","")
+    mydb = db_connector.dbConnector("root")
     mycursor = mydb.cursor()
 
     # Select only the rows that have our requested "email" 
