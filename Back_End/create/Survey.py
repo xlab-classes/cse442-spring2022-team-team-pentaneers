@@ -4,7 +4,7 @@ import db_connector
 from datetime import date
 
 def survey(data):
-    print(data)
+    
     email=data['email']
     title=data['title']
     description=data['description']
@@ -61,7 +61,7 @@ def survey(data):
     val=(email,title,description,created_date,expired,surveys_id,status)
     mycursor.execute(sql,val)
     mydb.commit()
-    print("TRUE")
+    
 
     # for Questions table
     questionnumberList=[]
