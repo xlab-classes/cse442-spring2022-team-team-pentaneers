@@ -36,7 +36,7 @@ def account(data):
     mycursor.execute(sql, val)
     myresult = mycursor.fetchall()
     returnid = 0
-    print(myresult)
+    
     for result in myresult:
         returnid += int(str(result[0]))
 
