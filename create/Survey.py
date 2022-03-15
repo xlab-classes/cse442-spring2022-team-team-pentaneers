@@ -3,28 +3,29 @@ import json
 import db_connector
 from datetime import date
 
-def survey(data):
-    print(data)
-    email=data['email']
-    title=data['title']
-    description=data['description']
-    questions=data['questions']
-    expired=data['expired_date']
-    expired=datetime.datetime.strptime(expired,"%Y-%m-%d").date()
-    status=data['visibility']
-    print(data)
-    #get current date,YYYY-MM-DD format
-    created_date=date.today()
 
-    #var need to be calculated
+def survey(data):
+    print( type(data))
+    email = data['email']
+    title = data['title']
+    description = data['description']
+    questions = data['questions']
+    expired = data['expired_date']
+    expired = datetime.datetime.strptime(expired, "%Y-%m-%d").date()
+    status = data['visibility']
+
+    # get current date,YYYY-MM-DD format
+    created_date = date.today()
+
+    # var need to be calculated
     countrow = -1
     id = -1
     surveys_id = -1
-    question_id = -1 #id in Questions
+    question_id = 0  # id in Questions
     relation_id = -1
 
     # connect database
-    mydb = db_connector.dbConnector("root","50310786")
+    mydb = db_connector.dbConnector("root")
     mycursor = mydb.cursor()
 
     # create table Surveys if not exists
@@ -47,26 +48,27 @@ def survey(data):
         surveys_id = 1
     else:
         sqlmax = "select max(surveys_id) from Surveys where email= %s"
-        val=(email,)
-        mycursor.execute(sqlmax,val)
+        val = (email,)
+        mycursor.execute(sqlmax, val)
         surveys = mycursor.fetchall()
         for row in surveys:
             surveys_id = row[0]
-        if(surveys_id is None):
-            surveys_id=1
-        else: surveys_id += 1
+        if (surveys_id is None):
+            surveys_id = 1
+        else:
+            surveys_id += 1
 
-    #insert data into Surveys
-    sql="Insert into Surveys (email, title, description, created_on, expired_on, surveys_id,visibility) values (%s,%s,%s,%s,%s,%s,%s)"
-    val=(email,title,description,created_date,expired,surveys_id,status)
-    mycursor.execute(sql,val)
+    # insert data into Surveys
+    sql = "Insert into Surveys (email, title, description, created_on, expired_on, surveys_id,visibility) values (%s,%s,%s,%s,%s,%s,%s)"
+    val = (email, title, description, created_date, expired, surveys_id, status)
+    mycursor.execute(sql, val)
     mydb.commit()
     print("TRUE")
 
     # for Questions table
-    questionnumberList=[]
+    questionnumberList = []
 
-    #select created id
+    # select created id
     sql = "select max(id) from Surveys where email=%s"
     val = (email,)
     mycursor.execute(sql, val)
@@ -74,36 +76,35 @@ def survey(data):
     returnid = 0
     for result in myresult:
         returnid += int(str(result[0]))
-    id=returnid
+    id = returnid
 
     # insert data into Questions
     for question in questions:
-        question_number=question[0] #question_id in Questions
-        question_title=question[1]
-        question_type=question[2]
+        question_title = question[0]
+        question_type = question[1]
         question_id += 1
-        questionnumberList.append(question_number)
-        if(question[3] is None):
+        questionnumberList.append(question_id)
+        if (question[2] is None):
             sql = "Insert into Questions (survey_id, question_id, question_title, question_type) values (%s,%s,%s,%s)"
-            val = (id,question_number, question_title, question_type)
+            val = (id, question_id, question_title, question_type)
             mycursor.execute(sql, val)
             mydb.commit()
         else:
-            index=0
-            options=""
-            for choice in question[3]:
-                index+=1
-                options+=str(index)+":"+choice+";"
+            index = 0
+            options = ""
+            for choice in question[2]:
+                index += 1
+                options += str(index) + ":" + choice + ";"
             sql = "Insert into Questions (survey_id, question_id, question_title, question_type, options) values (%s,%s,%s,%s,%s)"
-            val = (id,question_number, question_title, question_type, options)
+            val = (id, question_id, question_title, question_type, options)
             mycursor.execute(sql, val)
             mydb.commit()
 
-    #insert into Survey_Questions
+    # insert into Survey_Questions
     for question in questionnumberList:
         relation_id += 1
         sql = "Insert into Survey_Questions ( question_id, survey_id) values (%s,%s)"
-        val = (question,id)
+        val = (question, id)
         mycursor.execute(sql, val)
         mydb.commit()
 

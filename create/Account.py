@@ -9,7 +9,7 @@ def account(data):
     created_date = date.today()
 
     # connect database
-    mydb = db_connector.dbConnector("root", "50310786")
+    mydb = db_connector.dbConnector("root")
     mycursor = mydb.cursor()
 
     # create table if not exists
@@ -22,7 +22,7 @@ def account(data):
     val = (email,)
     mycursor.execute(sql, val)
     myresult = mycursor.fetchall()
-    if (len(myresult) != 0): return "account exists"
+    if (len(myresult) != 0): return json.dumps("account exists")
 
     # insert user information
     sql = "Insert into Users (email, password, date_created) values (%s,%s,%s)"
