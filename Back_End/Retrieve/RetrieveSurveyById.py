@@ -1,9 +1,10 @@
-import db_connector
+import sys
+from db_connector import dbConnector
 
 # Retrieve survey for coordinators by using survey_id
 def retrieveSurveyById (survey_id, email):
     # Access the Database
-    mydb = db_connector.dbConnector("root")
+    mydb = dbConnector("root")
     mycursor = mydb.cursor()
     # Getting the specific survey that belongs to the user
     query = "SELECT * FROM Surveys WHERE id = %s AND email = %s"
