@@ -30,11 +30,13 @@ def retrieveSurveyResults(email, surveys_id):
         multiple_choice_response = row[4]
         responder_email = row[5]
         new_list.append(responder_email)
-
         new_dic['question_number'] = question_number
-        new_dic['short_answer_response'] = short_answer_response
-        new_dic['multiple_choice_response'] = multiple_choice_response
-
+        # If short_response == None, that means that the question at the moment is Multiple Choice
+        if row[3] == None:
+            new_dic['multiple_choice_response'] = int(multiple_choice_response)
+        else:
+            new_dic['short_answer_response'] = short_answer_response
+        
         new_list.append(new_dic)
 
         final_list.append(new_list)
