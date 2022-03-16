@@ -6,14 +6,14 @@ sys.path.insert(0, parent_dir)
 parent_parent_dir = os.path.dirname(parent_dir)
 sys.path.insert(1, parent_parent_dir)
 
-from Retrieve.RetrieveSurveyForResponse import retrieveSurveyForResponse
-from create.Response import response
-from create.Survey import survey
+from Back_End.Retrieve.RetrieveSurveyForResponse import retrieveSurveyForResponse
+from Back_End.create.Response import response
+from Back_End.create.Survey import survey
 from db_connector import dbConnector
 
 def test():
 
-    mydb = dbConnector("root")
+    mydb = dbConnector()
     mycursor = mydb.cursor()
 
     #get current date,YYYY-MM-DD format

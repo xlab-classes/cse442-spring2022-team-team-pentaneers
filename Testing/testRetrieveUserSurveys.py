@@ -1,67 +1,57 @@
+import sys, os, inspect
 import datetime
-import json
-import os,sys,inspect
-
-# All of this code is to just get modules from outside of the 'Testing' directory
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
 parent_parent_dir = os.path.dirname(parent_dir)
 sys.path.insert(1, parent_parent_dir)
 
-
-from Retrieve.RetrieveSurveyById import retrieveSurveyById
-from create.Response import response
-from create.Survey import survey
+from Back_End.Retrieve.RetrieveUserSurveys import retrieveSurveysUsers
+from Back_End.create.Response import response
+from Back_End.create.Survey import survey
 from db_connector import dbConnector
 
-
-
-
 def test():
-    mydb = dbConnector("root")
+
+    mydb = dbConnector()
     mycursor = mydb.cursor()
 
-    survey_id = 1
-    email = "test@email.com"
+    #get current date,YYYY-MM-DD format
+    created_date = datetime.date.today()
 
-    survey_dict = {
+    #---------Submitting to a Survey Manually----------------#
+    survey_dict_1 = {
         "email": "test@email.com",
         "title": "test1",
         "description":"test description 1",
         "questions":[['do you like cats?', 'Multiple Choice', ['yes', 'no']],
         ['why', 'Short Response', None],
-        ['do you wanna keep coding?', 'Multiple Choice', ['pain', 'wuyu']]],
+        ['do you want to keep coding?', 'Multiple Choice', ['pain', 'wuyu']]],
         "expired_date": "2022-03-22",
         "visibility":"public"
         }
 
+    retrieved_survey = survey(survey_dict_1)
     
-    retrieved_survey = survey(survey_dict)
-
-    #get current date,YYYY-MM-DD format
-    created_date = datetime.date.today()
-
-
-    response_dict = {
-        "email": "test@email.com", 
-        "survey_id":1,
-        "response":[["Short Response","test"],["Multiple Choice", 1],["Multiple Choice", 1]]
+    survey_dict_2 = {
+        "email": "test@email.com",
+        "title": "test2",
+        "description":"test description 2",
+        "questions":[['do you like cats?', 'Multiple Choice', ['yes', 'no']],
+        ['why', 'Short Response', None],
+        ['do you want to keep coding?', 'Multiple Choice', ['pain', 'wuyu']]],
+        "expired_date": "2022-03-22",
+        "visibility":"public"
         }
 
-    
-    retrieved_response = response(response_dict)
-    
+    retrieved_survey = survey(survey_dict_2)
 
-    expected_outcome = [1, 'test@email.com', 'test1', 'test description 1', datetime.date(2022, 3, 22), 
-                        {'question_1': ['do you like cats?', 'Multiple Choice', ['yes', 'no']]}, 
-                        {'question_2': ['why', 'Short Response', None]},
-                        {'question_3': ['do you wanna keep coding?', 'Multiple Choice', ['pain', 'wuyu']]}
-                    ]
+    expected_outcome = [
+        'test@email.com',
+        [{'test1': 1}, {'test2': 2}]
+    ]
 
-
-    actual_outcome = retrieveSurveyById(survey_id, email)
-    
+    actual_outcome = retrieveSurveysUsers('test@email.com')
 
     if str(expected_outcome) == actual_outcome:
         mycursor = mydb.cursor()
@@ -87,5 +77,6 @@ def test():
         mycursor.execute(sql)
         mycursor.close()
         return "Failed!"
+
 
 
