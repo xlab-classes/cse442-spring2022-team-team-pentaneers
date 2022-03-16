@@ -1,11 +1,10 @@
 import mysql.connector
+import config
 
-
-
-def dbConnector(usr):
+def dbConnector():
     return mysql.connector.connect(
-        host="localhost",
-        user=usr,
-        password='',
-        database = "testdb"
+        host = config.DATABASE_HOST,
+        user = config.DATABASE_USER,
+        password= config.DATABASE_PASSWORD,
+        database = config.DATABASE_SCHEMA
     )
