@@ -7,19 +7,22 @@ from flask import Flask,request
 import mysql.connector
 from datetime import date
 import db_connector
-from Back_End.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyResults, RetrieveUserSurveys, RetrieveSurveyForResponse 
-from Back_End.Delete import Delete
-from Back_End.create import Survey, Response, Account
-from Back_End.Update import ModifySurvey
+import config
+from Survey.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyResults, RetrieveUserSurveys, RetrieveSurveyForResponse 
+from Survey.Delete import Delete
+from Survey.Create import Survey, Response
+from User import Account
+from Survey.Update import ModifySurvey
 
 
 app = Flask(__name__)
+app.config.from_pyfile('config.py')
 
 # IMPORTANT: Set to environment variable!
-app.config['SECRET_KEY']
+app.config['SECRET_KEY'] = config.SECRET_KEY
 
 # Adding in UB's MYSQL Database (Make sure to change the formatting)
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://mahdyfer:@oceanus.cse.buffalo.edu/cse442_2022_spring_team_ab_db'
+
 
 # Initialize the database
 #Database = SQLAlchemy(app)
