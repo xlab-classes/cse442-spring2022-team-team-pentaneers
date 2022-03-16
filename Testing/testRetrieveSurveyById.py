@@ -10,9 +10,9 @@ parent_parent_dir = os.path.dirname(parent_dir)
 sys.path.insert(1, parent_parent_dir)
 
 
-from Back_End.Retrieve.RetrieveSurveyById import retrieveSurveyById
-from Back_End.create.Response import response
-from Back_End.create.Survey import survey
+from Survey.Retrieve.RetrieveSurveyById import retrieveSurveyById
+from Survey.Create.Response import response
+from Survey.Create.Survey import survey
 from db_connector import dbConnector
 
 

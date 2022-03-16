@@ -6,9 +6,9 @@ sys.path.insert(0, parent_dir)
 parent_parent_dir = os.path.dirname(parent_dir)
 sys.path.insert(1, parent_parent_dir)
 
-from Back_End.Retrieve.RetrieveSurveyResults import retrieveSurveyResults
-from Back_End.create.Response import response
-from Back_End.create.Survey import survey
+from Survey.Retrieve.RetrieveSurveyResults import retrieveSurveyResults
+from Survey.Create.Response import response
+from Survey.Create.Survey import survey
 from db_connector import dbConnector
 
 def test():
