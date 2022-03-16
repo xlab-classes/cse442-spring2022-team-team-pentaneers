@@ -8,24 +8,30 @@ app.config['SECRET_KEY']
 
 # The path to our homepage.
 @app.route("/")
-def hello_world():
-    return "Hello, World!"
-#def home():
-    #return render_template('home.html', title = "Homepage")
+def home():
+    return render_template('Home.html', title = "Homepage")
 
 # The path to our sign up page.
 @app.route("/signup", methods = ['GET', 'POST'])
 def signup():
-    pass
     #form = RegistrationForm()
-    #return render_template('signup.html', title = "Sign up", form = form)
+    return render_template('Signup.html', title = "Sign up")  #form = form)
 
 # The path to our login page.
 @app.route("/login", methods = ['GET', 'POST'])
 def login():
-    pass
-    # form = LoginForm()
-    #return render_template('login.html', title = "Login", form = form)
+    #form = LoginForm()
+    return render_template('Login.html', title = "Login") #form = form)
+
+# The path to our user homepage.
+@app.route("/user_homepage")
+def user_homepage():
+    return render_template('User_Homepage.html', title = "User Homepage")
+
+# The path to the view survey page.
+@app.route("/view_surveys")
+def view_surveys():
+    return render_template('View_Surveys.html', title = "'View Surveys")
 
 # Invalid path.
 @app.route("/<error>")
