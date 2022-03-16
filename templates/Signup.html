@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='Login_Signup_Style.css') }}">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One" rel="stylesheet">
+  </head>
+    <body>
+
+      <form action = "{{ url_for('signup') }}" class = "form" method="post">
+
+          <h1 class = "form__title">Ready to Sign Up?</h1>
+          <p class = "form__description">Sign up now to start creating surveys!</p>
+
+          <!--Creating the "Back to homepage" button going back to the homepage-->
+          <a button class = "form__buttonback" href = "{{ url_for('home') }}">Back to homepage</button></a>
+
+            <!--Creating the "Email" box for Signing up-->
+          <div class = "form__group">
+            <input type = "text" id = "email" class = "form__input" name = "email" placeholder = " " autocomplete = "off">
+            <label for = "email" class = "form__label">Email</label>
+            </div>
+
+            <!--Creating the "Password" box for Signing up-->
+            <div class = "form__group">
+              <input type = "password" id = "password" class = "form__input" name = "password" placeholder = " ">
+              <label for = "password" class = "form__label">Password</label>
+            </div>
+            
+            <!--Creating the "Confirm password" box for Signing up-->
+            <div class = "form__group">
+              <input type = "password" id = "confirm_password" class = "form__input" name = "confirm_password" placeholder = " ">
+              <label for = "confirm_password" class = "form__label">Confirm Password</label>
+            </div>
+
+            <!--Creating the "Register" button for Signing up-->
+            <input type="submit" class="form__button" value="Register"></br>
+
+      </form>
+      <!--Back to Login page link at bottom-->
+      <p class="bottom__text"> &nbsp; &nbsp;Already have an account?&nbsp; <a class="bottom__link" href="{{url_for('login')}}">Sign in here</a></p>
+ 
+    </body>
+</html>
