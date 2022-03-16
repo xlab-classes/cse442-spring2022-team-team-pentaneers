@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 
 # Adding in UB's MYSQL Database (Make sure to change the formatting)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://mahdyfer:50313245@oceanus.cse.buffalo.edu/cse442_2022_spring_team_ab_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://<username>:<password>@oceanus.cse.buffalo.edu/cse442_2022_spring_team_ab_db'
 
 # Initialize the database
 Database = SQLAlchemy(app)
@@ -18,8 +18,8 @@ def test_database():
     Schema = ""
     mydb = mysql.connector.connect(
     host="oceanus.cse.buffalo.edu",
-    user="mahdyfer",
-    passwd = "50313245"
+    user="",
+    passwd = ""
 )
 
     db_cursor = mydb.cursor()
