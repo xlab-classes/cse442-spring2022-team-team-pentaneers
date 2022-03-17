@@ -7,7 +7,7 @@ body{
 }
 
 /* container for page header */
-div.horizontal_flex{
+div.header{
 	display: flex;
 	flex-direction: row;
 	align-items: flex-start;
@@ -15,7 +15,7 @@ div.horizontal_flex{
 
 
 /* container for page content */
-div.vertical_flex{
+div.content{
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
