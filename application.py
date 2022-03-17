@@ -20,18 +20,15 @@ app = Flask(__name__)
 app.config.from_pyfile('config.py')
 
 # IMPORTANT: Set to environment variable!
-print("secret key: ", config.SECRET_KEY)
 app.config['SECRET_KEY'] = config.SECRET_KEY
 
-
-app = Flask(__name__)
-
+##------------------The path to our homepage-----------------------
 @app.route("/")
 def home():
     # initial()
     return render_template('Homepage.html', title = "Homepage")
 
-#path to create Surveys
+##------------------The path our survey creation page-----------------------
 @app.route("/submitSurvey", methods=['POST'])
 def createSurvey():
     #print("hi!!!")
@@ -41,15 +38,10 @@ def createSurvey():
     #print(id)
     return json.dumps(id)
 
-
-#path to create account
-@app.route("/signup", methods=['POST'])
+##------------------The path to our signup page-----------------------
+@app.route("/signup", methods=['GET', 'POST'])
 def signup():
     form = RegistrationForm()
-    print(form.email.data)
-    print(form.password.data)
-    print(form.confirm_password.data)
-    print(form.validate_on_submit())
     # if form.validate_on_submit():
         # email = request.form['email']; print("This is the email: ", email)
         # password = request.form['password']; print("This is the password: ", password)
@@ -66,11 +58,10 @@ def signup():
         #     #Clearing the form
         #     form.email.data = ''
         #     return redirect(url_for('home'))
-    print(form.errors)
+    #print(form.errors)
     return render_template('Signup.html', title = "Sign up", form = form)
     
-
-##------------------The path to our login page-----------------------
+#------------------The path to our login page-----------------------
 @app.route("/login", methods = ['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -86,7 +77,12 @@ def user_homepage():
 def view_surveys():
     return render_template('View_Surveys.html', title = "View Surveys")
 
-#path to create response
+#------------------The path to the survey editor page-----------------------
+@app.route("/survey_editor", methods=['GET', 'POST'])
+def survey_editor():
+    return render_template('Survey_Editor.html', title = "Survey Editor")
+
+##------------------The path to our survey response page-----------------------
 @app.route("/submitResponse", methods=['POST'])
 def createResponse():
     data=json.loads(request.get_data(as_text=True))
@@ -96,23 +92,19 @@ def createResponse():
 
 
 @app.route("/retrieve/userSurveys/<email>", methods=['GET'])
-#User must be logged in, and must also be retreiving their own surveys
-
+# User must be logged in, and must also be retreiving their own surveys
 # Retrieve all surveys created by the user by their EMAIL
 def retrieveSurveysUsers(email):
     retrieve = RetrieveUserSurveys.retrieveSurveysUsers(email)
     return str(retrieve)
-    
 
 
 @app.route("/retrieve/survey/<email>/<surveys_id>/results", methods=['GET'])
-#User must be logged in, and must also be retreiving data on their own surveys
-
+# User must be logged in, and must also be retreiving data on their own surveys
 # Retrieve specific survey results
 def retrieveSurveyResults(email, surveys_id):
     survey_results = RetrieveSurveyResults.retrieveSurveyResults(email, surveys_id)
     return str(survey_results)
-   
 
 
 @app.route('/retrieve/PublicSurveys')
@@ -121,18 +113,19 @@ def retrievePublicSurveys():
     all_surveys = RetrievePublicSurveys.retrievePublicSurveys()
     
     return str(all_surveys)
-    
-@app.route('/survey/form/<survey_id>', methods = ['GET'])
 
+
+@app.route('/survey/form/<survey_id>', methods = ['GET'])
 def retrieveSurveyForResponse(survey_id):
     survey = RetrieveSurveyForResponse.retrieveSurveyForResponse(survey_id)
     return str(survey)
 
-@app.route('/retrieve/survey/<email>/<survey_id>', methods = ['GET'])
 
+@app.route('/retrieve/survey/<email>/<survey_id>', methods = ['GET'])
 def retrieveSurveyById(survey_id, email):
     user_survey = RetrieveSurveyById.retrieveSurveyById(survey_id, email)
     return str(user_survey)
+
 
 @app.route("/survey/modify/<id>", methods = ['PUT'])
 # User must be logged in, and the Sruvey must belong to him
@@ -144,8 +137,8 @@ def modifySurvey(id):
     modified_survey = ModifySurvey.modifySurvey(id, data)
     return str(modified_survey)
 
-@app.route("/survey/delete/<email>/<id>", methods = ['DELETE'])
 
+@app.route("/survey/delete/<email>/<id>", methods = ['DELETE'])
 def deleteSurvey(email, id):
     deleted_surveys = Delete.deleteSurvey(email, id)
     return deleted_surveys
