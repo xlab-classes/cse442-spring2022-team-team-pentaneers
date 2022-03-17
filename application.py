@@ -3,7 +3,7 @@ import email
 import json
 from typing import List
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask,request, redirect, url_for, render_template
+from flask import Flask,request, redirect, url_for, render_template, flash
 import mysql.connector
 from datetime import date
 import db_connector
@@ -20,14 +20,15 @@ app = Flask(__name__)
 app.config.from_pyfile('config.py')
 
 # IMPORTANT: Set to environment variable!
+print("secret key: ", config.SECRET_KEY)
 app.config['SECRET_KEY'] = config.SECRET_KEY
 
 
 app = Flask(__name__)
 
 @app.route("/")
-def hello_world():
-    initial()
+def home():
+    # initial()
     return render_template('Homepage.html', title = "Homepage")
 
 #path to create Surveys
@@ -43,33 +44,31 @@ def createSurvey():
 
 #path to create account
 @app.route("/signup", methods=['POST'])
-def createAccount():
-    data=json.loads(request.get_data(as_text=True))
-    returnid=Account.account(data)
+def signup():
     form = RegistrationForm()
     print(form.email.data)
     print(form.password.data)
     print(form.confirm_password.data)
     print(form.validate_on_submit())
-    if form.validate_on_submit():
-        print("The form was validated")
-        # Grab all of the users that have the email address that was typed into the Register form and return the first one, None if non exist
-        #user = Users.query.filter_by(email=form.email.data).first()
-        # If there isn't already a user with the email, add it to the database
-        #if user is None:
-            # Create a new user to add to the Database
-            #NewDatabaseUser = Users(email=form.email.data, password=form.password.data)
-            #Database.session.add(NewDatabaseUser)
-            #Database.session.commit()
-            #flash(f'Account created for {form.email.data}!', 'Success')
-
-        #email = form.email.data
-        # Clearing the form
-        #form.email.data = ''
-        #return redirect(url_for('home'))
-    #print(form.errors)
-    return render_template('signup.html', title = "Sign up", form = form)
-    return returnid
+    # if form.validate_on_submit():
+        # email = request.form['email']; print("This is the email: ", email)
+        # password = request.form['password']; print("This is the password: ", password)
+        # print("The form was validated")
+        # user_data = "{'email': {}, 'password': {}}".format(form.email.data, form.password.data)
+        # data = json.loads(user_data)
+        # # Grab all of the users that have the email address that was typed into the Register form and return the first one, None if non exist
+        # check_user = Account.account(data)
+        # # If there isn't already a user with the email, add it to the database
+        # if check_user != "account exists":
+        #     # Create a new user to add to the Database
+        #     flash(f'Account created for {form.email.data}!', 'Success')
+        #     email = form.email.data
+        #     #Clearing the form
+        #     form.email.data = ''
+        #     return redirect(url_for('home'))
+    print(form.errors)
+    return render_template('Signup.html', title = "Sign up", form = form)
+    
 
 ##------------------The path to our login page-----------------------
 @app.route("/login", methods = ['GET', 'POST'])
@@ -155,8 +154,7 @@ def deleteSurvey(email, id):
 # Invalid path.
 @app.route("/<error>")
 def error(error):
-    pass
-    #return f"page '{error}' does not exist!"
+    return f"page '{error}' does not exist!"
 
 
 
