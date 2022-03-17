@@ -11,6 +11,11 @@ def retrieveSurveyResults(email, surveys_id):
     values = (email, surveys_id)
     mycursor.execute(query, values)
     result = mycursor.fetchall()
+
+    # Check survey exists
+    if len(result) == 0:
+        return "survey not exists"
+
     # Getting the title of the survey
     survey_title = result[0][2]
     survey_id = result[0][0]
