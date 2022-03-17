@@ -17,6 +17,12 @@ def modifySurvey(id, data):
     new_survey_expiration_date = datetime.datetime.strptime(new_survey_expiration_date,"%Y-%m-%d").date()
     new_survey_visibility = data['visibility'].replace(";", "")
 
+    # check survey exists
+    email = data['email']
+    exists = RetrieveSurveyById.retrieveSurveyById(id, email)
+    if (exists == "Error 404, This survey does not exist!"):
+        return "survey not exists"
+
     # Update title, description, expired_date, and visibility in Surveys if any information is changed.
 
     
