@@ -14,5 +14,6 @@ venv.bak/
 
 # Ignore Mac system files
 .DS_store
+.DS_Store
 
 config.py

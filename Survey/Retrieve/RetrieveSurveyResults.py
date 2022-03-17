@@ -42,4 +42,4 @@ def retrieveSurveyResults(email, surveys_id):
         final_list.append(new_list)
     
 
-    return str(final_list)
+    return final_list

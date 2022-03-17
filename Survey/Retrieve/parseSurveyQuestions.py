@@ -22,4 +22,4 @@ def parseSurveyQuestions(question):
 
         parsed_questions.append(List)
         
-    return str(parsed_questions)
+    return parsed_questions

@@ -48,4 +48,4 @@ def retrievePublicSurveys():
 
             
 
-    return str(List_to_return)
+    return List_to_return

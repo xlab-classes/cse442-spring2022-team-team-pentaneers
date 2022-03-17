@@ -48,4 +48,4 @@ def retrieveSurveyById (survey_id, email):
         dic[question_number] = question_info
         list_to_return.append(dic)
     
-    return str(list_to_return)
+    return list_to_return
