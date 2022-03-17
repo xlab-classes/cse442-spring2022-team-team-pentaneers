@@ -10,7 +10,7 @@ class MyTestCase(unittest.TestCase):
 
     def testModifySurvey(self):
         drop()
-        initial()
+        #initial()
         url = self.path + 'submitSurvey'
         mydb = dbConnector()
         mycursor = mydb.cursor()
@@ -74,7 +74,7 @@ class MyTestCase(unittest.TestCase):
 
     def testDeleteSurvey(self):
             drop()
-            initial()
+            #initial()
             url = self.path + 'submitSurvey'
             mydb = dbConnector()
             mycursor = mydb.cursor()
@@ -115,7 +115,7 @@ class MyTestCase(unittest.TestCase):
 
     def testRetrieveResults(self):
         drop()
-        initial()
+        #initial()
         url = self.path + 'submitSurvey'
         mydb = dbConnector()
         mycursor = mydb.cursor()
