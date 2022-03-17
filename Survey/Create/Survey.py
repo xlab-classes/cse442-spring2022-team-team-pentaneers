@@ -27,11 +27,6 @@ def survey(data):
     mydb = db_connector.dbConnector()
     mycursor = mydb.cursor()
 
-    # create table Surveys if not exists
-    sql = "CREATE TABLE IF NOT EXISTS Surveys (id int AUTO_INCREMENT PRIMARY KEY, email varchar(255), title varchar(255), description varchar(255), created_on DATE, expired_on Date, surveys_id int, visibility varchar(255))"
-    mycursor.execute(sql)
-    mydb.commit()
-
     # create table Survey_Questions if not exists
     sql = "CREATE TABLE IF NOT EXISTS Survey_Questions (id int AUTO_INCREMENT PRIMARY KEY, question_id int, survey_id int)"
     mycursor.execute(sql)

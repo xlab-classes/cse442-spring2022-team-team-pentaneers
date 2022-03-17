@@ -13,7 +13,7 @@ from Survey.Delete import Delete
 from Survey.Create import Survey, Response
 from User import Account
 from Survey.Update import ModifySurvey
-
+from db_initial import initial
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
@@ -32,6 +32,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello_world():
+    initial()
     return "Hello, World!"
 
 #path to create Surveys

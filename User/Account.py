@@ -12,11 +12,6 @@ def account(data):
     mydb = db_connector.dbConnector()
     mycursor = mydb.cursor()
 
-    # create table if not exists
-    sql = "create table if not exists Users (id int AUTO_INCREMENT PRIMARY KEY, email varchar(255), password varchar(255), date_created DATE )"
-    mycursor.execute(sql)
-    mydb.commit()
-
     # check account is created or not
     sql = "select * from Users where email=%s"
     val = (email,)

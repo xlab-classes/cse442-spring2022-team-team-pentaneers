@@ -12,10 +12,6 @@ def response(data):
     mydb = db_connector.dbConnector()
     mycursor = mydb.cursor()
 
-    sql = "create table if not exists Response (response_id int AUTO_INCREMENT PRIMARY KEY, question_id int, survey_id int,short_answer varchar(255), multiple_choice_answer varchar(255), email varchar(255))"
-    mycursor.execute(sql)
-    mydb.commit()
-
     # insert each response
     for response in responses:
         question_number += 1  # question_id in Questions
