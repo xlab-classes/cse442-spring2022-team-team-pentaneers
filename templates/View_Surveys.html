@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='Style.css') }}">
+        <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+        <link href="https://fonts.googleapis.com/css2?family=Fredoka+One" rel="stylesheet">
+    </head>
+<body>
+
+    <img class="corner_duck" src="{{url_for('static', filename='corner_duck.png')}}">
+
+    <a button class = "buttonlogout" href = "{{ url_for('home') }}" >Log out</button></a>
+
+    <a button class = "buttonback" href = "{{ url_for('user_homepage') }}" >Go back</button></a>
+
+    <div class="vertical_flex2">
+
+        <h1>Here are <br> your surveys!</h1>
+
+        <br><br><br><br><br>
+        
+        <a button class = "button" href = "{{ url_for('home') }}">Create a survey</button></a>
+
+    </div>
+
+</body>
+
+</html>

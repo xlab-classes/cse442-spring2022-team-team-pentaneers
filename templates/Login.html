@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel=stylesheet type=text/css href="{{ url_for('static', filename='Login_Signup_Style.css') }}">
+      <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+      <link href="https://fonts.googleapis.com/css2?family=Fredoka+One" rel="stylesheet">
+  </head>
+    <body>
+
+        <form action = "{{ url_for('login') }}" class = "form" method="post">
+          
+          <h1 class = "form__title">Ready to Log in?</h1>
+          <p class = "form__description">You're almost there!</p>
+
+          <br><br>
+
+          <!--Creating the "Back to homepage" button for Logging in-->
+          <a button class = "form__buttonback" href = "{{ url_for('home') }}">Back to homepage</button></a>
+
+          <!--Creating the "Email" box for Logging in-->
+          <div class = "form__group">
+            <input type = "text" id = "email" class = "form__input" name = "email" placeholder = " " autocomplete = "off">
+            <label for = "email" class = "form__label">Email</label>
+          </div>
+
+          <!--Creating the "Password" box for Logging in-->
+          <div class = "form__group">
+            <input type = "password" id = "password" class = "form__input" name = "password" placeholder = " ">
+            <label for = "password" class = "form__label">Password</label>
+          </div>
+
+          <!--Creating the "Confirm password" box for Signing up-->
+          <button class = "form__button">Sign in</button>
+
+        </form>
+        <!--Back to Sign up page link at bottom-->
+        <p class="bottom__text"> &nbsp; &nbsp;Don't have an account?&nbsp; <a class="bottom__link" href="{{url_for('signup')}}">Create one here!</a></p>
+    
+    </body>
+</html>
