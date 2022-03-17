@@ -11,6 +11,8 @@
     <body>
 
         <form action = "{{ url_for('login') }}" class = "form" method="post">
+
+          {{ form.csrf_token }} <!--For security-->
           
           <h1 class = "form__title">Ready to Log in?</h1>
           <p class = "form__description">You're almost there!</p>

@@ -1,19 +1,15 @@
-import datetime
-import email
 import json
 from typing import List
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask,request, redirect, url_for, render_template, flash
-import mysql.connector
 from datetime import date
-import db_connector
 import config
 from Survey.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyResults, RetrieveUserSurveys, RetrieveSurveyForResponse 
 from Survey.Delete import Delete
 from Survey.Create import Survey, Response
 from User import Account
 from Survey.Update import ModifySurvey
-from db_initial import initial
+from db_initial import initial, drop
 from forms import RegistrationForm, LoginForm
 
 app = Flask(__name__)
@@ -25,46 +21,63 @@ app.config['SECRET_KEY'] = config.SECRET_KEY
 ##------------------The path to our homepage-----------------------
 @app.route("/")
 def home():
-    # initial()
     return render_template('Homepage.html', title = "Homepage")
 
 ##------------------The path our survey creation page-----------------------
 @app.route("/submitSurvey", methods=['POST'])
 def createSurvey():
-    #print("hi!!!")
     data=json.loads(request.get_data(as_text=True))
-    #print(data)
+    
     id=Survey.survey(data)
-    #print(id)
+    
     return json.dumps(id)
 
-##------------------The path to our signup page-----------------------
+
+#path to create account
 @app.route("/signup", methods=['GET', 'POST'])
 def signup():
     form = RegistrationForm()
-    # if form.validate_on_submit():
-        # email = request.form['email']; print("This is the email: ", email)
-        # password = request.form['password']; print("This is the password: ", password)
-        # print("The form was validated")
-        # user_data = "{'email': {}, 'password': {}}".format(form.email.data, form.password.data)
-        # data = json.loads(user_data)
-        # # Grab all of the users that have the email address that was typed into the Register form and return the first one, None if non exist
-        # check_user = Account.account(data)
-        # # If there isn't already a user with the email, add it to the database
-        # if check_user != "account exists":
-        #     # Create a new user to add to the Database
-        #     flash(f'Account created for {form.email.data}!', 'Success')
-        #     email = form.email.data
-        #     #Clearing the form
-        #     form.email.data = ''
-        #     return redirect(url_for('home'))
-    #print(form.errors)
+    print(form.email.data)
+    print(form.password.data)
+    print(form.confirm_password.data)
+    print(form.validate_on_submit())
+    if form.validate_on_submit():
+        email = request.form['email']; print("This is the email: ", email)
+        password = request.form['password']; print("This is the password: ", password)
+        print("The form was validated")
+        user_data = {'email': email, 'password': password, 'login': False, 'signup': True}
+        
+        # Grab all of the users that have the email address that was typed into the Register form and return the first one, None if non exist
+        check_user = Account.account(user_data)
+        # If there isn't already a user with the email, add it to the database
+        if check_user != "account exists":
+            # Create a new user to add to the Database
+            flash(f"Account created for {email} !", 'Success')
+            email = form.email.data
+            #Clearing the form
+            form.email.data = ''
+            return redirect(url_for('home'))
+    print(form.errors)
     return render_template('Signup.html', title = "Sign up", form = form)
     
 #------------------The path to our login page-----------------------
 @app.route("/login", methods = ['GET', 'POST'])
 def login():
     form = LoginForm()
+    if form.validate_on_submit():
+        email = request.form['email']; print("This is the email: ", email)
+        password = request.form['password']; print("This is the password: ", password)
+        user_data = {'email': email, 'password': password, 'login': True, 'signup': False}
+        check_user = Account.account(user_data)
+        print("check user: ", check_user)
+        if check_user == '"account exists"':
+            flash(f"Welcome Back {email} !", 'Success')
+            #Clearing the form
+            form.email.data = ''
+            return redirect(url_for('home'))
+        else:
+            return redirect(url_for('login'))
+
     return render_template('Login.html', title = "Login", form = form)
 
 #------------------The path to our user homepage-----------------------

@@ -1,7 +1,7 @@
 import datetime
-import json
 import db_connector
 from datetime import date
+from db_initial import initial
 
 def survey(data):
     
@@ -27,15 +27,8 @@ def survey(data):
     mydb = db_connector.dbConnector()
     mycursor = mydb.cursor()
 
-    # create table Survey_Questions if not exists
-    sql = "CREATE TABLE IF NOT EXISTS Survey_Questions (id int AUTO_INCREMENT PRIMARY KEY, question_id int, survey_id int)"
-    mycursor.execute(sql)
-    mydb.commit()
-
-    # create table Questions if not exists
-    sql = "CREATE TABLE IF NOT EXISTS Questions (id int AUTO_INCREMENT PRIMARY KEY, survey_id int, question_id int, question_title varchar(255), question_type varchar(255), options varchar(255))"
-    mycursor.execute(sql)
-    mydb.commit()
+    # create tables if they don't exist
+    initial()
 
     # select surveys_id
     if (countrow == 0):
