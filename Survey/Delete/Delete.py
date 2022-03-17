@@ -1,4 +1,5 @@
 import db_connector
+from Survey.Retrieve import RetrieveSurveyById
 
 
 def deleteSurvey(email, id):
@@ -6,6 +7,10 @@ def deleteSurvey(email, id):
     # Access the Database
     mydb = db_connector.dbConnector()
     mycursor = mydb.cursor()
+
+    exists = RetrieveSurveyById.retrieveSurveyById(id, email)
+    if (exists == "Error 404, This survey does not exist!"):
+        return "survey not exists"
 
     # Select only the rows that have our requested "email" 
     query = "DELETE FROM Surveys WHERE email = %s AND id = %s"
