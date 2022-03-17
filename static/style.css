@@ -35,4 +35,10 @@ h1{
 
 button{
 	border: none;
+	text-align: center;
+	background-color: #60ABDD;
+	color: white;
+	
+	width: 50%;
+	height: 100px;
 }
