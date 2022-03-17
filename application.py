@@ -13,7 +13,7 @@ from Survey.Delete import Delete
 from Survey.Create import Survey, Response
 from User import Account
 from Survey.Update import ModifySurvey
-from db_initial import initial
+from db_initial import initial,drop
 from forms import RegistrationForm, LoginForm
 
 app = Flask(__name__)
@@ -28,17 +28,13 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    # initial()
     return render_template('Homepage.html', title = "Homepage")
 
 #path to create Surveys
 @app.route("/submitSurvey", methods=['POST'])
 def createSurvey():
-    #print("hi!!!")
     data=json.loads(request.get_data(as_text=True))
-    #print(data)
     id=Survey.survey(data)
-    #print(id)
     return json.dumps(id)
 
 

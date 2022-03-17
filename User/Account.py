@@ -2,6 +2,7 @@ import datetime
 import json
 import db_connector
 from datetime import date
+from db_initial import initial
 
 def account(data):
     email = data['email']
@@ -11,6 +12,9 @@ def account(data):
     # connect database
     mydb = db_connector.dbConnector()
     mycursor = mydb.cursor()
+
+    # create tables if not exist
+    initial()
 
     # check account is created or not
     sql = "select * from Users where email=%s"
