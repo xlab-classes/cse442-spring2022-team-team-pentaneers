@@ -1,25 +1,8 @@
 import db_connector
 def initial():
-
     mydb = db_connector.dbConnector()
     mycursor = mydb.cursor()
-    '''
-    sql = "drop TABLE IF EXISTS Surveys"
-    mycursor.execute(sql)
-    mydb.commit()
-    sql = "drop TABLE IF EXISTS Survey_Questions"
-    mycursor.execute(sql)
-    mydb.commit()
-    sql = "drop TABLE IF EXISTS Questions"
-    mycursor.execute(sql)
-    mydb.commit()
-    sql = "drop table if exists Users"
-    mycursor.execute(sql)
-    mydb.commit()
-    sql = "drop table if exists Response"
-    mycursor.execute(sql)
-    mydb.commit()
-    '''
+
     sql = "create table if not exists Response (response_id int AUTO_INCREMENT PRIMARY KEY, question_id int, survey_id int,short_answer varchar(255), multiple_choice_answer varchar(255), email varchar(255))"
     mycursor.execute(sql)
     mydb.commit()
@@ -44,4 +27,25 @@ def initial():
     mydb.commit()
 
     mydb.close()
+    return
+
+def drop():
+    mydb = db_connector.dbConnector()
+    mycursor = mydb.cursor()
+
+    sql = "drop TABLE IF EXISTS Surveys"
+    mycursor.execute(sql)
+    mydb.commit()
+    sql = "drop TABLE IF EXISTS Survey_Questions"
+    mycursor.execute(sql)
+    mydb.commit()
+    sql = "drop TABLE IF EXISTS Questions"
+    mycursor.execute(sql)
+    mydb.commit()
+    sql = "drop table if exists Users"
+    mycursor.execute(sql)
+    mydb.commit()
+    sql = "drop table if exists Response"
+    mycursor.execute(sql)
+    mydb.commit()
     return
