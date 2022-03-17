@@ -31,4 +31,4 @@ def retrieveSurveysUsers(email):
 
     final_content = [email, List_to_return]
 
-    return str(final_content)
+    return final_content
