@@ -3,7 +3,6 @@ import json
 import db_connector
 from datetime import date
 from db_initial import initial
-
 def response(data):
     responses = data['response']
     survey_id = data['survey_id']
