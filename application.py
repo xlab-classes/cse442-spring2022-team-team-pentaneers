@@ -69,7 +69,7 @@ def createResponse():
 # Retrieve all surveys created by the user by their EMAIL
 def retrieveSurveysUsers(email):
     retrieve = RetrieveUserSurveys.retrieveSurveysUsers(email)
-    return retrieve
+    return str(retrieve)
     
 
 
@@ -79,7 +79,7 @@ def retrieveSurveysUsers(email):
 # Retrieve specific survey results
 def retrieveSurveyResults(email, surveys_id):
     survey_results = RetrieveSurveyResults.retrieveSurveyResults(email, surveys_id)
-    return survey_results
+    return str(survey_results)
    
 
 
@@ -88,19 +88,19 @@ def retrieveSurveyResults(email, surveys_id):
 def retrievePublicSurveys():
     all_surveys = RetrievePublicSurveys.retrievePublicSurveys()
     
-    return all_surveys
+    return str(all_surveys)
     
 @app.route('/survey/form/<survey_id>', methods = ['GET'])
 
 def retrieveSurveyForResponse(survey_id):
     survey = RetrieveSurveyForResponse.retrieveSurveyForResponse(survey_id)
-    return survey
+    return str(survey)
 
 @app.route('/retrieve/survey/<email>/<survey_id>', methods = ['GET'])
 
 def retrieveSurveyById(survey_id, email):
     user_survey = RetrieveSurveyById.retrieveSurveyById(survey_id, email)
-    return user_survey
+    return str(user_survey)
 
 @app.route("/survey/modify/<id>", methods = ['PUT'])
 # User must be logged in, and the Sruvey must belong to him
@@ -110,7 +110,7 @@ def modifySurvey(id):
     # Data that contains any updated information
     data = json.loads(request.get_data(as_text=True))
     modified_survey = ModifySurvey.modifySurvey(id, data)
-    return modified_survey
+    return str(modified_survey)
 
 @app.route("/survey/delete/<email>/<id>", methods = ['DELETE'])
 
