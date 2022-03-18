@@ -1,4 +1,5 @@
 import json
+from queue import Empty
 from typing import List
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask,request, redirect, url_for, render_template, flash
@@ -46,18 +47,25 @@ def signup():
         print("The form was validated")
         user_data = {'email': email, 'password': password, 'login': False, 'signup': True}
         
-        # Grab all of the users that have the email address that was typed into the Register form and return the first one, None if non exist
+        # Grab all of the users that have the email address that was typed into the Register form and return the first one, None if none exist
         check_user = Account.account(user_data)
         # If there isn't already a user with the email, add it to the database
         if check_user != "account exists":
             # Create a new user to add to the Database
-            flash(f"Account created for {email} !", 'Success')
+            flash(f"Account created for {email}!", 'Success')
+            email = form.email.data
+            # Clearing the form
+            form.email.data = ''
+            return redirect(url_for('home'))
+        else:
+            flash(f"That account already exists.", 'Error')
             email = form.email.data
             #Clearing the form
             form.email.data = ''
-            return redirect(url_for('home'))
-    print(form.errors)
+            return redirect(url_for('signup'))
+
     return render_template('Signup.html', title = "Sign up", form = form)
+
     
 #------------------The path to our login page-----------------------
 @app.route("/login", methods = ['GET', 'POST'])
@@ -70,14 +78,20 @@ def login():
         check_user = Account.account(user_data)
         print("check user: ", check_user)
         if check_user == '"account exists"':
-            flash(f"Welcome Back {email} !", 'Success')
-            #Clearing the form
+            flash(f"Welcome Back {email}!", 'Success')
+            # Clearing the form
             form.email.data = ''
             return redirect(url_for('user_homepage'))
         else:
+            flash(f"Incorrect email or password.", 'Error')
             return redirect(url_for('login'))
 
+    if len(form.errors) != 0:
+        flash(f"Please enter a valid email and password.", 'Error')
+        return redirect(url_for('login'))
+
     return render_template('Login.html', title = "Login", form = form)
+
 
 #------------------The path to our user homepage-----------------------
 @app.route("/user_homepage")

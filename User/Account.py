@@ -24,7 +24,7 @@ def account(data):
     mycursor.execute(sql, val)
     myresult = mycursor.fetchall()
     print(myresult)
-    if (len(myresult) != 0): return json.dumps("account exists")
+    if (len(myresult) != 0): return "account exists"
 
     if signup_boolean:
 
