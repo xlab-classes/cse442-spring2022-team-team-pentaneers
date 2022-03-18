@@ -81,7 +81,7 @@ def login():
         if check_user == "account exists":
             flash(f"Welcome Back {email}!", 'Success')
             # Clearing the form
-            form.email.data = ''
+            #form.email.data = ''
             return redirect(url_for('user_homepage'))
         else:
             flash(f"Incorrect email or password.", 'Error')

@@ -21,6 +21,17 @@
 
     <h1> DuckyForms </h1>
 
+    <div class = "Successful_Account_Creation">      
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %} 
+                {% for category, message in messages %} 
+                    <div class = "alert alert-{{ category }}">
+                        <h4>{{ message }}</h4>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %} 
+    </div> 
 
     <div class="duck">
         <img src="{{url_for('static', filename='duck.png')}}" class="animate__animated animate__bounce">
