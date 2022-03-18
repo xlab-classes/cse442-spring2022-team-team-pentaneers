@@ -21,12 +21,36 @@ button{
 	text-align: center;
 	background-color: #60ABDD;
 	color: white;
-	
-	width: 500px;
-	height: 100px;
 	border-radius: 10px;
+	cursor: pointer;
+    -webkit-transition: background-color 200ms ease in;
+    transition: background-color 200ms ease in;
+}
+
+button:hover {
+    background-color: #4d87ae;
+    text-decoration: none;
+}
+
+button:link{
+    text-decoration: none;
+}
+
+button:visited{
+    text-decoration: none;
+}
+
+button.white{
+	background-color: white;
+	color: #60ABDD;
+}
+
+button.white:hover{
+	background-color: #d0d0d0;
+    text-decoration: none;
 }
 
 img.corner_duck{
 	object-fit: contain;
+	width: 100px;
 }
