@@ -18,6 +18,18 @@
 
 		<h1> Welcome! </h1>
 
+        <div class = "Successful_Login">      
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %} 
+                    {% for category, message in messages %} 
+                        <div class = "alert alert-{{ category }}">
+                            <h4>{{ message }}</h4>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %} 
+        </div>
+
 		<a button class = "button" href = "{{ url_for('view_surveys') }}">View your surveys</button></a>
 
 		<a button class = "button" href = "{{ url_for('survey_editor') }}">Create a survey</button></a>

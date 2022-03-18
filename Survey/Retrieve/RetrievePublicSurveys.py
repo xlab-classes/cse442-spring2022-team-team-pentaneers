@@ -1,5 +1,5 @@
 import db_connector
-from application import datetime, date
+from datetime import date
 
 
 def retrievePublicSurveys():

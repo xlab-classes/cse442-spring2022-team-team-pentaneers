@@ -2,7 +2,6 @@ import json
 from typing import List
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask,request, redirect, url_for, render_template, flash
-from datetime import date
 import config
 from Survey.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyResults, RetrieveUserSurveys, RetrieveSurveyForResponse 
 from Survey.Delete import Delete
@@ -23,7 +22,7 @@ app.config['SECRET_KEY'] = config.SECRET_KEY
 def home():
     return render_template('Homepage.html', title = "Homepage")
 
-##------------------The path our survey creation page-----------------------
+#------------------The path our survey creation page-----------------------
 @app.route("/submitSurvey", methods=['POST'])
 def createSurvey():
     data=json.loads(request.get_data(as_text=True))
@@ -33,7 +32,7 @@ def createSurvey():
     return json.dumps(id)
 
 
-#path to create account
+#------------------The path our signup page-----------------------
 @app.route("/signup", methods=['GET', 'POST'])
 def signup():
     form = RegistrationForm()
@@ -74,7 +73,7 @@ def login():
             flash(f"Welcome Back {email} !", 'Success')
             #Clearing the form
             form.email.data = ''
-            return redirect(url_for('home'))
+            return redirect(url_for('user_homepage'))
         else:
             return redirect(url_for('login'))
 
