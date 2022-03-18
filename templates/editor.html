@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='editor.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+        <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+        <link href="https://fonts.googleapis.com/css2?family=Fredoka+One" rel="stylesheet">
+        <script src="{{url_for('static', filename='editor.js')}}"></script>
+    </head>
+    <!-- <h1 class = "animate__animated animate__zoomInDown">Name of Website</h1> -->
+    <body>
+        
+        <!-- <div class="duck">
+            <img src="{{url_for('static', filename='duck.png')}}">
+        </div> -->
+
+        <a button class = "buttonlogout" href = "{{ url_for('home') }}" >Logout</button></a>
+    
+        <h4>Create your survey below!</h4>
+
+        <!-- <button onclick="isConnect()" type="button">Connected to js</button> -->
+        <button class="button-private" role="button">Private</button>
+
+        <button class="button-public" role="button">Public</button>
+
+        <h5>Title:</h5>
+        <form>
+            <input type="text" id="Title" name="fname"><br>
+        </form>
+
+        <h5>Description(Optional):</h5>
+        <form>
+            <input type="text" id="Description" name="fname"><br>
+        </form>
+        
+        <h5>Question(s):</h5>
+        <form>
+            <input type="text" id="Question" name="fname"><br>
+        </form>
+
+        <div id="question_type">
+
+        </div>
+
+        <button class="button-mc" onclick="mc()" role="button" id="mc">MC</button>
+
+        <button class="button-wr" onclick="wr()" role="button" onclick="mc()" id="wr">WR</button>
+
+
+        <button class="button-cancel" role="button">Cancel</button>
+
+        <button class="button-publish" role="button">Publish</button>
+
+    </body>
+</html>
