@@ -54,3 +54,22 @@ img.corner_duck{
 	object-fit: contain;
 	width: 100px;
 }
+
+/* Side scroll bar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+  
+::-webkit-scrollbar-track {
+    background: #81d1fe;
+}
+  
+::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background: #4d87ae;
+}
+  
+::-webkit-scrollbar-thumb:hover {
+    border-radius: 20px;
+    background: #28475c;
+}
