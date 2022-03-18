@@ -64,6 +64,7 @@ def signup():
             form.email.data = ''
             return redirect(url_for('signup'))
 
+
     return render_template('Signup.html', title = "Sign up", form = form)
 
     
