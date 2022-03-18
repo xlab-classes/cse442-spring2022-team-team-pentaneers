@@ -17,6 +17,18 @@
           <h1 class = "form__title">Ready to Sign Up?</h1>
           <p class = "form__description">Sign up now to start creating surveys!</p>
 
+          <div class = "Account_Exists">      
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %} 
+                    {% for category, message in messages %} 
+                        <div class = "alert alert-{{ category }}">
+                            <h4>{{ message }}</h4>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %} 
+          </div>
+
           <!--Creating the "Back to homepage" button going back to the homepage-->
           <a button class = "form__buttonback" href = "{{ url_for('home') }}">Back to homepage</button></a>
 
