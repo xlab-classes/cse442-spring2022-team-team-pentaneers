@@ -78,7 +78,7 @@ def login():
         user_data = {'email': email, 'password': password, 'login': True, 'signup': False}
         check_user = Account.account(user_data)
         print("check user: ", check_user)
-        if check_user == '"account exists"':
+        if check_user == "account exists":
             flash(f"Welcome Back {email}!", 'Success')
             # Clearing the form
             form.email.data = ''
@@ -86,7 +86,7 @@ def login():
         else:
             flash(f"Incorrect email or password.", 'Error')
             return redirect(url_for('login'))
-
+    
     if len(form.errors) != 0:
         flash(f"Please enter a valid email and password.", 'Error')
         return redirect(url_for('login'))
