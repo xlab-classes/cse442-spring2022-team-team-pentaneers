@@ -2,7 +2,8 @@ import json
 from queue import Empty
 from typing import List
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask,request, redirect, url_for, render_template, flash
+from flask import Flask,request, redirect, url_for, render_template, flash, jsonify
+from flask_cors import CORS
 import config
 from Survey.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyResults, RetrieveUserSurveys, RetrieveSurveyForResponse 
 from Survey.Delete import Delete
@@ -14,6 +15,7 @@ from forms import RegistrationForm, LoginForm
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
+cors = CORS(app)
 
 # IMPORTANT: Set to environment variable!
 app.config['SECRET_KEY'] = config.SECRET_KEY
@@ -155,7 +157,7 @@ def retrieveSurveyById(survey_id, email):
 
 
 @app.route("/survey/modify/<id>", methods = ['PUT'])
-# User must be logged in, and the Sruvey must belong to him
+# User must be logged in, and the Survey must belong to him
 def modifySurvey(id):
     # Add user validation later
 
@@ -169,6 +171,19 @@ def modifySurvey(id):
 def deleteSurvey(email, id):
     deleted_surveys = Delete.deleteSurvey(email, id)
     return deleted_surveys
+
+@app.route("/survey_data", methods=['GET', 'POST'])
+def view():
+    survey_data = request.get_json('survey_data')
+    survey_data = jsonify(survey_data)#[title, description, question_list, question_type, mc_option_list]
+    s_title = survey_data[0]
+    s_description = survey_data[1]
+    s_question_list = survey_data[2]
+    # s_question_type = survey_data[3]
+    # s_mc_option_list = survey_data[4]
+    parsed_data = {'title': s_title, 'description':s_description, 'questions': s_question_list}
+    createSurvey(parsed_data)
+    return survey_data
 
 
 # Invalid path.
