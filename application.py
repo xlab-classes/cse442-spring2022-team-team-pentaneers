@@ -181,7 +181,7 @@ def view():
     s_question_list = survey_data[2]
     # s_question_type = survey_data[3]
     # s_mc_option_list = survey_data[4]
-    parsed_data = {'title': s_title, 'description':s_description, 'questions': s_question_list}
+    parsed_data = {'title': s_title, 'description':s_description, 'questions': s_question_list, 'expired_date': '2021-03-22', 'visibility': 'Public'}
     createSurvey(parsed_data)
     return survey_data
 

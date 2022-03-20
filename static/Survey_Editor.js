@@ -46,7 +46,6 @@ function add_question(){
   document.getElementById("add-question").remove();
   count++
   var head = "<h5>Question(s):</h5><form><input type='text' id='Question"+"_"+count.toString()+"'"
-  // var had = front+count.toString()+"'"
   var tail = "name='fname'><br></form>"
 
   document.getElementById("question_type").innerHTML += (head+tail)
