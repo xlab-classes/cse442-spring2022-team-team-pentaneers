@@ -83,7 +83,11 @@ h5{
     color: white;
 }
 
-
+.chart{
+    margin: 0 auto;
+    width: 25vw;
+    height: 25vh;
+}
 
 
 

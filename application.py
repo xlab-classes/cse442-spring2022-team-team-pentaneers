@@ -20,7 +20,7 @@ cors = CORS(app)
 # IMPORTANT: Set to environment variable!
 app.config['SECRET_KEY'] = config.SECRET_KEY
 
-##------------------The path to our homepage-----------------------
+#------------------The path to our homepage-----------------------
 @app.route("/")
 def home():
     return render_template('Homepage.html', title = "Homepage")
@@ -111,12 +111,18 @@ def view_surveys():
 def survey_editor():
     return render_template('Survey_Editor.html', title = "Survey Editor")
 
-##------------------The path to our survey response page-----------------------
+#------------------The path to our submit survey response page-----------------------
 @app.route("/submitResponse", methods=['POST'])
 def createResponse():
     data=json.loads(request.get_data(as_text=True))
     survey_id=Response.response(data)
     return survey_id
+
+#------------------The path to the view survey responses page-----------------------
+@app.route("/survey_responses", methods=['GET', 'POST'])
+def survey_responses():
+    return render_template('Survey_Responses.html', title = "Survey Responses")
+
 
 
 
