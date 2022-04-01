@@ -26,13 +26,22 @@ def home():
     return render_template('Homepage.html', title = "Homepage")
 
 #------------------The path our survey creation page-----------------------
-@app.route("/submitSurvey", methods=['POST'])
+@app.route("/submitSurvey", methods=['GET', 'POST'])
 def createSurvey():
-    data=json.loads(request.get_data(as_text=True))
-    
+    # data=json.loads(request.get_data(as_text=True))
+    data = request.get_json('survey_data')
+    print(data)
     id=Survey.survey(data)
-    
     return json.dumps(id)
+    # return data
+
+# @app.route("/survey_data", methods=['GET', 'POST'])
+# def survey_creation_data():
+#     print('you got to the json page!')
+#     survey_data = request.get_json('survey_data')
+#     Survey.survey(survey_data)
+#     print(survey_data)
+#     return survey_data
 
 
 #------------------The path our signup page-----------------------
@@ -171,19 +180,6 @@ def modifySurvey(id):
 def deleteSurvey(email, id):
     deleted_surveys = Delete.deleteSurvey(email, id)
     return deleted_surveys
-
-@app.route("/survey_data", methods=['GET', 'POST'])
-def view():
-    survey_data = request.get_json('survey_data')
-    survey_data = jsonify(survey_data)#[title, description, question_list, question_type, mc_option_list]
-    s_title = survey_data[0]
-    s_description = survey_data[1]
-    s_question_list = survey_data[2]
-    # s_question_type = survey_data[3]
-    # s_mc_option_list = survey_data[4]
-    parsed_data = {'title': s_title, 'description':s_description, 'questions': s_question_list, 'expired_date': '2021-03-22', 'visibility': 'Public'}
-    createSurvey(parsed_data)
-    return survey_data
 
 
 # Invalid path.
