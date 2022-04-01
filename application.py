@@ -200,13 +200,13 @@ def view():
 @app.route("/survey/close/<survey_id>", methods = ['PUT'])
 def close(survey_id):
     survey=Close.closeSurvey(survey_id)
-    return survey
+    return "success"
 
 @app.route("/survey/reopen/<survey_id>", methods = ['PUT'])
 def reopen(survey_id):
     data = json.loads(request.get_data(as_text=True))
-    survey=Survey.Status.Open.openSurvey(survey_id,data)
-    return survey
+    survey=Open.openSurvey(survey_id,data)
+    return "success"
 
 # Invalid path.
 @app.route("/<error>")
@@ -217,19 +217,19 @@ def error(error):
 def auto():
     survey=Auto.autoClose()
     print(str(datetime.now()) + "AUTO CLOSE 1 !!!")
-    return survey
+    return "success"
 
 @scheduler.task('cron', id='autoClose2', day='*', hour='00', minute='00', second='00')
 def auto():
     survey=Auto.autoClose()
     print(str(datetime.now()) + "AUTO CLOSE 2 !!!")
-    return survey
+    return "success"
 
 @scheduler.task('cron', id='autoClose3',  minute='*')
 def auto():
     survey=Auto.autoClose()
     print(str(datetime.now()) + "AUTO CLOSE 3 !!!")
-    return survey
+    return "success"
 
 
 scheduler.start()
