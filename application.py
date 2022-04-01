@@ -1,5 +1,7 @@
 import json
+from datetime import datetime
 from queue import Empty
+from sched import scheduler
 from typing import List
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask,request, redirect, url_for, render_template, flash, jsonify
@@ -9,13 +11,23 @@ from Survey.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveS
 from Survey.Delete import Delete
 from Survey.Create import Survey, Response
 from User import Account
+from Survey.Status import Close,Open,Auto
 from Survey.Update import ModifySurvey
 from db_initial import initial, drop
 from forms import RegistrationForm, LoginForm
+from flask_apscheduler import APScheduler
+
+class Config:
+    SCHEDULER_API_ENABLED = True
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
 cors = CORS(app)
+
+# set up scheduler
+app.config.from_object(Config())
+scheduler = APScheduler()
+scheduler.init_app(app)
 
 # IMPORTANT: Set to environment variable!
 app.config['SECRET_KEY'] = config.SECRET_KEY
@@ -185,14 +197,42 @@ def view():
     createSurvey(parsed_data)
     return survey_data
 
+@app.route("/survey/close/<survey_id>", methods = ['PUT'])
+def close(survey_id):
+    survey=Close.closeSurvey(survey_id)
+    return survey
+
+@app.route("/survey/reopen/<survey_id>", methods = ['PUT'])
+def reopen(survey_id):
+    data = json.loads(request.get_data(as_text=True))
+    survey=Survey.Status.Open.openSurvey(survey_id,data)
+    return survey
 
 # Invalid path.
 @app.route("/<error>")
 def error(error):
     return f"page '{error}' does not exist!"
 
+@scheduler.task('cron', id='autoClose', week='*', day_of_week='mon,tue,wed,thu,fri,sat,sun')
+def auto():
+    survey=Auto.autoClose()
+    print(str(datetime.now()) + "AUTO CLOSE 1 !!!")
+    return survey
+
+@scheduler.task('cron', id='autoClose2', day='*', hour='00', minute='00', second='00')
+def auto():
+    survey=Auto.autoClose()
+    print(str(datetime.now()) + "AUTO CLOSE 2 !!!")
+    return survey
+
+@scheduler.task('cron', id='autoClose3',  minute='*')
+def auto():
+    survey=Auto.autoClose()
+    print(str(datetime.now()) + "AUTO CLOSE 3 !!!")
+    return survey
 
 
+scheduler.start()
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8000)
