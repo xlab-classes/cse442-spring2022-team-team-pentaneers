@@ -43,3 +43,27 @@ const config = {
 };
 
 const myChart = new Chart(ctx, config);
+
+function newChart(){
+    document.getElementById('chart').insertAdjacentHTML("afterend","<div><canvas id='canvas" + cont + "'></canvas></div>");
+    var can_id = "canvas" + cont;
+    var ctx2 = document.getElementById(can_id).getContext('2d');
+    window.can_id = new Chart(ctx2, config);
+
+    window.can_id.update();
+    //alert(config.options.id);
+    configSet();
+    //alert(config.options.id);
+    alert(cont);
+    return cont = cont + 1;
+}
+
+function configSet(){
+    config.options.layout.padding.top = cont*100;
+    config.options.layout.padding.bottom -= cont*100;
+    //config.options.layout.padding.right -=200;
+    //config.options.layout.padding.left += 200;
+    config.options.id += 1;
+    config.options.title.text = 'Board Number ' + config.options.id;
+    //newChart();
+}

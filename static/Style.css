@@ -19,7 +19,7 @@ div.vertical_flex2{
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-    margin-left: 20%;
+    margin-left: 22%;
     min-width: 550px;
     position: relative;
 }
@@ -651,10 +651,36 @@ label{
     text-decoration: none;
 }
 
+.buttonlink {
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    padding: 0.75rem 2rem;
+    background-color: #ffffff;
+    font-family: Montserrat;
+    font-weight: 700;
+    font-size: 50%;
+    color: #60abdd;
+    border-radius: 0.5rem;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    -webkit-transition: background-color 200ms ease in;
+    transition: background-color 200ms ease in;
+}
 
+.buttonlink:hover {
+    background-color: #d0d0d0;
+    text-decoration: none;
+}
 
+.buttonlink:link {
+    text-decoration: none;
+}
 
-
+.buttonlink:visited {
+    text-decoration: none;
+}
 
 /* Images */
 .duck{
