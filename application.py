@@ -3,6 +3,8 @@ from queue import Empty
 from typing import List
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask,request, redirect, url_for, render_template, flash, session
+from flask_cors import CORS
+import config
 import config
 from Survey.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyResults, RetrieveUserSurveys, RetrieveSurveyForResponse 
 from Survey.Delete import Delete
