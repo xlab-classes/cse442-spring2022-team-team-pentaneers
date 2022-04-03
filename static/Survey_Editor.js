@@ -117,7 +117,7 @@ async function publish(){
     // status=data['visibility']
 
   var xhr = new XMLHttpRequest();
-  var url = "http://127.0.0.1:5000/submitSurvey";//should not be hard coded
+  var url = "http://67.20.193.60:8000/submitSurvey";//should not be hard coded
   xhr.open("POST", url, true);
   xhr.setRequestHeader("Content-Type", "application/json");
   xhr.onreadystatechange = function () {

@@ -3,10 +3,12 @@ import json
 import db_connector
 from datetime import date
 from db_initial import initial
+from werkzeug.security import generate_password_hash
 
 def account(data):
     email = data['email']
     password = data['password']
+    password = generate_password_hash(password, "sha256")
     login_boolean = data['login']
     signup_boolean = data['signup']
     created_date = date.today()
