@@ -7,6 +7,7 @@
         <link rel=stylesheet type=text/css href="{{ url_for('static', filename='Style.css') }}">
         <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
         <link href="https://fonts.googleapis.com/css2?family=Fredoka+One" rel="stylesheet">
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon_duck.png') }}" sizes ="32x32"/>
     </head>
 <body>
 
@@ -20,11 +21,34 @@
 
         <h1>Here are <br> your surveys!</h1>
 
-        <br><br><br><br><br>
+        <br><br><br><br><br><br><br><br><br>
         
         <a button class = "button" href = "{{ url_for('survey_editor') }}">Create a survey</button></a>
 
+        <br><br><br><br><br><br>
+
+        <div class = "vertical_flex">
+        {% for survey_title in titles %}
+                <h3>
+                    {{survey_title}} 
+                    <button onclick = "getLink()" button class = "buttonlink">Copy link</button>
+                </h3>
+        {% endfor %}
+        </div>
+
     </div>
+
+    <script>
+        function getLink() {
+            var inputc = document.body.appendChild(document.createElement("input"));
+            inputc.value = window.location.href;
+            inputc.focus();
+            inputc.select();
+            document.execCommand('copy');
+            inputc.parentNode.removeChild(inputc);
+            alert("URL Copied.");
+        }
+    </script>
 
 </body>
 
