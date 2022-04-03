@@ -2,8 +2,9 @@ import json
 from queue import Empty
 from typing import List
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask,request, redirect, url_for, render_template, flash, jsonify
+from flask import Flask,request, redirect, url_for, render_template, flash, session
 from flask_cors import CORS
+import config
 import config
 from Survey.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyResults, RetrieveUserSurveys, RetrieveSurveyForResponse 
 from Survey.Delete import Delete
@@ -12,6 +13,11 @@ from User import Account
 from Survey.Update import ModifySurvey
 from db_initial import initial, drop
 from forms import RegistrationForm, LoginForm
+from werkzeug.security import check_password_hash
+from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user
+import db_connector
+from datetime import timedelta, date
+
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
@@ -19,6 +25,33 @@ cors = CORS(app)
 
 # IMPORTANT: Set to environment variable!
 app.config['SECRET_KEY'] = config.SECRET_KEY
+# When a user closes thr browser or tab, they must re-login
+app.config['REMEMBER_COOKIE_SESSION'] = timedelta(seconds=0.01)
+# Flask_Login setup
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
+login_manager.session_protection = "strong"
+
+
+# Login manager, deals with making sure the user gets loaded in correctly
+@login_manager.user_loader
+def load_user(id):
+    print("id is: ", id)
+    # connect database
+    mydb = db_connector.dbConnector()
+    mycursor = mydb.cursor()
+    # select user_id
+    sql = "select * from Users where id=%s"
+    val = (id,)
+    mycursor.execute(sql, val)
+    myresult = mycursor.fetchall()
+    print("Line 41: ", myresult[0][0])
+    if len(myresult) > 0:
+        return User(myresult[0][0])
+    else:
+        return myresult
+                
 
 ##------------------The path to our homepage-----------------------
 @app.route("/")
@@ -33,7 +66,6 @@ def createSurvey():
     print(data)
     id=Survey.survey(data)
     return json.dumps(id)
-    # return data
 
 # @app.route("/survey_data", methods=['GET', 'POST'])
 # def survey_creation_data():
@@ -48,13 +80,9 @@ def createSurvey():
 @app.route("/signup", methods=['GET', 'POST'])
 def signup():
     form = RegistrationForm()
-    print(form.email.data)
-    print(form.password.data)
-    print(form.confirm_password.data)
-    print(form.validate_on_submit())
     if form.validate_on_submit():
-        email = request.form['email']; print("This is the email: ", email)
-        password = request.form['password']; print("This is the password: ", password)
+        email = request.form['email']
+        password = request.form['password']
         print("The form was validated")
         user_data = {'email': email, 'password': password, 'login': False, 'signup': True}
         
@@ -71,8 +99,6 @@ def signup():
         else:
             flash(f"That account already exists.", 'Error')
             email = form.email.data
-            #Clearing the form
-            form.email.data = ''
             return redirect(url_for('signup'))
 
 
@@ -84,19 +110,20 @@ def signup():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        email = request.form['email']; print("This is the email: ", email)
-        password = request.form['password']; print("This is the password: ", password)
+        email = request.form['email']
+        password = request.form['password']
         user_data = {'email': email, 'password': password, 'login': True, 'signup': False}
         check_user = Account.account(user_data)
         print("check user: ", check_user)
         if check_user == "account exists":
-            flash(f"Welcome Back {email}!", 'Success')
-            # Clearing the form
-            #form.email.data = ''
-            return redirect(url_for('user_homepage'))
-        else:
-            flash(f"Incorrect email or password.", 'Error')
-            return redirect(url_for('login'))
+            user = User(email)
+            if check_password_hash(user.get_password(email), password):
+                login_user(user)
+                session['email'] = email
+                session['id'] = user.get_id()
+                flash(f"Welcome Back {email}!", 'Success')
+                return redirect(url_for('user_homepage'))
+            
     
     if len(form.errors) != 0:
         flash(f"Please enter a valid email and password.", 'Error')
@@ -104,19 +131,29 @@ def login():
 
     return render_template('Login.html', title = "Login", form = form)
 
+# ------------------Path to logout--------------------------------------
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    print("User has logged out")
+    return redirect('/')
 
 #------------------The path to our user homepage-----------------------
 @app.route("/user_homepage")
+@login_required
 def user_homepage():
     return render_template('User_Homepage.html', title = "User Homepage")
 
 #------------------The path to the view survey page-----------------------
 @app.route("/view_surveys")
+@login_required
 def view_surveys():
     return render_template('View_Surveys.html', title = "View Surveys")
 
 #------------------The path to the survey editor page-----------------------
 @app.route("/survey_editor", methods=['GET', 'POST'])
+@login_required
 def survey_editor():
     return render_template('Survey_Editor.html', title = "Survey Editor")
 
@@ -138,7 +175,7 @@ def retrieveSurveysUsers(email):
 
 
 @app.route("/retrieve/survey/<email>/<surveys_id>/results", methods=['GET'])
-# User must be logged in, and must also be retreiving data on their own surveys
+# @login_required
 # Retrieve specific survey results
 def retrieveSurveyResults(email, surveys_id):
     survey_results = RetrieveSurveyResults.retrieveSurveyResults(email, surveys_id)
@@ -154,19 +191,21 @@ def retrievePublicSurveys():
 
 
 @app.route('/survey/form/<survey_id>', methods = ['GET'])
+@login_required
 def retrieveSurveyForResponse(survey_id):
     survey = RetrieveSurveyForResponse.retrieveSurveyForResponse(survey_id)
     return str(survey)
 
 
 @app.route('/retrieve/survey/<email>/<survey_id>', methods = ['GET'])
+@login_required
 def retrieveSurveyById(survey_id, email):
     user_survey = RetrieveSurveyById.retrieveSurveyById(survey_id, email)
     return str(user_survey)
 
 
 @app.route("/survey/modify/<id>", methods = ['PUT'])
-# User must be logged in, and the Survey must belong to him
+@login_required
 def modifySurvey(id):
     # Add user validation later
 
@@ -177,6 +216,7 @@ def modifySurvey(id):
 
 
 @app.route("/survey/delete/<email>/<id>", methods = ['DELETE'])
+@login_required
 def deleteSurvey(email, id):
     deleted_surveys = Delete.deleteSurvey(email, id)
     return deleted_surveys
@@ -187,8 +227,75 @@ def deleteSurvey(email, id):
 def error(error):
     return f"page '{error}' does not exist!"
 
+# User class
+class User(UserMixin):
+    user_email = ''
+    def __init__(self, email):
+        self.email = email
 
+    def get_password(self, email):
+        # connect database
+        mydb = db_connector.dbConnector()
+        mycursor = mydb.cursor()
+        # select user_id
+        sql = "select password from Users where email=%s"
+        val = (self.email,)
+        mycursor.execute(sql, val)
+        myresult = mycursor.fetchall()
+        mydb.close()
+        mydb.close()
+        if len(myresult) > 0:
+            return myresult[0][0]
 
+    def is_active(self):
+        # connect database
+        mydb = db_connector.dbConnector()
+        mycursor = mydb.cursor()
+        # select user_id
+        sql = "select id from Users where email=%s"
+        val = (self.email,)
+        mycursor.execute(sql, val)
+        myresult = mycursor.fetchall()
+        mydb.close()
+        if len(myresult) > 0:
+            return True
+        else:
+            return False
+
+    def is_anonymous(self):
+        return False
+
+    def is_authenticated(self):
+        # connect database
+        mydb = db_connector.dbConnector()
+        mycursor = mydb.cursor()
+        # select user_id
+        sql = "select id from Users where email=%s"
+        val = (self.email,)
+        mycursor.execute(sql, val)
+        myresult = mycursor.fetchall()
+        mydb.close()
+        if len(myresult) > 0:
+            return True
+        else:
+            return False
+    
+    def get_id(self):
+        print(self.email)
+        # connect database
+        mydb = db_connector.dbConnector()
+        mycursor = mydb.cursor()
+        # select user_id
+        sql = "select id from Users where email=%s"
+        val = (self.email,)
+        mycursor.execute(sql, val)
+        myresult = mycursor.fetchall()
+        print("in User class: ", myresult)
+        mydb.close()
+        if len(myresult) > 0:
+            return myresult[0][0]
+
+     
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8000)

@@ -38,7 +38,7 @@
 
             <!--Creating the "Email" box for Signing up-->
           <div class = "form__group">
-            <input type = "text" id = "email" class = "form__input" name = "email" placeholder = " " autocomplete = "off">
+            <input type = "text" id = "email" class = "form__input" name = "email" placeholder = " " autocomplete = "off" value = "{{ request.form['email'] }}">
             <label for = "email" class = "form__label">Email</label>
             {% if form.email.errors %}
               <ul class="errors">
