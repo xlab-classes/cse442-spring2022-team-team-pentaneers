@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import Flask,request, redirect, url_for, render_template, flash, session
 from flask_cors import CORS
 import config
-from Survey.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyResults, RetrieveUserSurveys, RetrieveSurveyForResponse 
+from Survey.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyResults, RetrieveUserSurveys, RetrieveSurveyForResponse, getSurveyID
 from Survey.Delete import Delete
 from Survey.Create import Survey, Response
 from User import Account
@@ -72,6 +72,7 @@ def createSurvey():
 #------------------The path our signup page-----------------------
 @app.route("/signup", methods=['GET', 'POST'])
 def signup():
+
     form = RegistrationForm()
     if form.validate_on_submit():
         email = request.form['email']
@@ -101,6 +102,7 @@ def signup():
 #------------------The path to our login page-----------------------
 @app.route("/login", methods = ['GET', 'POST'])
 def login():
+
     form = LoginForm()
     if form.validate_on_submit():
         email = request.form['email']
@@ -144,9 +146,10 @@ def user_homepage():
 @app.route("/view_surveys")
 @login_required
 def view_surveys():
+
     email = session['email']
     print("This is the email retrieving their surveys: ", email)
-    # Hardcode email for now
+
     surveys = retrieveSurveysUsers(email)
     
     # We want the titles of the surveys for that user.
@@ -186,22 +189,20 @@ def createResponse():
 @app.route("/survey_responses/<surveys_id>", methods=['GET', 'POST'])
 @login_required
 def survey_responses(surveys_id):
-    print("Surveys id is: ", surveys_id)
 
-    # Assuming all multiple choice for now
-    # Hard code email and surveys_id for now
-    results = retrieveSurveyResults("hi@gmail.com", 1)
-    survey_info = retrieveSurveyForResponse(10)
+    email = session['email']
+    survey_id = getSurveyID.surveyID(email, surveys_id)
 
-    print("The survey information is: ", survey_info, type(survey_info))
-    print("The results are: ", results, type(results))
+    results = retrieveSurveyResults(session['email'], surveys_id)
+    survey_info = retrieveSurveyForResponse(survey_id)
+
+    #print("The survey information is: ", survey_info, type(survey_info))
+    #print("The results are: ", results, type(results))
 
     survey_title = survey_info[1]
     survey_description = survey_info[2]
 
     # First three indexes are the email, title, and description
-    number_questions = (len(survey_info)) - 3
-    print("The number of questions is: ", number_questions)
 
     # MC section 
     questions = results[0][0]
@@ -212,15 +213,7 @@ def survey_responses(surveys_id):
     # SA section
     questionsSA = results[1][0] 
     responsesSA = results[1][1]
-
-    print("The MC questions are: ", questions)
-    print("The SA questions are: ", questionsSA)
-    print("The options are: ", options)
-    print("The MC responses are: ", responses)
-    print("The SA reponses are: ", responsesSA)
-    print("The total reponses are: ", total_num_of_responses)
     
-
     percent_values = []
 
     for response in responses:
