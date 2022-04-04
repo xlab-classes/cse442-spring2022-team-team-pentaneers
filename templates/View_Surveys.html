@@ -7,6 +7,7 @@
         <link rel=stylesheet type=text/css href="{{ url_for('static', filename='Style.css') }}">
         <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
         <link href="https://fonts.googleapis.com/css2?family=Fredoka+One" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@900&display=swap" rel="stylesheet">
         <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon_duck.png') }}" sizes ="32x32"/>
     </head>
 <body>
@@ -27,12 +28,12 @@
 
         <br><br><br><br><br><br>
 
-        <div class = "vertical_flex">
+        <div class = "vertical_flex4">
         {% for survey_title in titles %}
-                <h3>
-                    {{survey_title}} 
+                <h9>
+                    <u>{{survey_title}}</u>
                     <button onclick = "getLink()" button class = "buttonlink">Copy link</button>
-                </h3>
+                </h9>
         {% endfor %}
         </div>
 
