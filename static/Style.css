@@ -11,7 +11,7 @@ div.horizontal_flex{
 	flex-direction: row;
     justify-content: space-around;
 	align-items: center;
-    margin-left: 30%;
+    margin-left: 10%;
     margin-top: 7%
 }
 
@@ -28,10 +28,45 @@ div.vertical_flex2{
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-    margin-left: 22%;
+    margin-left: 21%;
     min-width: 550px;
     position: relative;
 }
+
+div.vertical_flex3{
+    overflow: auto;
+	justify-content: center;
+	align-items: center;
+    text-align: center;
+    margin-left: 26%;
+    width: 40rem;
+    height: 30rem;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+    padding: 3rem;
+    border-radius: 1rem;
+    background-color: #60abdd;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+div.vertical_flex3:hover {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    animation-name: side_border;
+    animation-duration: 0.25s;
+    border-left: 8px solid #529aca;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  }
+  
+  @keyframes side_border {
+      0%   {border-left: 2px solid #72a4cf;}
+      25%  {border-left: 3px solid #619acc;}
+      50%  {border-left: 4px solid #5b9cd5;}
+      100% {border-left: 5px solid #529aca;}
+  }
+
+
 
 /* Title of page */
 h1{
@@ -60,7 +95,7 @@ h2{
 h3{
     font-family: Montserrat;
     font-weight: 700;
-    font-size: 30px;
+    font-size: 35px;
     text-align: center;
     text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
     margin-top: -60px;
@@ -104,13 +139,40 @@ h6{
     color: white;
 }
 
-.chart{
-    margin: 0 auto;
-    width: 25vw;
-    height: 25vh;
+h7{
+    font-family: Montserrat;
+    font-weight: 700;
+    font-size: 30px;
+    text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+    margin-top: -60px;
+    width: 100%;
+    height: 100px;
+    color: #FFFFFF;
 }
 
+h8{
+    -webkit-text-stroke-width: thin;
+    text-shadow: 1px 2px 1px rgba(0, 0, 0, 0.25);
+    font-family: Montserrat;
+    font-weight: 700;
+    font-size: 38px;
+    text-align: center; 
+    width: 100%;
+    height: 100px;
+    color: #368ec9;
+}
 
+b{
+    font-family: Poppins;
+    font-weight: 900;
+    font-size: 33px;
+    text-align: center;
+    text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+    margin-top: -60px;
+    width: 100%;
+    height: 100px;
+    color: #FFFFFF;
+}
 
 
 /* Buttons */
@@ -525,7 +587,7 @@ label{
 .button-cancel{
     display: block;
     float: left;
-    margin-left: 20%;
+    margin-left: -11%;
     margin-bottom: 3rem;
     margin-top: 5%;
     width: 80px;
@@ -562,7 +624,7 @@ label{
 .button-publish{
     display: block;
     float: right;
-    margin-right: 21%;
+    margin-right: 0%;
     margin-bottom: 3rem;
     margin-top: 5%;
     width: 80px;
@@ -729,7 +791,8 @@ img.corner_duck{
 
 /* Side scroll bar */
 ::-webkit-scrollbar {
-    width: 10px;
+    height: 15px;
+    width: 15px;
 }
   
 ::-webkit-scrollbar-track {

@@ -131,7 +131,7 @@ def login():
 
     return render_template('Login.html', title = "Login", form = form)
 
-# ------------------Path to logout--------------------------------------
+#------------------Path to logout--------------------------------------
 @app.route('/logout')
 @login_required
 def logout():
@@ -154,7 +154,8 @@ def view_surveys():
     surveys = retrieveSurveysUsers("test@gmail.com")
     #print(surveys)
 
-    # We want the title
+    # We want the titles of the surveys for that user.
+    # They will be displayed on the user view survey page.
 
     count = len(surveys[1])
     num = 0
@@ -188,12 +189,13 @@ def createResponse():
 
 #------------------The path to the view survey responses page-----------------------
 @app.route("/survey_responses", methods=['GET', 'POST'])
+@login_required
 def survey_responses():
 
     # Assuming all multiple choice for now
     # Hard code email and surveys_id for now
-    results = retrieveSurveyResults("test@gmail.com", 1)
-    survey_info = retrieveSurveyForResponse(1)
+    results = retrieveSurveyResults("test@gmail.com", 6)
+    survey_info = retrieveSurveyForResponse(9)
 
     print("The survey information is: ", survey_info, type(survey_info))
     print("The results are: ", results, type(results))
@@ -203,20 +205,44 @@ def survey_responses():
 
     # First three indexes are the email, title, and description
     number_questions = (len(survey_info)) - 3
-    question_num = 0
-    index = 3
     print("The number of questions is: ", number_questions)
 
-    while index != len(survey_info):
-        survey_info[int(index)]['question_' + str(question_num + 1)]
-        print(survey_info[int(index)]['question_' + str(question_num + 1)])
+    # MC section 
+    questions = results[0][0]
+    options = results[0][1]
+    responses = results[0][2]
+    total_num_of_responses = results[2]
 
-        index = index + 1
-        question_num = question_num + 1
+    # SA section
+    questionsSA = results[1][0] 
+    responsesSA = results[1][1]
 
+    print("The MC questions are: ", questions)
+    print("The SA questions are: ", questionsSA)
+    print("The options are: ", options)
+    print("The MC responses are: ", responses)
+    print("The SA reponses are: ", responsesSA)
+    print("The total reponses are: ", total_num_of_responses)
+    
 
-    return render_template('Survey_Responses.html', title = "Survey Responses", results = json.dumps(results), 
-    survey_title = survey_title, survey_description = survey_description)
+    percent_values = []
+
+    for response in responses:
+        response_percentages = []
+        for number in response:
+            if number != 0:
+                decimal_number = number/total_num_of_responses
+            else:
+                decimal_number = 0
+            percentage = "{:.0%}".format(decimal_number)
+            response_percentages.append(percentage)
+        percent_values.append(response_percentages)
+
+    print(percent_values)
+
+    return render_template('Survey_Responses.html', title = "Survey Responses", questions = questions, options = options,
+    total_num_of_responses = total_num_of_responses, survey_title = survey_title, survey_description = survey_description,
+    percent_values = percent_values, questionsSA = questionsSA, responsesSA = responsesSA)
 
 
 
@@ -281,6 +307,9 @@ def deleteSurvey(email, id):
 @app.route("/<error>")
 def error(error):
     return f"page '{error}' does not exist!"
+
+
+
 
 # User class
 class User(UserMixin):

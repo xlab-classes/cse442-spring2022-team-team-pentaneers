@@ -7,13 +7,14 @@
         <link rel=stylesheet type=text/css href="{{ url_for('static', filename='Style.css') }}">
         <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
         <link href="https://fonts.googleapis.com/css2?family=Fredoka+One" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@900&display=swap" rel="stylesheet">
         <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon_duck.png') }}" sizes ="32x32"/>
     </head>
 <body>
 
     <img class="corner_duck" src="{{url_for('static', filename='corner_duck.png')}}">
 
-    <a button class = "buttonlogout" href = "{{ url_for('home') }}" >Log out</button></a>
+    <a button class = "buttonlogout" href = "{{ url_for('logout') }}" >Log out</button></a>
 
     <a button class = "buttonback" href = "{{ url_for('view_surveys') }}" >Go back</button></a>
 
@@ -22,28 +23,62 @@
             <h1> {{survey_title}} </h1><br>
         </div>
         {% else %}
-    {% endif %}
+    {% endif %}<br><br>
 
     {% if survey_description %}
-            <h3> Description: {{survey_description}} </h3><br>
+            <h3> Description: {{survey_description}} </h3>
         {% else %}
     {% endif %}
-    
-    <br><br>
 
-    <div class = "chart">
-        <canvas id = "myChart"></canvas>
-    </div>
- 
-    <script 
-        src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js" 
-        integrity="sha512-Wt1bJGtlnMtGP0dqNFH1xlkLBNpEodaiQ8ZN5JLA5wpc1sUlk/O5uuOMNgvzddzkpvZ9GLyYNa8w2s7rqiTk5Q==" 
-        crossorigin="anonymous" 
-        referrerpolicy="no-referrer">
-    </script>
 
-    <script src="{{url_for('static', filename='Survey_Responses.js')}}"></script>
-      
+    {% set count = {'value': 0} %}
+
+    {% for question in questions %}
+        <div class = "vertical_flex3">
+            {% set count2 = {'value': 0} %}
+            <h7>
+                <h8>Results for the question:<br>{{question}}</h8><br><br>
+
+                The options are: <br><br> |
+                    {% for option in options[count.value] %}
+                        {{option}} |
+                    {% endfor %}
+                <br> 
+                    {% for percent in percent_values[count.value] %}
+
+                        <b>{{percent}}</b> of people chose {{options[count.value][count2.value]}}.<br>
+                        {% if count2.update({'value': (count2.value + 1)}) %} {% endif %}
+
+                    {% endfor %}
+                
+                <br>The total number of people who answered: <b>{{total_num_of_responses}}</b>
+                {% if count.update({'value': (count.value + 1)}) %} {% endif %}
+            </h7>
+        </div>
+    {% endfor %}
+
+
+        
+    {% set count = {'value': 0} %}
+
+    {% for SA in questionsSA %}
+        <div class = "vertical_flex3">
+            {% set count2 = {'value': 0} %}
+            <h7>
+                <h8>Responses to the question:<br>{{SA}}</h8><br><br>
+
+                    {% for responseSA in responsesSA[count.value] %}
+
+                        {{responsesSA[count.value][count2.value]}}<br><br>
+                        {% if count2.update({'value': (count2.value + 1)}) %} {% endif %}
+
+                    {% endfor %}
+
+                {% if count.update({'value': (count.value + 1)}) %} {% endif %}
+            </h7>
+        </div>
+    {% endfor %}
+
 </body>
 
 </html>
