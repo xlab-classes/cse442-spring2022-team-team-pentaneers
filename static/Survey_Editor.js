@@ -100,8 +100,7 @@ async function publish(){
     question_list.push(q)
   }
 
-  const survey_data = {
-                      'email':'shouyue@buffalo.edu', 
+  const survey_data = { 
                       'title':title, 
                       'description':description, 
                       'questions':question_list, 
