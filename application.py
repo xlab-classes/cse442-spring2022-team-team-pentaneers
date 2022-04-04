@@ -183,14 +183,15 @@ def createResponse():
     return survey_id
 
 #------------------The path to the view survey responses page-----------------------
-@app.route("/survey_responses", methods=['GET', 'POST'])
+@app.route("/survey_responses/<surveys_id>", methods=['GET', 'POST'])
 @login_required
-def survey_responses():
+def survey_responses(surveys_id):
+    print("Surveys id is: ", surveys_id)
 
     # Assuming all multiple choice for now
     # Hard code email and surveys_id for now
-    results = retrieveSurveyResults("test@gmail.com", 6)
-    survey_info = retrieveSurveyForResponse(9)
+    results = retrieveSurveyResults("test@gmail.com", 2)
+    survey_info = retrieveSurveyForResponse(3)
 
     print("The survey information is: ", survey_info, type(survey_info))
     print("The results are: ", results, type(results))

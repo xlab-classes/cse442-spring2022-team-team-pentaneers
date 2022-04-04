@@ -30,7 +30,7 @@
         <div class = "vertical_flex">
         {% for survey_title in titles %}
                 <h3>
-                    {{survey_title}} 
+                    <a class = "vertical_flex" href="{{ url_for('survey_responses', surveys_id=loop.index) }}">{{survey_title}}</a>
                     <button onclick = "getLink()" button class = "buttonlink">Copy link</button>
                 </h3>
         {% endfor %}
