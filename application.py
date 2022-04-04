@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import Flask,request, redirect, url_for, render_template, flash, session
 from flask_cors import CORS
 import config
-from Survey.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyResults, RetrieveUserSurveys, RetrieveSurveyForResponse 
+from Survey.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyResults, RetrieveUserSurveys, RetrieveSurveyForResponse, getSurveyID
 from Survey.Delete import Delete
 from Survey.Create import Survey, Response
 from User import Account
@@ -187,11 +187,14 @@ def createResponse():
 @login_required
 def survey_responses(surveys_id):
     print("Surveys id is: ", surveys_id)
+    email = session['email']
+    survey_id = getSurveyID.surveyID(email, surveys_id)
+    print("This is the survey ID: ", survey_id)
 
     # Assuming all multiple choice for now
     # Hard code email and surveys_id for now
-    results = retrieveSurveyResults("test@gmail.com", 2)
-    survey_info = retrieveSurveyForResponse(3)
+    results = retrieveSurveyResults(session['email'], surveys_id)
+    survey_info = retrieveSurveyForResponse(survey_id)
 
     print("The survey information is: ", survey_info, type(survey_info))
     print("The results are: ", results, type(results))
