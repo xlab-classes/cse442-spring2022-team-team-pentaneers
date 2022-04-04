@@ -5,7 +5,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import Flask,request, redirect, url_for, render_template, flash, session
 from flask_cors import CORS
 import config
-import config
 from Survey.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyResults, RetrieveUserSurveys, RetrieveSurveyForResponse 
 from Survey.Delete import Delete
 from Survey.Create import Survey, Response
@@ -61,19 +60,13 @@ def home():
 #------------------The path our survey creation page-----------------------
 @app.route("/submitSurvey", methods=['GET', 'POST'])
 def createSurvey():
-    # data=json.loads(request.get_data(as_text=True))
+    email = {'email': session['email']}
     data = request.get_json('survey_data')
+    # Merging the logged in user with the incoming data to submit the survey properly
+    data = {**email, **data}
     print(data)
     id=Survey.survey(data)
     return json.dumps(id)
-
-# @app.route("/survey_data", methods=['GET', 'POST'])
-# def survey_creation_data():
-#     print('you got to the json page!')
-#     survey_data = request.get_json('survey_data')
-#     Survey.survey(survey_data)
-#     print(survey_data)
-#     return survey_data
 
 
 #------------------The path our signup page-----------------------
@@ -136,6 +129,8 @@ def login():
 @login_required
 def logout():
     logout_user()
+    session.pop('id')
+    session.pop('email')
     print("User has logged out")
     return redirect('/')
 
@@ -149,11 +144,11 @@ def user_homepage():
 @app.route("/view_surveys")
 @login_required
 def view_surveys():
-
+    email = session['email']
+    print("This is the email retrieving their surveys: ", email)
     # Hardcode email for now
-    surveys = retrieveSurveysUsers("test@gmail.com")
-    #print(surveys)
-
+    surveys = retrieveSurveysUsers(email)
+    
     # We want the titles of the surveys for that user.
     # They will be displayed on the user view survey page.
 
@@ -188,14 +183,15 @@ def createResponse():
     return survey_id
 
 #------------------The path to the view survey responses page-----------------------
-@app.route("/survey_responses", methods=['GET', 'POST'])
+@app.route("/survey_responses/<surveys_id>", methods=['GET', 'POST'])
 @login_required
-def survey_responses():
+def survey_responses(surveys_id):
+    print("Surveys id is: ", surveys_id)
 
     # Assuming all multiple choice for now
     # Hard code email and surveys_id for now
-    results = retrieveSurveyResults("test@gmail.com", 6)
-    survey_info = retrieveSurveyForResponse(9)
+    results = retrieveSurveyResults("test@gmail.com", 2)
+    survey_info = retrieveSurveyForResponse(3)
 
     print("The survey information is: ", survey_info, type(survey_info))
     print("The results are: ", results, type(results))
@@ -248,6 +244,7 @@ def survey_responses():
 
 
 @app.route("/retrieve/userSurveys/<email>", methods=['GET'])
+@login_required
 # User must be logged in, and must also be retreiving their own surveys
 # Retrieve all surveys created by the user by their EMAIL
 def retrieveSurveysUsers(email):
@@ -256,7 +253,7 @@ def retrieveSurveysUsers(email):
 
 
 @app.route("/retrieve/survey/<email>/<surveys_id>/results", methods=['GET'])
-# @login_required
+@login_required
 # Retrieve specific survey results
 def retrieveSurveyResults(email, surveys_id):
     survey_results = RetrieveSurveyResults.retrieveSurveyResults(email, surveys_id)
