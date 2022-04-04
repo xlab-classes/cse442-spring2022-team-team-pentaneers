@@ -26,13 +26,16 @@
         
         <a button class = "button" href = "{{ url_for('survey_editor') }}">Create a survey</button></a>
 
-        <br><br><br><br><br><br>
+        <br><br><br><br><br><br><br>
+
+        <h3>Click on a survey title to view the responses!</h3>
 
         <div class = "vertical_flex4">
         {% for survey_title in titles %}
                 <h9>
-                    <u class = "vertical_flex" href="{{ url_for('survey_responses', surveys_id=loop.index) }}">{{survey_title}}</u>
+                    <a class = "u" href="{{ url_for('survey_responses', surveys_id=loop.index) }}">{{survey_title}}</a>
                     <button onclick = "getLink()" button class = "buttonlink">Copy link</button>
+                    <a button class = "buttonedit" href = "{{ url_for('survey_editor') }}" >Edit</button></a>
                 </h9>
         {% endfor %}
         </div>

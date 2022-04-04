@@ -190,8 +190,8 @@ def survey_responses(surveys_id):
 
     # Assuming all multiple choice for now
     # Hard code email and surveys_id for now
-    results = retrieveSurveyResults("test@gmail.com", 2)
-    survey_info = retrieveSurveyForResponse(3)
+    results = retrieveSurveyResults("hi@gmail.com", 1)
+    survey_info = retrieveSurveyForResponse(10)
 
     print("The survey information is: ", survey_info, type(survey_info))
     print("The results are: ", results, type(results))

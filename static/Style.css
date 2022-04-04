@@ -189,13 +189,13 @@ b{
     color: #FFFFFF;
 }
 
-u {
+.u {
   color: #ffffff;
   position: relative;
   text-decoration: none;
 }
 
-u::before {
+.u::before {
   content: '';
   position: absolute;
   width: 100%;
@@ -209,7 +209,7 @@ u::before {
   transition: transform .3s ease-in-out;
 }
 
-u:hover::before {
+.u:hover::before {
   transform-origin: left;
   transform: scaleX(1);
 }
@@ -802,6 +802,42 @@ label{
 }
 
 .buttonlink:visited {
+    text-decoration: none;
+}
+
+.buttonedit {
+    display: block;
+    float: right;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    width: 80px;
+    padding: 0.75rem 2rem;
+    background-color: #60abdd;
+    text-align: center;
+    font-family: Montserrat;
+    font-weight: 700;
+    font-size: 50%;
+    color: #ffffff;
+    border-radius: 0.5rem;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    -webkit-transition: background-color 200ms ease in;
+    transition: background-color 200ms ease in;
+}
+
+.buttonedit:hover {
+    background-color: #4d87ae;
+    text-decoration: none;
+}
+
+.buttonedit:link {
+    text-decoration: none;
+}
+
+.buttonedit:visited {
     text-decoration: none;
 }
 
