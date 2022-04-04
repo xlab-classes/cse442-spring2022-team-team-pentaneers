@@ -28,7 +28,11 @@
 
         <br><br><br><br><br><br><br>
 
-        <h3>Click on a survey title to view the responses!</h3>
+        {% if titles %}
+            <h3>Click on a survey title to view the responses!</h3>
+        {% else %}
+            <h3>You have no surveys yet. To create one, click the button above!</h3>
+        {% endif %}
 
         <div class = "vertical_flex4">
         {% for survey_title in titles %}

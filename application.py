@@ -36,7 +36,7 @@ login_manager.session_protection = "strong"
 # Login manager, deals with making sure the user gets loaded in correctly
 @login_manager.user_loader
 def load_user(id):
-    print("id is: ", id)
+
     # connect database
     mydb = db_connector.dbConnector()
     mycursor = mydb.cursor()
@@ -45,7 +45,7 @@ def load_user(id):
     val = (id,)
     mycursor.execute(sql, val)
     myresult = mycursor.fetchall()
-    print("Line 41: ", myresult[0][0])
+
     if len(myresult) > 0:
         return User(myresult[0][0])
     else:
@@ -126,6 +126,7 @@ def login():
 
     return render_template('Login.html', title = "Login", form = form)
 
+
 #------------------Path to logout--------------------------------------
 @app.route('/logout')
 @login_required
@@ -148,7 +149,6 @@ def user_homepage():
 def view_surveys():
 
     email = session['email']
-    print("This is the email retrieving their surveys: ", email)
 
     surveys = retrieveSurveysUsers(email)
     
@@ -160,17 +160,14 @@ def view_surveys():
     titles = []
 
     while num != count:
-        #print(surveys[1][num].keys())
         title = str(surveys[1][num].keys())
-
         title = title.split("'")
-        #print(title[1])
         titles += [title[1]]
 
         num = num + 1
 
-    print("The titles are: ", titles)
     return render_template('View_Surveys.html', title = "View Surveys", titles = titles)
+
 
 #------------------The path to the survey editor page-----------------------
 @app.route("/survey_editor", methods=['GET', 'POST'])
