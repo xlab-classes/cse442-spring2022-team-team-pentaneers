@@ -3,7 +3,6 @@ from datetime import datetime
 from queue import Empty
 from sched import scheduler
 from typing import List
-from flask_sqlalchemy import SQLAlchemy
 from flask import Flask,request, redirect, url_for, render_template, flash, jsonify
 from flask_cors import CORS
 import config
@@ -224,13 +223,6 @@ def auto():
     survey=Auto.autoClose()
     print(str(datetime.now()) + "AUTO CLOSE 2 !!!")
     return "success"
-
-@scheduler.task('cron', id='autoClose3',  minute='*')
-def auto():
-    survey=Auto.autoClose()
-    print(str(datetime.now()) + "AUTO CLOSE 3 !!!")
-    return "success"
-
 
 scheduler.start()
 
