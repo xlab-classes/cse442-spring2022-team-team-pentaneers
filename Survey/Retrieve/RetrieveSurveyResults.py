@@ -1,6 +1,9 @@
 import db_connector
+from Survey.Status import Auto
+
 
 def retrieveSurveyResults(email, surveys_id):
+    Auto.autoClose()
     final_list = []
 
     # Access the Database

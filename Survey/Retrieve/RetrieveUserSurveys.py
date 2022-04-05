@@ -1,7 +1,9 @@
 import db_connector
+from Survey.Status import Auto
 
 
 def retrieveSurveysUsers(email):
+    Auto.autoClose()
     List_to_return = []
     
     # Access the Database

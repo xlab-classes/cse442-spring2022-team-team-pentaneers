@@ -1,4 +1,8 @@
+from Survey.Status import Auto
+
+
 def parseSurveyQuestions(question):
+    Auto.autoClose()
     parsed_questions = []
 
     for question in question:
