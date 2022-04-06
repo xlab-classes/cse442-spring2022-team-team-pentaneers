@@ -1,0 +1,201 @@
+
+body{
+    background-color: #81D1FE;
+    height: 100;
+    margin: 0;
+}
+
+/* Title of page */
+h1{
+    text-align: center;
+    text-shadow: 0px 4px 2px rgba(0, 0, 0, 0.25);
+    margin-top: 70px;
+    width: 100%;
+    height: 100px;
+    letter-spacing: +0.04em;
+    font-size: 70px;
+    font-family: Fredoka One;  
+    color: white;
+}
+
+div.vertical_flex{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+    margin-left: 10%;
+    margin-bottom: 7rem;
+}
+
+/* Buttons */
+.buttonlogout {
+    float: right;
+    display: block;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    width: 75px;
+    padding: 0.75rem 2rem;
+    background-color: #ffffff;
+    font-family: Montserrat;
+    font-weight: 700;
+    font-size: 120%;
+    color: #60abdd;
+    border-radius: 0.5rem;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    -webkit-transition: background-color 200ms ease in;
+    transition: background-color 200ms ease in;
+}
+
+.buttonlogout:hover {
+    background-color: #d0d0d0;
+    text-decoration: none;
+}
+
+.buttonlogout:link {
+    text-decoration: none;
+}
+
+.buttonlogout:visited {
+    text-decoration: none;
+}
+
+.buttonback {
+    display: block;
+    float: right;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    width: 80px;
+    padding: 0.75rem 2rem;
+    background-color: #60abdd;
+    font-family: Montserrat;
+    font-weight: 700;
+    font-size: 120%;
+    color: #ffffff;
+    border-radius: 0.5rem;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    -webkit-transition: background-color 200ms ease in;
+    transition: background-color 200ms ease in;
+}
+
+.buttonback:hover {
+    background-color: #4d87ae;
+    text-decoration: none;
+}
+
+.buttonback:link {
+    text-decoration: none;
+}
+
+.buttonback:visited {
+    text-decoration: none;
+}
+
+
+.button{
+	width: 28.4vw;
+	height: 13vh;
+	margin: 1vw;
+	
+	font-family: Montserrat;
+    font-weight: 700;
+    font-size: 150%;
+	text-align: center;
+	
+	color: #FFFFFF;
+	background-color: #60ABDD;
+	
+	border: none;
+	border-radius: 0.5rem;
+
+    display: inline-flex;
+    align-items: center;
+    align-content: stretch;
+    justify-content: space-evenly;
+
+    outline: none;
+    border: none;
+    cursor: pointer;
+    -webkit-transition: background-color 200ms ease in;
+    transition: background-color 200ms ease in;
+}
+
+.button:hover {
+    background-color: #4d87ae;
+    text-decoration: none;
+}
+
+.button:link {
+    text-decoration: none;
+}
+
+.button:visited {
+    text-decoration: none;
+}
+
+.buttonlink {
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    padding: 1rem 3rem;
+    background-color: #ffffff;
+    font-family: Montserrat;
+    font-weight: 700;
+    font-size: 100%;
+    color: #60abdd;
+    border-radius: 0.5rem;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    -webkit-transition: background-color 200ms ease in;
+    transition: background-color 200ms ease in;
+}
+
+.buttonlink:hover {
+    background-color: #d0d0d0;
+    text-decoration: none;
+}
+
+.buttonlink:link {
+    text-decoration: none;
+}
+
+.buttonlink:visited {
+    text-decoration: none;
+}
+
+
+/* Image */
+img.corner_duck{
+	position: absolute;
+	width: 23.6vw;
+	height: 44.7vh;
+	left: -5.8vw;
+	top: -16.3vh;
+	object-fit: contain;
+}
+
+/* Side scroll bar */
+::-webkit-scrollbar {
+    height: 15px;
+    width: 15px;
+}
+  
+::-webkit-scrollbar-track {
+    background: #81d1fe;
+}
+  
+::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background: #4d87ae;
+}
+  
+::-webkit-scrollbar-thumb:hover {
+    border-radius: 20px;
+    background: #28475c;
+}

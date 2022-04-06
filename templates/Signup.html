@@ -7,6 +7,7 @@
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='Login_Signup_Style.css') }}">
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon_duck.png') }}" sizes ="32x32"/>
   </head>
     <body>
 
@@ -38,7 +39,7 @@
 
             <!--Creating the "Email" box for Signing up-->
           <div class = "form__group">
-            <input type = "text" id = "email" class = "form__input" name = "email" placeholder = " " autocomplete = "off">
+            <input type = "text" id = "email" class = "form__input" name = "email" placeholder = " " autocomplete = "off" value = "{{ request.form['email'] }}">
             <label for = "email" class = "form__label">Email</label>
             {% if form.email.errors %}
               <ul class="errors">
