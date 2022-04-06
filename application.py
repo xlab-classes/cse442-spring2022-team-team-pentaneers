@@ -49,7 +49,7 @@ def load_user(id):
     if len(myresult) > 0:
         return User(myresult[0][0])
     else:
-        return myresult
+        return None
                 
 
 #------------------The path to our homepage-----------------------
@@ -284,7 +284,7 @@ def modifySurvey(id):
 
 
 @app.route("/survey/delete/<email>/<id>", methods = ['DELETE'])
-@login_required
+# @login_required
 def deleteSurvey(email, id):
     deleted_surveys = Delete.deleteSurvey(email, id)
     return deleted_surveys
