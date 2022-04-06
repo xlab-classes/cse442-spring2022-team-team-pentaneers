@@ -7,7 +7,7 @@ def initial():
     mycursor.execute(sql)
     mydb.commit()
     # create table Surveys if not exists
-    sql = "CREATE TABLE IF NOT EXISTS Surveys (id int AUTO_INCREMENT PRIMARY KEY, email varchar(255), title varchar(255), description varchar(255), created_on DATE, expired_on Date, surveys_id int, visibility varchar(255))"
+    sql = "CREATE TABLE IF NOT EXISTS Surveys (id int AUTO_INCREMENT PRIMARY KEY, email varchar(255), title varchar(255), description varchar(255), created_on DATE, expired_on Date, surveys_id int, visibility varchar(255), unique_url varchar(255), unique_string varchar(255))"
     mycursor.execute(sql)
     mydb.commit()
 

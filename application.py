@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import Flask,request, redirect, url_for, render_template, flash, session
 from flask_cors import CORS
 import config
-from Survey.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyResults, RetrieveUserSurveys, RetrieveSurveyForResponse, getSurveyID
+from Survey.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyForResponseByString, RetrieveSurveyResults, RetrieveUserSurveys, RetrieveSurveyForResponse, getSurveyID, getSurveyURL
 from Survey.Delete import Delete
 from Survey.Create import Survey, Response
 from User import Account
@@ -32,6 +32,7 @@ login_manager.init_app(app)
 login_manager.login_view = "login"
 login_manager.session_protection = "strong"
 
+initial()
 
 # Login manager, deals with making sure the user gets loaded in correctly
 @login_manager.user_loader
@@ -49,7 +50,7 @@ def load_user(id):
     if len(myresult) > 0:
         return User(myresult[0][0])
     else:
-        return myresult
+        return None
                 
 
 #------------------The path to our homepage-----------------------
@@ -66,6 +67,8 @@ def createSurvey():
     data = {**email, **data}
     print(data)
     id=Survey.survey(data)
+    survey_url = getSurveyURL.get(session['email'], id)
+    print("Survey URL = ", survey_url)
     return json.dumps(id)
 
 
@@ -144,7 +147,7 @@ def user_homepage():
     return render_template('User_Homepage.html', title = "User Homepage")
 
 #------------------The path to our user view survey page-----------------------
-@app.route("/view_surveys")
+@app.route("/view_surveys", methods = ['POST', 'GET'])
 @login_required
 def view_surveys():
 
@@ -263,6 +266,11 @@ def retrievePublicSurveys():
 def retrieveSurveyForResponse(survey_id):
     survey = RetrieveSurveyForResponse.retrieveSurveyForResponse(survey_id)
     return survey
+
+@app.route('/survey/respond/<surveys_id>/<unique_string>', methods = ['GET'])
+def respondToSurveyWithURL(surveys_id, unique_string):
+    survey = RetrieveSurveyForResponseByString.retrieve(surveys_id, unique_string)
+    return str(survey)
 
 
 @app.route('/retrieve/survey/<email>/<survey_id>', methods = ['GET'])
