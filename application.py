@@ -68,7 +68,7 @@ def createSurvey():
     print(data)
     id=Survey.survey(data)
     survey_url = getSurveyURL.get(session['email'], id)
-    session["surveys_id"] = id
+    session["survey_id"] = id
     print("Survey URL = ", survey_url)
     return json.dumps(id)
 
