@@ -7,12 +7,15 @@
         <link rel=stylesheet type=text/css href="{{ url_for('static', filename='Style.css') }}">
         <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
         <link href="https://fonts.googleapis.com/css2?family=Fredoka+One" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@900&display=swap" rel="stylesheet">
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon_duck.png') }}" sizes ="32x32"/>
+        <link href="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
     </head>
 <body>
 
     <img class="corner_duck" src="{{url_for('static', filename='corner_duck.png')}}">
 
-    <a button class = "buttonlogout" href = "{{ url_for('home') }}" >Log out</button></a>
+    <a button class = "buttonlogout" href = "{{ url_for('logout') }}" >Log out</button></a>
 
     <a button class = "buttonback" href = "{{ url_for('user_homepage') }}" >Go back</button></a>
 
@@ -20,12 +23,75 @@
 
         <h1>Here are <br> your surveys!</h1>
 
-        <br><br><br><br><br>
-        
+        <br><br><br><br><br><br><br><br><br>
+
         <a button class = "button" href = "{{ url_for('survey_editor') }}">Create a survey</button></a>
+
+        <br><br><br><br><br><br><br>
+
+        {% if titles %}
+            <h3>Click on a survey title to view the responses!</h3>
+        {% else %}
+            <h3>You have no surveys yet. To create one, click the button above!</h3>
+        {% endif %}
+
+
+        {% set count = {'value': 0} %}
+
+        <div class = "vertical_flex4">
+        {% for survey_title in titles %}
+                <h9>
+                    <a class = "u" href="{{ url_for('survey_responses', surveys_id=loop.index) }}">{{survey_title}}</a>
+                    <button onclick = "getLink()" button class = "buttonlink">Copy link</button>
+                    <a button class = "buttonedit" href = "{{ url_for('survey_editor') }}" >Edit</button></a>
+                    {% if count.update({'value': (count.value + 1)}) %} {% endif %}
+                    <button onclick = "deleteWarning('{{ count.value }}')" button class = "buttondelete">Delete</button>
+                </h9>
+        {% endfor %}
+        </div>
 
     </div>
 
-</body>
+    <script>
+        function getLink() {
+            var input = document.body.appendChild(document.createElement("input"));
+            input.value = window.location.href;
+            input.focus();
+            input.select();
+            document.execCommand('copy');
+            input.parentNode.removeChild(input);
+            alert("URL Copied.");
+        }
+    </script>
+
+    <script>
+        function deleteWarning(id) {
+
+            var surveys_id;
+            surveys_id = id;
+
+            var del;
+
+            if (confirm("Are you sure you want to delete this survey? This can NOT be undone!") == true) {
+                del = "OK";
+                alert("Survey will be deleted.");
+
+            } else {
+                del = "Cancel";
+                alert("Deletion cancelled.");
+
+            }
+
+            var xhr = new XMLHttpRequest();
+            var url = "/delete"; // Should not be hardcoded?
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            var del = JSON.stringify(del + " " + surveys_id);
+            xhr.send(del);
+
+            }
+    </script>
+
+    </body>
 
 </html>
