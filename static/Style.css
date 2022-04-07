@@ -793,6 +793,38 @@ label{
     margin-bottom: 1rem;
     margin-top: 0.5rem;
     padding: 0.75rem 2rem;
+    background-color: #60abdd;
+    font-family: Montserrat;
+    font-weight: 700;
+    font-size: 50%;
+    color: #ffffff;
+    border-radius: 0.5rem;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    -webkit-transition: background-color 200ms ease in;
+    transition: background-color 200ms ease in;
+}
+
+.buttonlink:hover {
+    background-color: #4d87ae;
+    text-decoration: none;
+}
+
+.buttonlink:link {
+    text-decoration: none;
+}
+
+.buttonlink:visited {
+    text-decoration: none;
+}
+
+
+.buttondelete {
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    padding: 0.75rem 2.5rem;
     background-color: #ffffff;
     font-family: Montserrat;
     font-weight: 700;
@@ -806,16 +838,16 @@ label{
     transition: background-color 200ms ease in;
 }
 
-.buttonlink:hover {
+.buttondelete:hover {
     background-color: #d0d0d0;
     text-decoration: none;
 }
 
-.buttonlink:link {
+.buttondelete:link {
     text-decoration: none;
 }
 
-.buttonlink:visited {
+.buttondelete:visited {
     text-decoration: none;
 }
 

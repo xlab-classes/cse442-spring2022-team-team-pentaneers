@@ -61,15 +61,19 @@ def home():
 #------------------The path our survey creation page-----------------------
 @app.route("/submitSurvey", methods=['GET', 'POST'])
 def createSurvey():
+
     email = {'email': session['email']}
     data = request.get_json('survey_data')
+
     # Merging the logged in user with the incoming data to submit the survey properly
     data = {**email, **data}
     print(data)
+
     id=Survey.survey(data)
     survey_url = getSurveyURL.get(session['email'], id)
     session["survey_id"] = id
     print("Survey URL = ", survey_url)
+
     return json.dumps(id)
 
 
@@ -235,6 +239,7 @@ def survey_responses(surveys_id):
     percent_values = percent_values, questionsSA = questionsSA, responsesSA = responsesSA)
 
 
+#------------------The path to our survey creation success page-----------------------
 @app.route("/creation_success", methods=['POST', 'GET'])
 def creation_success():
     URL = getSurveyURL.get(session["email"], session["surveys_id"])
@@ -244,7 +249,7 @@ def creation_success():
     return render_template('Creation_Completion.html', title = "Survey Creation Success")
 
 
-#------------------The path to our survey creation success page-----------------------
+#------------------The path to our survey answer submission success page-----------------------
 @app.route("/submission_success", methods=['POST', 'GET'])
 def submission_success():
     return render_template('Answer_Completion.html', title = "Survey Submission Success")
