@@ -68,6 +68,7 @@ def createSurvey():
     print(data)
     id=Survey.survey(data)
     survey_url = getSurveyURL.get(session['email'], id)
+    session["surveys_id"] = id
     print("Survey URL = ", survey_url)
     return json.dumps(id)
 
@@ -234,7 +235,41 @@ def survey_responses(surveys_id):
     percent_values = percent_values, questionsSA = questionsSA, responsesSA = responsesSA)
 
 
+@app.route("/creation_success", methods=['POST', 'GET'])
+def creation_success():
+    URL = getSurveyURL.get(session["email"], session["surveys_id"])
+    print("Email: ", session["email"], "Surveys_ID: ", session["surveys_id"])
+    print("The URL is: ", URL)
 
+    return render_template('Creation_Completion.html', title = "Survey Creation Success")
+
+
+#------------------The path to our survey creation success page-----------------------
+@app.route("/submission_success", methods=['POST', 'GET'])
+def submission_success():
+    return render_template('Answer_Completion.html', title = "Survey Submission Success")
+
+
+#------------------The path that will delete a survey-----------------------
+@app.route('/delete', methods = ['DELETE', 'POST', 'GET'])
+@login_required
+def delete_survey():
+
+    email = session['email']
+    data = request.get_json('data')
+
+    print("OK means delete the survey, cancel means DON'T delete the survey: ", data)
+
+    # OK means delete the survey, cancel means DON'T delete the survey
+    delete_option = data.split(" ")
+    surveys_id = delete_option[1]
+
+    if delete_option[0] == "OK":
+        # We can delete the survey.
+        survey_id = getSurveyID.surveyID(email, surveys_id)
+        deleteSurvey(email, survey_id)
+
+    return redirect("/view_surveys")
 
 @app.route("/retrieve/userSurveys/<email>", methods=['GET'])
 @login_required
