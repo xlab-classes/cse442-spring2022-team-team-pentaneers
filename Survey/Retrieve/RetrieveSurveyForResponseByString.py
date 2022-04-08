@@ -10,6 +10,8 @@ def retrieve(surveys_id, unique_string):
     mycursor.execute(query, values)
     survey = mycursor.fetchall()
     print("This is the survey: ", survey, '\n')
+    if len(survey) == 0:
+        return "This Survey is no longer available!"
 
     survey_id = survey[0][0]
 
