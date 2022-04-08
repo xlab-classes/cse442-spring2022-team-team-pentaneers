@@ -341,6 +341,13 @@ def deleteSurvey(email, id):
     deleted_surveys = Delete.deleteSurvey(email, id)
     return deleted_surveys
 
+# Path to drop all of the tables in the Database
+@app.route("/clear/database/<ubid>")
+def clearDatabase(ubid):
+    if ubid in config.UBITS:
+        drop()
+    return render_template('Homepage.html', title = "Homepage")
+
 
 # Invalid path.
 @app.route("/<error>")
