@@ -851,7 +851,7 @@ label{
     text-decoration: none;
 }
 
-.button-close {
+.custom-select{
     margin-left: 1rem;
     margin-bottom: 1rem;
     margin-top: 0.5rem;
@@ -867,20 +867,22 @@ label{
     cursor: pointer;
     -webkit-transition: background-color 200ms ease in;
     transition: background-color 200ms ease in;
+    width:170px;
+}
+.custom-select {
+  font-family: Montserrat;
 }
 
-.button-close:hover {
-    background-color: #d0d0d0;
-    text-decoration: none;
+.custom-select select {
+  display: none; /*hide original SELECT element: */
 }
 
-.button-close:link {
-    text-decoration: none;
+.select-selected {
+  background-color: #ffffff;
 }
 
-.button-close:visited {
-    text-decoration: none;
-}
+
+
 
 .button-open {
     margin-left: 1rem;
