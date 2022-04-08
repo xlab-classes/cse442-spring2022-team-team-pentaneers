@@ -1,9 +1,12 @@
 import sys
+
+from Survey.Status import Auto
 from db_connector import dbConnector
 
 # Retrieve survey for coordinators by using survey_id
 def retrieveSurveyById (survey_id, email):
     # Access the Database
+    Auto.autoClose()
     mydb = dbConnector()
     mycursor = mydb.cursor()
     # Getting the specific survey that belongs to the user

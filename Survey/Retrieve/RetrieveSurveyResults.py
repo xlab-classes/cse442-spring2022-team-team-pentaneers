@@ -1,6 +1,10 @@
 import db_connector
+from Survey.Status import Auto
+
 
 def retrieveSurveyResults(email, surveys_id):
+    Auto.autoClose()
+    final_list = []
 
     # Access the Database
     mydb = db_connector.dbConnector()
@@ -25,6 +29,8 @@ def retrieveSurveyResults(email, surveys_id):
     if len(result) == 0:
         return "survey not exists"
 
+    # Getting the title of the survey
+    survey_title = result[0][2]
     survey_id = result[0][0]
 
     query = "SELECT * FROM Response WHERE survey_id = %s"
@@ -35,8 +41,8 @@ def retrieveSurveyResults(email, surveys_id):
     print("This is the retrieve results: ", result)
 
     list_to_return = []
-  
-  
+
+
     short_responses_array = []
     sr_question_names = []
     sr_question_responses = []
@@ -45,7 +51,7 @@ def retrieveSurveyResults(email, surveys_id):
     mc_question_names = []
     mc_question_options = []
     mc_question_responses = []
-    
+
     for question_number in range(0, len(survey_questions)):
         question_name = survey_questions[question_number][3]
         question_type = survey_questions[question_number][4]
@@ -67,7 +73,7 @@ def retrieveSurveyResults(email, surveys_id):
             sr_question_responses.append(question_responses)
 
     total_number_of_responders = len(result)//len(survey_questions)
-    
+
     multiple_choices_array.append(mc_question_names)
     multiple_choices_array.append(mc_question_options)
     multiple_choices_array.append(mc_question_responses)
@@ -79,8 +85,8 @@ def retrieveSurveyResults(email, surveys_id):
     list_to_return.append(total_number_of_responders)
 
     return list_to_return
-  
-  
+
+
 
 
 def getOptions(mc_options):

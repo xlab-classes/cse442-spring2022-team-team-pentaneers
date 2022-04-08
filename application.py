@@ -366,7 +366,21 @@ def clearDatabase(ubid):
         drop()
     return render_template('Homepage.html', title = "Homepage")
 
+@app.route("/survey/private/<survey_id>", methods = ['PUT'])
+def private(survey_id):
+    survey=Private.closeSurvey(survey_id)
+    return "success"
 
+@app.route("/survey/reopen/<survey_id>", methods = ['PUT'])
+def reopen(survey_id):
+    data = json.loads(request.get_data(as_text=True))
+    survey=Open.openSurvey(survey_id,data)
+    return "success"
+
+@app.route("/survey/close/<survey_id>", methods = ['PUT'])
+def close(survey_id):
+    survey=Close.closeSurvey(survey_id)
+    return "success"
 # Invalid path.
 @app.route("/<error>")
 def error(error):
@@ -541,4 +555,4 @@ class User(UserMixin):
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8000)
-    app.run(debug=True)  # Set to false for production
+    app.run(debug = True) # Set to false for production
