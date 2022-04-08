@@ -170,6 +170,7 @@ def view_surveys():
     count = len(surveys[1])
     num = 0
     titles = []
+    URLlist = []
 
     while num != count:
         title = str(surveys[1][num].keys())
@@ -177,8 +178,11 @@ def view_surveys():
         titles += [title[1]]
 
         num = num + 1
+        
+        URL = getSurveyURL.get(session["email"], num)
+        URLlist.append(URL)
 
-    return render_template('View_Surveys.html', title = "View Surveys", titles = titles)
+    return render_template('View_Surveys.html', title = "View Surveys", titles = titles, URLlist = URLlist)
 
 
 #------------------The path to the survey editor page-----------------------
@@ -248,10 +252,9 @@ def survey_responses(surveys_id):
 @login_required
 def creation_success():
     URL = getSurveyURL.get(session["email"], session["surveys_id"])
-    print("Email: ", session["email"], "Survey_ID: ", session["surveys_id"])
     print("The URL is: ", URL)
 
-    return render_template('Creation_Completion.html', title = "Survey Creation Success")
+    return render_template('Creation_Completion.html', title = "Survey Creation Success", URL = URL)
 
 
 #------------------The path to our survey answer submission success page-----------------------

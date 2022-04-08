@@ -20,8 +20,9 @@
 		<h1> Your survey <br> has been published! </h1>
 
         <br><br><br><br><br><br><br>
-
-        <button onclick = "getLink()" button class = "buttonlink">Copy link</button>
+        {% if URL %}
+            <button onclick = "getLink('{{ URL }}')" button class = "buttonlink">Copy link</button>
+        {% endif %}
 
         <br><br><br>
 
@@ -35,19 +36,22 @@
 
 
     <script>
-        function getLink() {
+        function getLink(URL) {
 
-            // Avoid scrolling to bottom after copying
-            textArea.style.top = "0";
-            textArea.style.left = "0";
-            textArea.style.position = "fixed";
+            var text = URL
 
-            var input = document.createElement('textarea');
+            var input = document.createElement('textArea');
             input.innerHTML = text;
             document.body.appendChild(input);
             input.select();
             var result = document.execCommand('copy');
             document.body.removeChild(input);
+
+            // Avoid scrolling to bottom after copying
+            // textArea.style.top = "0";
+            // textArea.style.left = "0";
+            // textArea.style.position = "fixed";
+            
             alert("URL Copied.");
             return result;
         }
