@@ -13,7 +13,7 @@ from Survey.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveS
 from Survey.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyForResponseByString, RetrieveSurveyResults, RetrieveUserSurveys, RetrieveSurveyForResponse, getSurveyID, getSurveyURL
 from Survey.Delete import Delete
 from Survey.Create import Survey, Response
-from Survey.Status import Auto, Close, Open
+from Survey.Status import Auto, Close, Open, Private
 from User import Account
 from Survey.Update import ModifySurvey
 from db_initial import initial, drop
@@ -89,13 +89,14 @@ def createSurvey():
     print(data)
 
     id=Survey.survey(data)
+    '''
     surveys_id = getSurveyID.surveysID(session['email'], id)
     print("This is the id of the submitted survey: ", id, '\n')
     print("This is the surveys_id of the submitted survey: ", surveys_id, '\n')
     survey_url = getSurveyURL.get(session['email'], surveys_id)
     session['surveys_id'] = surveys_id
     print("Survey URL = ", survey_url)
-
+    '''
     return json.dumps(id)
 
 
@@ -368,47 +369,37 @@ def clearDatabase(ubid):
 
 @app.route("/survey/private/<survey_id>", methods = ['PUT'])
 def private(survey_id):
-    survey=Private.closeSurvey(survey_id)
+    email = session['email']
+    survey=Private.closeSurvey(survey_id,email)
     return "success"
 
 @app.route("/survey/reopen/<survey_id>", methods = ['PUT'])
 def reopen(survey_id):
+    email = session['email']
     data = json.loads(request.get_data(as_text=True))
-    survey=Open.openSurvey(survey_id,data)
+    survey=Open.openSurvey(survey_id,data,email)
     return "success"
 
 @app.route("/survey/close/<survey_id>", methods = ['PUT'])
 def close(survey_id):
-    survey=Close.closeSurvey(survey_id)
+    email = session['email']
+    survey=Close.closeSurvey(survey_id,email)
     return "success"
 # Invalid path.
 @app.route("/<error>")
 def error(error):
     return f"page '{error}' does not exist!"
 
-
-
 @scheduler.task('cron', id='autoClose', week='*', day_of_week='mon,tue,wed,thu,fri,sat,sun')
-def auto():
+def auto1():
     survey=Auto.autoClose()
     print(str(datetime.now()) + "AUTO CLOSE 1 !!!")
     return "success"
 
 @scheduler.task('cron', id='autoClose2', day='*', hour='00', minute='00', second='00')
-def auto():
+def auto2():
     survey=Auto.autoClose()
     print(str(datetime.now()) + "AUTO CLOSE 2 !!!")
-    return "success"
-
-@app.route("/survey/close/<survey_id>", methods = ['PUT'])
-def close(survey_id):
-    survey=Close.closeSurvey(survey_id)
-    return "success"
-
-@app.route("/survey/reopen/<survey_id>", methods = ['PUT'])
-def reopen(survey_id):
-    data = json.loads(request.get_data(as_text=True))
-    survey=Open.openSurvey(survey_id,data)
     return "success"
 
 scheduler.start()

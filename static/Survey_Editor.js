@@ -8,7 +8,7 @@ function mc(){
   document.getElementById("mc").remove();
   document.getElementById("wr").remove();
 
-  let = question_id = count.toString() + "answer' name='mc'><br></form>"
+  let question_id = count.toString() + "answer' name='mc'><br></form>"
   document.getElementById("question_type").innerHTML +=
       "<label for='mc'>a)</label>";  
   document.getElementById("question_type").innerHTML += 
@@ -104,7 +104,7 @@ async function publish(){
                       'title':title,
                       'description':description,
                       'questions':question_list,
-                      'expired_date': '2022-03-22',
+                      'expired_date': date,
                       'visibility': 'public'
                     }
 
@@ -116,7 +116,7 @@ async function publish(){
     // status=data['visibility']
 
   var xhr = new XMLHttpRequest();
-  var url = "http://127.0.0.1:5000/submitSurvey";//should not be hard coded
+  var url = "/submitSurvey";//should not be hard coded
   xhr.open("POST", url, true);
   xhr.setRequestHeader("Content-Type", "application/json");
   xhr.onreadystatechange = function () {

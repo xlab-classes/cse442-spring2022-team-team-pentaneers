@@ -53,6 +53,7 @@
                         <option value="">Status</option>
                         <option value="public">public</option>
                         <option value="private">private</option>
+                        <option value="close">close</option>
                     </select>
                 </h9>
         {% endfor %}
@@ -60,12 +61,15 @@
 
     </div>
 
-    <script>
+     <script>
         function  updateStatus(value,id){
             if(value=="public"){
                 open(id);
             }
             else if(value=="private"){
+                private(id);
+            }
+            else if(value=="close"){
                 close(id);
             }
         }
@@ -110,6 +114,19 @@
             xhr.send(del);
 
             }
+    </script>
+
+    <script>
+        function private(id) {
+            var surveys_id;
+            surveys_id = id;
+            var xhr = new XMLHttpRequest();
+            var url = "/survey/private/"+surveys_id; // Should not be hardcoded?
+            xhr.open("PUT", url);
+            //xhr.setRequestHeader("Content-Type", "application/json");
+            //var del = JSON.stringify(del + " " + surveys_id);
+            xhr.send();
+        }
     </script>
 
     <script>
