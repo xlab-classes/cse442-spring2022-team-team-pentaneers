@@ -11,6 +11,7 @@ class MyTestCase(unittest.TestCase):
 
     def testCloseReopenSurvey(self):
         drop()
+        initial()
         url = self.path + 'submitSurvey'
         mydb = dbConnector()
         mycursor = mydb.cursor()
@@ -21,7 +22,7 @@ class MyTestCase(unittest.TestCase):
             "questions": [["test_title1", "Multiple Choice", ["yes", "nonono"]],
                           ["test_title2", "Multiple Choice", ["lipu", "wuyu"]]],
             "expired_date": "2023-04-02",
-            "visibility": "private"
+            "visibility": "public"
         }
         #submit survey
         r = requests.post(url, json=dict1)
@@ -32,10 +33,10 @@ class MyTestCase(unittest.TestCase):
         mydb = dbConnector()
         mycursor = mydb.cursor()
         #check status
-        query = "SELECT visibility FROM Surveys WHERE id = 1"
+        query = "SELECT visibility FROM Surveys WHERE surveys_id = 1 and email='example@buffalo.edu'"
         mycursor.execute(query)
         survey = mycursor.fetchall()
-        self.assertEqual(survey[0][0], 'private')
+        self.assertEqual(survey[0][0], 'close')
         #check expired date
         query = "SELECT expired_on FROM Surveys WHERE id = 1"
         mycursor.execute(query)
@@ -60,9 +61,19 @@ class MyTestCase(unittest.TestCase):
         survey = mycursor.fetchall()
         expired=datetime.datetime.strptime("2023-04-02", "%Y-%m-%d").date()
         self.assertEqual(survey[0][0], expired)
+        url = self.path + 'survey/private/1'
+        r = requests.put(url)
+        mydb = dbConnector()
+        mycursor = mydb.cursor()
+        # check status
+        query = "SELECT visibility FROM Surveys WHERE surveys_id = 1 and email='example@buffalo.edu'"
+        mycursor.execute(query)
+        survey = mycursor.fetchall()
+        self.assertEqual(survey[0][0], 'private')
 
     def autoClose(self):
         drop()
+        initial()
         url = self.path + 'submitSurvey'
         mydb = dbConnector()
         mycursor = mydb.cursor()

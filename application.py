@@ -78,15 +78,12 @@ def home():
 
 #------------------The path our survey creation page-----------------------
 @app.route("/submitSurvey", methods=['GET', 'POST'])
-@login_required
+
 def createSurvey():
 
-    email = {'email': session['email']}
-    data = request.get_json('survey_data')
+    data = json.loads(request.get_data(as_text=True))
 
     # Merging the logged in user with the incoming data to submit the survey properly
-    data = {**email, **data}
-    print(data)
 
     id=Survey.survey(data)
     '''
@@ -369,20 +366,20 @@ def clearDatabase(ubid):
 
 @app.route("/survey/private/<survey_id>", methods = ['PUT'])
 def private(survey_id):
-    email = session['email']
+    email = "example@buffalo.edu"
     survey=Private.closeSurvey(survey_id,email)
     return "success"
 
 @app.route("/survey/reopen/<survey_id>", methods = ['PUT'])
 def reopen(survey_id):
-    email = session['email']
+    email = "example@buffalo.edu"
     data = json.loads(request.get_data(as_text=True))
     survey=Open.openSurvey(survey_id,data,email)
     return "success"
 
 @app.route("/survey/close/<survey_id>", methods = ['PUT'])
 def close(survey_id):
-    email = session['email']
+    email = "example@buffalo.edu"
     survey=Close.closeSurvey(survey_id,email)
     return "success"
 # Invalid path.
