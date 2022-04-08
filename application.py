@@ -60,6 +60,7 @@ def home():
 
 #------------------The path our survey creation page-----------------------
 @app.route("/submitSurvey", methods=['GET', 'POST'])
+@login_required
 def createSurvey():
 
     email = {'email': session['email']}
@@ -70,8 +71,11 @@ def createSurvey():
     print(data)
 
     id=Survey.survey(data)
-    survey_url = getSurveyURL.get(session['email'], id)
-    session["survey_id"] = id
+    surveys_id = getSurveyID.surveysID(session['email'], id)
+    print("This is the id of the submitted survey: ", id, '\n')
+    print("This is the surveys_id of the submitted survey: ", surveys_id, '\n')
+    survey_url = getSurveyURL.get(session['email'], surveys_id)
+    session['surveys_id'] = surveys_id
     print("Survey URL = ", survey_url)
 
     return json.dumps(id)
@@ -241,9 +245,10 @@ def survey_responses(surveys_id):
 
 #------------------The path to our survey creation success page-----------------------
 @app.route("/creation_success", methods=['POST', 'GET'])
+@login_required
 def creation_success():
     URL = getSurveyURL.get(session["email"], session["surveys_id"])
-    print("Email: ", session["email"], "Surveys_ID: ", session["surveys_id"])
+    print("Email: ", session["email"], "Survey_ID: ", session["surveys_id"])
     print("The URL is: ", URL)
 
     return render_template('Creation_Completion.html', title = "Survey Creation Success")
@@ -302,7 +307,6 @@ def retrievePublicSurveys():
 
 
 @app.route('/survey/form/<survey_id>', methods = ['GET'])
-@login_required
 def retrieveSurveyForResponse(survey_id):
     survey = RetrieveSurveyForResponse.retrieveSurveyForResponse(survey_id)
     return survey

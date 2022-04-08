@@ -22,8 +22,8 @@ def surveysID(email, survey_id):
     mydb = dbConnector()
     mycursor = mydb.cursor()
     # Getting the specific survey that belongs to the user
-    query = "SELECT * FROM Surveys WHERE survey_id = %s AND email = %s"
-    value = (surveys_id, email)
+    query = "SELECT * FROM Surveys WHERE id = %s AND email = %s"
+    value = (survey_id, email)
     mycursor.execute(query, value)
     # Fetch the survey information belonging to the requested Survey
     survey = mycursor.fetchall()
