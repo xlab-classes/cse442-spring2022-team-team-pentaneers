@@ -146,11 +146,10 @@
         function open(id) {
             var surveys_id;
             surveys_id = id;
-            document.getElementById("public").remove();
-            document.getElementById("private").remove();
-            document.getElementById("public").innerHTML+=
+            document.getElementById("changeStatus").remove();
+            document.getElementById("changeStatus").innerHTML+=
                 "<form><input type='date' id='expiredDate' name='fname' autocomplete = 'off'><br></form>";
-            document.getElementById("public").innerHTML+=
+            document.getElementById("changeStatus").innerHTML+=
                 "<button class='button-finish' onclick='finish(surveys_id)' id='finish' role='button'>Finish</button>";
         }
     </script>

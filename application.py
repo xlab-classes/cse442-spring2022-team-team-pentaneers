@@ -195,7 +195,6 @@ def view_surveys():
         titles += [title[1]]
 
         num = num + 1
-
     return render_template('View_Surveys.html', title = "View Surveys", titles = titles)
 
 
@@ -297,7 +296,8 @@ def delete_survey():
         survey_id = getSurveyID.surveyID(email, surveys_id)
         deleteSurvey(email, survey_id)
 
-    return redirect("/view_surveys")
+
+    return redirect(url_for('view_surveys'))
 
 @app.route("/retrieve/userSurveys/<email>", methods=['GET'])
 @login_required
