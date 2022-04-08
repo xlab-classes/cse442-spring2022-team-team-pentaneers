@@ -10,75 +10,58 @@ from Survey.Retrieve.RetrieveSurveyResults import retrieveSurveyResults
 from Survey.Create.Response import response
 from Survey.Create.Survey import survey
 from db_connector import dbConnector
+from db_initial import initial,drop
+import unittest
 
-def test():
+class TestStringMethods(unittest.TestCase):
 
-    mydb = dbConnector()
-    mycursor = mydb.cursor()
+    def test(self):
+        drop()
 
-    #get current date,YYYY-MM-DD format
-    created_date = datetime.date.today()
-
-    #---------Submitting to a Survey Manually----------------#
-    survey_dict = {
-        "email": "testingCollectSurvey@email.com",
-        "title": "test Collect Survey Responses",
-        "description":"test description 1",
-        "questions":[['test Collect Survey Responses?', 'Multiple Choice', ['yes', 'no']],
-        ['why', 'Short Response', None],
-        ['do you want to keep coding?', 'Multiple Choice', ['pain', 'wuyu']]],
-        "expired_date": "2022-03-22",
-        "visibility":"public"
-        }
-
-    retrieved_survey = survey(survey_dict)
-
-    #---------Responding to a Survey Manually----------------#
-    response_dict = {
-        "email": "testingCollectSurvey@email.com", 
-        "survey_id":1,
-        "response":[
-            ["Multiple Choice", 1],
-            ["Short Response","test"],
-            ["Multiple Choice", 1]
-            ]
-        }
-
-    retrieved_response = response(response_dict)
-
-    #--------------Checking for Expected Outcomes-------------------#
-    expected_outcome = [[['test Collect Survey Responses?', 'do you want to keep coding?'], [['yes', 'no'], ['pain', 'wuyu']], [[1, 0], [1, 0]]], [['why'], [['testingCollectSurvey@email.com wrote: test']]], 1]
-
-
-    # Call the function we're testing to see if returned what we wanted
-    actual_outcome = retrieveSurveyResults('testingCollectSurvey@email.com', 1)
-
-
-    if str(expected_outcome) == str(actual_outcome):
+        mydb = dbConnector()
         mycursor = mydb.cursor()
-        sql = "DROP TABLE IF EXISTS Surveys"
-        mycursor.execute(sql)
-        sql = "DROP TABLE IF EXISTS Response"
-        mycursor.execute(sql)
-        sql = "DROP TABLE IF EXISTS Questions"
-        mycursor.execute(sql)
-        sql = "DROP TABLE IF EXISTS Survey_Questions"
-        mycursor.execute(sql)
-        mycursor.close()
-        print("------------")
-        print("Passed!")
-        print("------------")
-    else:
-        mycursor = mydb.cursor()
-        sql = "DROP TABLE IF EXISTS Surveys"
-        mycursor.execute(sql)
-        sql = "DROP TABLE IF EXISTS Response"
-        mycursor.execute(sql)
-        sql = "DROP TABLE IF EXISTS Questions"
-        mycursor.execute(sql)
-        sql = "DROP TABLE IF EXISTS Survey_Questions"
-        mycursor.execute(sql)
-        mycursor.close()
-        print("Failed!")
 
-test()
+        #get current date,YYYY-MM-DD format
+        created_date = datetime.date.today()
+
+        #---------Submitting to a Survey Manually----------------#
+        survey_dict = {
+            "email": "testingCollectSurvey@email.com",
+            "title": "test Collect Survey Responses",
+            "description":"test description 1",
+            "questions":[['test Collect Survey Responses?', 'Multiple Choice', ['yes', 'no']],
+            ['why', 'Short Response', None],
+            ['do you want to keep coding?', 'Multiple Choice', ['pain', 'wuyu']]],
+            "expired_date": "2022-03-22",
+            "visibility":"public"
+            }
+
+        retrieved_survey = survey(survey_dict)
+
+        #---------Responding to a Survey Manually----------------#
+        response_dict = {
+            "email": "testingCollectSurvey@email.com", 
+            "survey_id":1,
+            "response":[
+                ["Multiple Choice", 1],
+                ["Short Response","test"],
+                ["Multiple Choice", 1]
+                ]
+            }
+
+        retrieved_response = response(response_dict)
+
+        #--------------Checking for Expected Outcomes-------------------#
+        expected_outcome = [[['test Collect Survey Responses?', 'do you want to keep coding?'], [['yes', 'no'], ['pain', 'wuyu']], [[1, 0], [1, 0]]], [['why'], [['testingCollectSurvey@email.com wrote: test']]], 1]
+
+
+        # Call the function we're testing to see if returned what we wanted
+        actual_outcome = retrieveSurveyResults('testingCollectSurvey@email.com', 1)
+        print("This is the retrieved outcome: ", actual_outcome)
+        self.assertEqual(str(expected_outcome), str(actual_outcome))
+
+        mycursor.close()
+        
+
+if __name__ == '__main__':
+    unittest.main()
