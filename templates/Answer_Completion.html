@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='Style.css') }}">
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='Completion.css') }}">
         <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
         <link href="https://fonts.googleapis.com/css2?family=Fredoka+One" rel="stylesheet">
         <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon_duck.png') }}" sizes ="32x32"/>
@@ -15,23 +15,13 @@
 
     <a button class = "buttonlogout" href = "{{ url_for('logout') }}" >Log out</button></a>
 
-	<div class="vertical_flex">
+    <div class="vertical_flex">
 
-		<h1> Welcome! </h1>
+		<h1> We have received <br> your survey submission! </h1>
 
-        <div class = "Successful_Login">      
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %} 
-                    {% for category, message in messages %} 
-                        <div class = "alert alert-{{ category }}">
-                            <h4>{{ message }}</h4>
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %} 
-        </div> 
-    
-		<a button class = "button" href = "{{ url_for('view_surveys') }}">View your surveys</button></a>
+        <br><br><br><br><br><br><br><br><br><br>
+
+    	<a button class = "button" href = "{{ url_for('view_surveys') }}">View your surveys</button></a>
 
 		<a button class = "button" href = "{{ url_for('survey_editor') }}">Create a survey</button></a>
 

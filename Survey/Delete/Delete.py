@@ -39,6 +39,25 @@ def deleteSurvey(email, id):
     mycursor.execute(query, values)
     mydb.commit()
     print("Response Table: ", mycursor.rowcount, "record(s) deleted")
-    
-    
+    # Retrieve all surveys
+    # Select only the rows that have our requested "email" 
+    query = "SELECT * FROM Surveys WHERE email = %s"
+    user_email = (email, )
+
+    # Execute our MySQL Query to get what we want
+    mycursor.execute(query, user_email)
+    # fetch all the matching rows 
+    result = mycursor.fetchall()
+
+    counter = 1
+    if len(result) != 0: 
+        for survey in result:
+            survey_id = survey[0]
+            update_surveys_id = "UPDATE Surveys SET surveys_id = %s WHERE id = %s"
+            val = (counter, survey_id)
+            mycursor.execute(update_surveys_id, val)
+            mydb.commit()
+            counter+=1
+        
+
     return ("Survey has been deleted for email: {} with survey_id = {}").format(email, id)

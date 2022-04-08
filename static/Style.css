@@ -82,7 +82,7 @@ h1{
     height: 100px;
     letter-spacing: +0.04em;
     font-size: 85px;
-    font-family: Fredoka One;
+    font-family: Fredoka One;  
     color: white;
 }
 
@@ -92,7 +92,7 @@ h2{
     text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
     margin-left: 10px;
     margin-top: 0.5rem;
-    font-family: Montserrat;
+    font-family: Montserrat;  
     font-size: 130%;
     color: white;
 }
@@ -113,7 +113,7 @@ h4{
     font-family: Montserrat;
     font-weight: 700;
     font-size: 30px;
-    text-align: center;
+    text-align: center; 
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
     margin-top: -40px;
     width: 100%;
@@ -404,15 +404,15 @@ b{
 	width: 28.4vw;
 	height: 13vh;
 	margin: 1vw;
-
+	
 	font-family: Montserrat;
     font-weight: 700;
     font-size: 150%;
 	text-align: center;
-
+	
 	color: #FFFFFF;
 	background-color: #60ABDD;
-
+	
 	border: none;
 	border-radius: 0.5rem;
 
@@ -732,7 +732,7 @@ label{
     cursor: pointer;
     -webkit-transition: background-color 200ms ease in;
     transition: background-color 200ms ease in;
-
+    
 }
 
 .button-add-mc:hover {
@@ -850,71 +850,6 @@ label{
 .buttondelete:visited {
     text-decoration: none;
 }
-
-.custom-select{
-    margin-left: 1rem;
-    margin-bottom: 1rem;
-    margin-top: 0.5rem;
-    padding: 0.75rem 2.5rem;
-    background-color: #ffffff;
-    font-family: Montserrat;
-    font-weight: 700;
-    font-size: 50%;
-    color: #60abdd;
-    border-radius: 0.5rem;
-    outline: none;
-    border: none;
-    cursor: pointer;
-    -webkit-transition: background-color 200ms ease in;
-    transition: background-color 200ms ease in;
-    width:170px;
-}
-.custom-select {
-  font-family: Montserrat;
-}
-
-.custom-select select {
-  display: none; /*hide original SELECT element: */
-}
-
-.select-selected {
-  background-color: #ffffff;
-}
-
-
-
-
-.button-open {
-    margin-left: 1rem;
-    margin-bottom: 1rem;
-    margin-top: 0.5rem;
-    padding: 0.75rem 2.5rem;
-    background-color: #ffffff;
-    font-family: Montserrat;
-    font-weight: 700;
-    font-size: 50%;
-    color: #60abdd;
-    border-radius: 0.5rem;
-    outline: none;
-    border: none;
-    cursor: pointer;
-    -webkit-transition: background-color 200ms ease in;
-    transition: background-color 200ms ease in;
-}
-
-.button-open:hover {
-    background-color: #d0d0d0;
-    text-decoration: none;
-}
-
-.button-open:link {
-    text-decoration: none;
-}
-
-.button-open:visited {
-    text-decoration: none;
-}
-
 
 .buttonedit {
     display: block;
