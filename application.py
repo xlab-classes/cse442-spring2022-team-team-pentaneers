@@ -10,7 +10,7 @@ from Survey.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveS
 from Survey.Delete import Delete
 from Survey.Create import Survey, Response
 from User import Account
-from Survey.Status import Close,Open,Auto
+from Survey.Status import Close,Open,Auto,Private
 from Survey.Update import ModifySurvey
 from db_initial import initial, drop
 from forms import RegistrationForm, LoginForm
@@ -196,9 +196,9 @@ def view():
     createSurvey(parsed_data)
     return survey_data
 
-@app.route("/survey/close/<survey_id>", methods = ['PUT'])
-def close(survey_id):
-    survey=Close.closeSurvey(survey_id)
+@app.route("/survey/private/<survey_id>", methods = ['PUT'])
+def private(survey_id):
+    survey=Private.closeSurvey(survey_id)
     return "success"
 
 @app.route("/survey/reopen/<survey_id>", methods = ['PUT'])
@@ -207,6 +207,10 @@ def reopen(survey_id):
     survey=Open.openSurvey(survey_id,data)
     return "success"
 
+@app.route("/survey/close/<survey_id>", methods = ['PUT'])
+def close(survey_id):
+    survey=Close.closeSurvey(survey_id)
+    return "success"
 # Invalid path.
 @app.route("/<error>")
 def error(error):
@@ -227,5 +231,5 @@ def auto():
 scheduler.start()
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8000)
+    app.run(host='0.0.0.0', port=8099)
     app.run(debug = True) # Set to false for production
