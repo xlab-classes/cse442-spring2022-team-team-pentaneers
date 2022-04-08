@@ -49,7 +49,7 @@
 
 
                     <button onclick = "deleteWarning('{{ count.value }}')" button class = "buttondelete">Delete</button>
-                    <select name="status" id="changeStatus" class="custom-select" >
+                    <select name="status" id="changeStatus" class="custom-select" name="status" onChange="updateStatus(this.options[this.selectedIndex].value,'{{ count.value }}')">
                         <option value="">Status</option>
                         <option value="public">public</option>
                         <option value="private">private</option>
@@ -59,6 +59,18 @@
         </div>
 
     </div>
+
+    <script>
+        function  updateStatus(value,id){
+            if(value=="public"){
+                open(id);
+            }
+            else if(value=="private"){
+                close(id);
+            }
+        }
+
+    </script>
 
     <script>
         function getLink() {
@@ -92,7 +104,7 @@
 
             var xhr = new XMLHttpRequest();
             var url = "/delete"; // Should not be hardcoded?
-            xhr.open("POST", url, true);
+            xhr.open("POST", url);
             xhr.setRequestHeader("Content-Type", "application/json");
             var del = JSON.stringify(del + " " + surveys_id);
             xhr.send(del);
@@ -104,10 +116,9 @@
         function close(id) {
             var surveys_id;
             surveys_id = id;
-            document.getElementById("private")
             var xhr = new XMLHttpRequest();
             var url = "/survey/close/"+surveys_id; // Should not be hardcoded?
-            xhr.open("PUT", url, true);
+            xhr.open("PUT", url);
             //xhr.setRequestHeader("Content-Type", "application/json");
             //var del = JSON.stringify(del + " " + surveys_id);
             xhr.send();
@@ -131,12 +142,12 @@
         function finish(id){
             var surveys_id;
             surveys_id = id;
-            var expires_on = document.getElementById('expiredDate').value
+            var date=document.getElementById('expiredDate').value
             var xhr = new XMLHttpRequest();
             var url = "/survey/reopen/"+surveys_id; // Should not be hardcoded?
             xhr.open("PUT", url, true);
             xhr.setRequestHeader("Content-Type", "application/json");
-            var data = JSON.stringify({"expired_date":expires_on});
+            var data = JSON.stringify({"expired_date":date});
             xhr.send(data)
         }
     </script>
