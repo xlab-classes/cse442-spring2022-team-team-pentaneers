@@ -851,6 +851,69 @@ label{
     text-decoration: none;
 }
 
+.button-close {
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    padding: 0.75rem 2.5rem;
+    background-color: #ffffff;
+    font-family: Montserrat;
+    font-weight: 700;
+    font-size: 50%;
+    color: #60abdd;
+    border-radius: 0.5rem;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    -webkit-transition: background-color 200ms ease in;
+    transition: background-color 200ms ease in;
+}
+
+.button-close:hover {
+    background-color: #d0d0d0;
+    text-decoration: none;
+}
+
+.button-close:link {
+    text-decoration: none;
+}
+
+.button-close:visited {
+    text-decoration: none;
+}
+
+.button-open {
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    padding: 0.75rem 2.5rem;
+    background-color: #ffffff;
+    font-family: Montserrat;
+    font-weight: 700;
+    font-size: 50%;
+    color: #60abdd;
+    border-radius: 0.5rem;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    -webkit-transition: background-color 200ms ease in;
+    transition: background-color 200ms ease in;
+}
+
+.button-open:hover {
+    background-color: #d0d0d0;
+    text-decoration: none;
+}
+
+.button-open:link {
+    text-decoration: none;
+}
+
+.button-open:visited {
+    text-decoration: none;
+}
+
+
 .buttonedit {
     display: block;
     float: right;
@@ -931,4 +994,45 @@ img.corner_duck{
     background: #28475c;
 }
 
-
+input::-webkit-datetime-edit-fields-wrapper{
+    font-weight: 700;
+    color: #3e7192;
+    padding: 10px 20px;
+    position:center;
+}
+::-webkit-calendar-picker-indicator{
+    border-radius: 20px;
+    opacity: 1;
+    display: block;
+    width: 25px;
+    height: 25px;
+    border-width: thin;
+    color: #3e7192;
+}
+::-webkit-datetime-edit{
+    padding-left: 20px;
+    padding-right: 10px;
+    border-radius: 20px;
+    border: 1px #ccc;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    position: center;
+}
+input[type=date],select{
+    font-family: Montserrat;
+    font-weight: 700;
+    color: #3e7192;
+    width: 12%;
+    padding: 1px;
+    display: table-cell;
+    /* margin-top: -100px; */
+    margin-left: 300px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+input::-webkit-datetime-edit-text {
+    -webkit-user-modify: read-only !important;
+    display: inline;
+    font: inherit !important;
+}

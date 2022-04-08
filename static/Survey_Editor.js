@@ -59,7 +59,7 @@ function add_question(){
 function publish(){
   const title = document.getElementById('Title').value
   const description = document.getElementById('Description').value
-
+  var date=document.getElementById('expiredDate').value
   let question_list = []
   for(let i = 0;i<count ;i++){
   let question_title = document.getElementById('Question').value
@@ -74,7 +74,7 @@ function publish(){
   let question_type = "Multiple Choice"
   const survey_data = [title, description, question_list, question_type, mc_option_list]
 
-  fetch("http://10.84.104.6:8000/survey_data", 
+  fetch("http://172.16.42.82:8000/survey_data",
   {
   method: 'POST',
   headers: {
