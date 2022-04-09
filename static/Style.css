@@ -955,19 +955,7 @@ input::-webkit-datetime-edit-fields-wrapper{
     border-bottom-left-radius: 10px;
     position: center;
 }
-input[type=date],select{
-    font-family: Montserrat;
-    font-weight: 700;
-    color: #3e7192;
-    width: 12%;
-    padding: 1px;
-    display: table-cell;
-    /* margin-top: -100px; */
-    margin-left: 300px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
+
 input::-webkit-datetime-edit-text {
     -webkit-user-modify: read-only !important;
     display: inline;
@@ -999,3 +987,60 @@ input::-webkit-datetime-edit-text {
 .select-selected {
   background-color: #ffffff;
 }
+
+.edit-date {
+    font-family: Montserrat;
+    font-weight: 700;
+    color: #3e7192;
+    width: 12%;
+    padding: 1px;
+    display: table-cell;
+    /* margin-top: -100px; */
+    margin-left: 300px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+.button-finish {
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    padding: 0.75rem 2rem;
+    background-color: #60abdd;
+    font-family: Montserrat;
+    font-weight: 700;
+    font-size: 50%;
+    color: #ffffff;
+    border-radius: 0.5rem;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    -webkit-transition: background-color 200ms ease in;
+    transition: background-color 200ms ease in;
+}
+
+.button-finish:hover {
+    background-color: #4d87ae;
+    text-decoration: none;
+}
+
+.button-finish:link {
+    text-decoration: none;
+}
+
+.button-finish:visited {
+    text-decoration: none;
+}
+div.date-change {
+    font-family: Montserrat;
+    font-weight: 700;
+    color: #3e7192;
+    width: 250px;
+    padding: 3px 20px;
+    display: table-cell;
+    /* margin-top: -100px; */
+    margin-left: 0px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }

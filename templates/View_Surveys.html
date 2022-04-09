@@ -49,13 +49,15 @@
 
 
                     <button onclick = "deleteWarning('{{ count.value }}')" button class = "buttondelete">Delete</button>
-                    <select name="status" id="changeStatus" class="custom-select" name="status" onChange="updateStatus(this.options[this.selectedIndex].value,'{{ count.value }}')">
+                    <select name="status" id=changeStatus{{ count.value }} class="custom-select" name="status" onChange="updateStatus(this.options[this.selectedIndex].value,'{{ count.value }}')">
                         <option value="">Status</option>
                         <option value="public">public</option>
                         <option value="private">private</option>
                         <option value="close">close</option>
                     </select>
+                    <div id=status{{ count.value }}></div>
                 </h9>
+            <br><br><br>
         {% endfor %}
         </div>
 
@@ -146,11 +148,15 @@
         function open(id) {
             var surveys_id;
             surveys_id = id;
-            document.getElementById("changeStatus").remove();
-            document.getElementById("changeStatus").innerHTML+=
-                "<form><input type='date' id='expiredDate' name='fname' autocomplete = 'off'><br></form>";
-            document.getElementById("changeStatus").innerHTML+=
-                "<button class='button-finish' onclick='finish(surveys_id)' id='finish' role='button'>Finish</button>";
+            var statusid='status'+surveys_id.toString();
+            var finishid='finish'+surveys_id.toString();
+            var expireid='expiredDate'+surveys_id.toString();
+            var changestatusID="changeStatus"+surveys_id.toString();
+            document.getElementById(changestatusID).remove();
+            document.getElementById(statusid).innerHTML+=
+                "<input type='date' id="+expireid+" name='fname' autocomplete = 'off' class='date-change'>";
+            document.getElementById(statusid).innerHTML+=
+                "<button class='button-finish' onclick=\"finish(\'"+surveys_id+"\')\" id=" + finishid +" role='button'>Finish</button><br>";
         }
     </script>
 
@@ -158,7 +164,8 @@
         function finish(id){
             var surveys_id;
             surveys_id = id;
-            var date=document.getElementById('expiredDate').value
+            var expireid='expiredDate'+id.toString();
+            var date=document.getElementById(expireid).value
             var xhr = new XMLHttpRequest();
             var url = "/survey/reopen/"+surveys_id; // Should not be hardcoded?
             xhr.open("PUT", url, true);
