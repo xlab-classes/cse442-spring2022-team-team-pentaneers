@@ -55,8 +55,8 @@ def survey(data):
     #Generate the full unique url
     unique_url = 'http://127.0.0.1:5000/survey/respond/' + str(surveys_id) + '/' + unique_string #Hard coded, change later
     #insert data into Surveys
-    sql="Insert into Surveys (email, title, description, created_on, expired_on, surveys_id,visibility) values (%s,%s,%s,%s,%s,%s,%s)"
-    val=(email,title,description,created_date,expired,surveys_id,status)
+    sql="Insert into Surveys (email, title, description, created_on, expired_on, surveys_id,visibility,unique_url,unique_string) values (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    val=(email,title,description,created_date,expired,surveys_id,status,unique_url,unique_string)
     mycursor.execute(sql,val)
     mydb.commit()
     

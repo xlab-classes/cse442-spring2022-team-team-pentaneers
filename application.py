@@ -270,7 +270,7 @@ def survey_responses(surveys_id):
 @app.route("/creation_success", methods=['POST', 'GET'])
 @login_required
 def creation_success():
-    time.sleep(0.001)
+    time.sleep(0.10)
     get_latest_surveys_id = getSurveyID.latestSurveysID(session['email'])
     URL = getSurveyURL.get(session["email"], get_latest_surveys_id)
 
