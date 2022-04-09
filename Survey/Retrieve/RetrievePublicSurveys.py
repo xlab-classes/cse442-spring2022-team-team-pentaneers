@@ -1,8 +1,11 @@
 import db_connector
 from datetime import date
 
+from Survey.Status import Auto
+
 
 def retrievePublicSurveys():
+    Auto.autoClose()
     List_to_return = []
 
     # Access the Database

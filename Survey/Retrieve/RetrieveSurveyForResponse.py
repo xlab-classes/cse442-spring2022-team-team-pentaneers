@@ -1,8 +1,11 @@
 import db_connector
 
 # Complete surveys (Action)
-def retrieveSurveyForResponse(survey_id):
+from Survey.Status import Auto
 
+
+def retrieveSurveyForResponse(survey_id):
+    Auto.autoClose()
     # Access the Database
     mydb = db_connector.dbConnector()
     mycursor = mydb.cursor()

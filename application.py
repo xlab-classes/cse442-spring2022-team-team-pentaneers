@@ -1,17 +1,30 @@
 import json
 from queue import Empty
 from typing import List
+
+from flask_apscheduler import APScheduler
 from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, request, redirect, url_for, render_template, flash, session
 from flask import Flask,request, redirect, url_for, render_template, flash, session
 from flask_cors import CORS
 import config
+from Survey.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyForResponseByString, \
+    RetrieveSurveyResults, RetrieveUserSurveys, RetrieveSurveyForResponse, getSurveyID, getSurveyURL
 from Survey.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyForResponseByString, RetrieveSurveyResults, RetrieveUserSurveys, RetrieveSurveyForResponse, getSurveyID, getSurveyURL
 from Survey.Delete import Delete
 from Survey.Create import Survey, Response
+from Survey.Status import Auto, Close, Open, Private
 from User import Account
 from Survey.Update import ModifySurvey
 from db_initial import initial, drop
 from forms import RegistrationForm, LoginForm
+from werkzeug.security import check_password_hash
+from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user
+import db_connector
+from datetime import timedelta, date, datetime
+
+class Config:
+    SCHEDULER_API_ENABLED = True
 from werkzeug.security import check_password_hash
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user
 import db_connector
@@ -21,6 +34,11 @@ from datetime import timedelta, date
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
 cors = CORS(app)
+
+# set up scheduler
+app.config.from_object(Config())
+scheduler = APScheduler()
+scheduler.init_app(app)
 
 # IMPORTANT: Set to environment variable!
 app.config['SECRET_KEY'] = config.SECRET_KEY
@@ -178,18 +196,19 @@ def view_surveys():
         titles += [title[1]]
 
         num = num + 1
-        
+
         URL = getSurveyURL.get(session["email"], num)
         URLlist.append(URL)
-
-    return render_template('View_Surveys.html', title = "View Surveys", titles = titles, URLlist = URLlist)
+    mindate = (date.today() + timedelta(days=1)).strftime("%Y-%m-%d")
+    return render_template('View_Surveys.html', title = "View Surveys", titles = titles, URLlist = URLlist,mindate=mindate)
 
 
 #------------------The path to the survey editor page-----------------------
 @app.route("/survey_editor", methods=['GET', 'POST'])
 @login_required
 def survey_editor():
-    return render_template('Survey_Editor.html', title = "Survey Editor")
+    mindate = (date.today() + timedelta(days=1)).strftime("%Y-%m-%d")
+    return render_template('Survey_Editor.html', title="Survey Editor",mindate=mindate)
 
 #------------------The path to our submit survey response page-----------------------
 @app.route("/submitResponse", methods=['POST'])
@@ -282,7 +301,8 @@ def delete_survey():
         survey_id = getSurveyID.surveyID(email, surveys_id)
         deleteSurvey(email, survey_id)
 
-    return redirect("/view_surveys")
+
+    return redirect(url_for('view_surveys'))
 
 @app.route("/retrieve/userSurveys/<email>", methods=['GET'])
 @login_required
@@ -351,12 +371,42 @@ def clearDatabase(ubid):
         drop()
     return render_template('Homepage.html', title = "Homepage")
 
+@app.route("/survey/private/<survey_id>", methods = ['PUT'])
+def private(survey_id):
+    email = session['email']
+    survey=Private.closeSurvey(survey_id,email)
+    return "success"
 
+@app.route("/survey/reopen/<survey_id>", methods = ['PUT'])
+def reopen(survey_id):
+    email = session['email']
+    data = json.loads(request.get_data(as_text=True))
+    survey=Open.openSurvey(survey_id,data,email)
+    return "success"
+
+@app.route("/survey/close/<survey_id>", methods = ['PUT'])
+def close(survey_id):
+    email = session['email']
+    survey=Close.closeSurvey(survey_id,email)
+    return "success"
 # Invalid path.
 @app.route("/<error>")
 def error(error):
     return f"page '{error}' does not exist!"
 
+@scheduler.task('cron', id='autoClose', week='*', day_of_week='mon,tue,wed,thu,fri,sat,sun')
+def auto1():
+    survey=Auto.autoClose()
+    print(str(datetime.now()) + "AUTO CLOSE 1 !!!")
+    return "success"
+
+@scheduler.task('cron', id='autoClose2', day='*', hour='00', minute='00', second='00')
+def auto2():
+    survey=Auto.autoClose()
+    print(str(datetime.now()) + "AUTO CLOSE 2 !!!")
+    return "success"
+
+scheduler.start()
 
 
 
