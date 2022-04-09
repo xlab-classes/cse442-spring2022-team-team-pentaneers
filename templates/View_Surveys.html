@@ -47,7 +47,6 @@
                         <a button class = "buttonedit" href = "{{ url_for('survey_editor') }}" >Edit</button></a>
                         {% if count.update({'value': (count.value + 1)}) %} {% endif %}
                         <button onclick = "deleteWarning('{{ count.value }}')" button class = "buttondelete">Delete</button>
-                        <button onclick = "deleteWarning('{{ count.value }}')" button class = "buttondelete">Delete</button>
                         <select name="status" id=changeStatus{{ count.value }} class="custom-select" name="status" onChange="updateStatus(this.options[this.selectedIndex].value,'{{ count.value }}')">
                         <option value="">Status</option>
                         <option value="public">public</option>

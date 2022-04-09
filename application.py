@@ -1,4 +1,5 @@
 import json
+import time
 from queue import Empty
 from typing import List
 
@@ -22,6 +23,7 @@ from werkzeug.security import check_password_hash
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user
 import db_connector
 from datetime import timedelta, date, datetime
+
 
 class Config:
     SCHEDULER_API_ENABLED = True
@@ -270,8 +272,9 @@ def survey_responses(surveys_id):
 @app.route("/creation_success", methods=['POST', 'GET'])
 @login_required
 def creation_success():
-    URL = getSurveyURL.get(session["email"], session["surveys_id"])
-    print("The URL is: ", URL)
+    time.sleep(0.001)
+    get_latest_surveys_id = getSurveyID.latestSurveysID(session['email'])
+    URL = getSurveyURL.get(session["email"], get_latest_surveys_id)
 
     return render_template('Creation_Completion.html', title = "Survey Creation Success", URL = URL)
 
