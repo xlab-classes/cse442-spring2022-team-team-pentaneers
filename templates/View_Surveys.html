@@ -156,7 +156,7 @@
             var changestatusID="changeStatus"+surveys_id.toString();
             document.getElementById(changestatusID).remove();
             document.getElementById(statusid).innerHTML+=
-                "<input type='date' id="+expireid+" name='fname' autocomplete = 'off' class='date-change'>";
+                "<input type='date' id="+expireid+" name='fname' autocomplete = 'off' class='date-change' min={{ mindate }}>";
             document.getElementById(statusid).innerHTML+=
                 "<button class='button-finish' onclick=\"finish(\'"+surveys_id+"\')\" id=" + finishid +" role='button'>Finish</button><br>";
         }
