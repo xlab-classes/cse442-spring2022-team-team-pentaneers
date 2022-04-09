@@ -1,7 +1,10 @@
 import db_connector
+from Survey.Status import Auto
+
 
 def retrieve(surveys_id, unique_string):
     # Access the Database
+    Auto.autoClose()
     mydb = db_connector.dbConnector()
     mycursor = mydb.cursor()
     # Access the Surveys table to get the specific Survey for the user.

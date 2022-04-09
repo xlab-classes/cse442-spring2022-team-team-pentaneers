@@ -4,6 +4,9 @@ from Survey.Retrieve import parseSurveyQuestions, RetrieveSurveyById
 import db_connector
 import datetime
 
+from Survey.Status import Auto
+
+
 def closeSurvey(surveys_id,email):
     # param id is primary key of Survey Table
     # when close a survey, set expires_on NULL
@@ -14,4 +17,5 @@ def closeSurvey(surveys_id,email):
     mycursor.execute(close_survey, val)
     mydb.commit()
     mydb.close()
+    Auto.autoClose()
     return True

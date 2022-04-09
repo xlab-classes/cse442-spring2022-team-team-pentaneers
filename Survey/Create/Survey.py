@@ -1,12 +1,13 @@
 import datetime
 import db_connector
 from datetime import date
+
+from Survey.Status import Auto
 from db_initial import initial
 import random
 import string
 
 def survey(data):
-    
     email=data['email']
     title=data['title']
     description=data['description']
@@ -103,6 +104,6 @@ def survey(data):
         val = (question,id)
         mycursor.execute(sql, val)
         mydb.commit()
-
+    Auto.autoClose()
     mydb.close()
     return id

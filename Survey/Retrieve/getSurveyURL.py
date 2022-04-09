@@ -1,6 +1,8 @@
 from db_connector import dbConnector
+from Survey.Status import Auto
 
 def get(email, surveys_id):
+    Auto.autoClose()
     # Access the Database
     mydb = dbConnector()
     mycursor = mydb.cursor()

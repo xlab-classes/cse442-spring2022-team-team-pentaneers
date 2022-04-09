@@ -147,7 +147,7 @@
             var surveys_id;
             surveys_id = id;
             var xhr = new XMLHttpRequest();
-            var url = "/survey/close/"+surveys_id; // Should not be hardcoded?
+            var url = "/survey/private/"+surveys_id; // Should not be hardcoded?
             xhr.open("PUT", url);
             //xhr.setRequestHeader("Content-Type", "application/json");
             //var del = JSON.stringify(del + " " + surveys_id);

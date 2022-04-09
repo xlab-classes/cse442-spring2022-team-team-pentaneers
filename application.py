@@ -2,9 +2,10 @@ import json
 import time
 from queue import Empty
 from typing import List
-from flask_apscheduler import APScheduler
+
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, request, redirect, url_for, render_template, flash, session
+from flask import Flask,request, redirect, url_for, render_template, flash, session
 from flask_cors import CORS
 import config
 from Survey.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyForResponseByString, \
@@ -23,8 +24,6 @@ import db_connector
 from datetime import timedelta, date, datetime
 
 
-class Config:
-    SCHEDULER_API_ENABLED = True
 from werkzeug.security import check_password_hash
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user
 import db_connector
@@ -36,10 +35,7 @@ app = Flask(__name__)
 app.config.from_pyfile('config.py')
 cors = CORS(app)
 
-# set up scheduler
-app.config.from_object(Config())
-scheduler = APScheduler()
-scheduler.init_app(app)
+
 
 # IMPORTANT: Set to environment variable!
 app.config['SECRET_KEY'] = config.SECRET_KEY
@@ -394,19 +390,6 @@ def close(survey_id):
 def error(error):
     return f"page '{error}' does not exist!"
 
-@scheduler.task('cron', id='autoClose', week='*', day_of_week='mon,tue,wed,thu,fri,sat,sun')
-def auto1():
-    survey=Auto.autoClose()
-    print(str(datetime.now()) + "AUTO CLOSE 1 !!!")
-    return "success"
-
-@scheduler.task('cron', id='autoClose2', day='*', hour='00', minute='00', second='00')
-def auto2():
-    survey=Auto.autoClose()
-    print(str(datetime.now()) + "AUTO CLOSE 2 !!!")
-    return "success"
-
-scheduler.start()
 
 
 
