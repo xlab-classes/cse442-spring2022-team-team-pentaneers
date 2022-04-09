@@ -195,14 +195,16 @@ def view_surveys():
         titles += [title[1]]
 
         num = num + 1
-    return render_template('View_Surveys.html', title = "View Surveys", titles = titles)
+    mindate = (date.today() + timedelta(days=1)).strftime("%Y-%m-%d")
+    return render_template('View_Surveys.html', title = "View Surveys", titles = titles,mindate=mindate)
 
 
 # ------------------The path to the survey editor page-----------------------
 @app.route("/survey_editor", methods=['GET', 'POST'])
 @login_required
 def survey_editor():
-    return render_template('Survey_Editor.html', title="Survey Editor")
+    mindate = (date.today() + timedelta(days=1)).strftime("%Y-%m-%d")
+    return render_template('Survey_Editor.html', title="Survey Editor",mindate=mindate)
 
 #------------------The path to our submit survey response page-----------------------
 @app.route("/submitResponse", methods=['POST'])
