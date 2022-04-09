@@ -31,6 +31,7 @@ from werkzeug.security import check_password_hash
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user
 import db_connector
 from datetime import timedelta, date
+import time
 
 
 app = Flask(__name__)
@@ -92,11 +93,8 @@ def createSurvey():
 
     id=Survey.survey(data)
     surveys_id = getSurveyID.surveysID(session['email'], id)
-    print("This is the id of the submitted survey: ", id, '\n')
-    print("This is the surveys_id of the submitted survey: ", surveys_id, '\n')
     survey_url = getSurveyURL.get(session['email'], surveys_id)
     session['surveys_id'] = surveys_id
-    print("Survey URL = ", survey_url)
 
     return json.dumps(id)
 

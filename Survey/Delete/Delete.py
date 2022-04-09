@@ -57,6 +57,13 @@ def deleteSurvey(email, id):
             val = (counter, survey_id)
             mycursor.execute(update_surveys_id, val)
             mydb.commit()
+            unique_string = survey[9]
+            #Generate the full unique url
+            unique_url = 'http://127.0.0.1:5000/survey/respond/' + str(counter) + '/' + unique_string #Hard coded,
+            update_unique_url = "UPDATE Surveys SET unique_url = %s WHERE id = %s"
+            val = (unique_url, survey_id)
+            mycursor.execute(update_unique_url, val)
+            mydb.commit()
             counter+=1
         
 
