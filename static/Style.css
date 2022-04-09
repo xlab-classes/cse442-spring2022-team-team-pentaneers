@@ -67,6 +67,7 @@ div.vertical_flex3:hover {
 }
 
 div.vertical_flex4{
+    width: max-content;
     display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -168,6 +169,7 @@ h8{
 }
 
 h9{
+    display: flex;
     font-family: Montserrat;
     font-weight: 700;
     font-size: 35px;
@@ -790,6 +792,7 @@ label{
 
 .buttonlink {
     margin-left: 1rem;
+    margin-right: 1rem;
     margin-bottom: 1rem;
     margin-top: 0.5rem;
     padding: 0.75rem 2rem;
@@ -852,6 +855,7 @@ label{
 }
 
 .buttonedit {
+    line-height: 3rem;
     display: block;
     float: right;
     margin-right: 1rem;
@@ -931,6 +935,10 @@ img.corner_duck{
     background: #28475c;
 }
 
+
+
+
+
 input::-webkit-datetime-edit-fields-wrapper{
     font-weight: 700;
     color: #3e7192;
@@ -962,10 +970,10 @@ input::-webkit-datetime-edit-text {
     font: inherit !important;
 }
 .custom-select{
-    margin-left: 1rem;
+    margin-left: 2rem;
     margin-bottom: 1rem;
     margin-top: 0.5rem;
-    padding: 0.75rem 1.3rem;
+    padding: 0.75rem 1rem;
     background-color: #ffffff;
     font-family: Montserrat;
     font-weight: 700;
@@ -1001,8 +1009,10 @@ input::-webkit-datetime-edit-text {
     border-radius: 4px;
     box-sizing: border-box;
   }
+
 .button-finish {
-    margin-left: 1rem;
+    display: grid;
+    margin-left: 1.7rem;
     margin-bottom: 1rem;
     margin-top: 0.5rem;
     padding: 0.75rem 2rem;
@@ -1031,16 +1041,20 @@ input::-webkit-datetime-edit-text {
 .button-finish:visited {
     text-decoration: none;
 }
-div.date-change {
+
+.date-change {
     font-family: Montserrat;
     font-weight: 700;
     color: #3e7192;
-    width: 250px;
-    padding: 3px 20px;
     display: table-cell;
     /* margin-top: -100px; */
     margin-left: 0px;
-    border: 1px solid #ccc;
+    border: 2px solid #60abdd;
     border-radius: 4px;
     box-sizing: border-box;
   }
+
+.status {
+    margin-left: 0.2rem;
+    display: auto;
+}
