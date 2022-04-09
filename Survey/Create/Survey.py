@@ -53,7 +53,7 @@ def survey(data):
             surveys_id=1
         else: surveys_id += 1
     #Generate the full unique url
-    unique_url = 'http://127.0.0.1:5000/survey/respond/' + str(surveys_id) + '/' + unique_string #Hard coded, change later
+    unique_url = 'www-student.cse.buffalo.edu/survey/respond/' + str(surveys_id) + '/' + unique_string #Hard coded, change later
     #insert data into Surveys
     sql="Insert into Surveys (email, title, description, created_on, expired_on, surveys_id,visibility,unique_url,unique_string) values (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
     val=(email,title,description,created_date,expired,surveys_id,status,unique_url,unique_string)

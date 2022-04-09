@@ -2,11 +2,9 @@ import json
 import time
 from queue import Empty
 from typing import List
-
 from flask_apscheduler import APScheduler
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, request, redirect, url_for, render_template, flash, session
-from flask import Flask,request, redirect, url_for, render_template, flash, session
 from flask_cors import CORS
 import config
 from Survey.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyForResponseByString, \
@@ -370,6 +368,7 @@ def deleteSurvey(email, id):
 def clearDatabase(ubid):
     if ubid in config.UBITS:
         drop()
+        initial()
     return render_template('Homepage.html', title = "Homepage")
 
 @app.route("/survey/private/<survey_id>", methods = ['PUT'])
