@@ -4,6 +4,7 @@ from Survey.Retrieve import parseSurveyQuestions, RetrieveSurveyById
 import db_connector
 import datetime
 
+from Survey.Status import Auto
 from db_initial import drop
 
 
@@ -26,4 +27,5 @@ def openSurvey(surveys_id,data,email):
         val = ("public", expired, surveys_id,email)
         mycursor.execute(close_survey, val)
         mydb.commit()
+    Auto.autoClose()
     return True

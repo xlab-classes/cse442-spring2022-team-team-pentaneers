@@ -1,12 +1,13 @@
 import datetime
 import db_connector
 from datetime import date
+
+from Survey.Status import Auto
 from db_initial import initial
 import random
 import string
 
 def survey(data):
-    
     email=data['email']
     title=data['title']
     description=data['description']
@@ -53,10 +54,10 @@ def survey(data):
             surveys_id=1
         else: surveys_id += 1
     #Generate the full unique url
-    unique_url = 'http://127.0.0.1:5000/survey/respond/' + str(surveys_id) + '/' + unique_string #Hard coded, change later
+    unique_url = 'www-student.cse.buffalo.edu/survey/respond/' + str(surveys_id) + '/' + unique_string #Hard coded, change later
     #insert data into Surveys
-    sql="Insert into Surveys (email, title, description, created_on, expired_on, surveys_id,visibility) values (%s,%s,%s,%s,%s,%s,%s)"
-    val=(email,title,description,created_date,expired,surveys_id,status)
+    sql="Insert into Surveys (email, title, description, created_on, expired_on, surveys_id,visibility,unique_url,unique_string) values (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    val=(email,title,description,created_date,expired,surveys_id,status,unique_url,unique_string)
     mycursor.execute(sql,val)
     mydb.commit()
     
@@ -103,6 +104,6 @@ def survey(data):
         val = (question,id)
         mycursor.execute(sql, val)
         mydb.commit()
-
+    Auto.autoClose()
     mydb.close()
     return id

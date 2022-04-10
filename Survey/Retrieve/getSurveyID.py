@@ -1,6 +1,8 @@
+from Survey.Status import Auto
 from db_connector import dbConnector
 
 def surveyID(email, surveys_id):
+    Auto.autoClose()
     # Access the Database
     mydb = dbConnector()
     mycursor = mydb.cursor()
@@ -31,3 +33,17 @@ def surveysID(email, survey_id):
     surveys_id = survey[0][6]
 
     return surveys_id
+
+def latestSurveysID(email):
+    # Access the Database
+    mydb = dbConnector()
+    mycursor = mydb.cursor()
+    # Getting the specific survey that belongs to the user
+    query = "SELECT MAX(surveys_id) AS maximum from Surveys WHERE email = %s"
+    value = (email, )
+    mycursor.execute(query, value)
+    # Fetch the survey information belonging to the requested Survey
+    survey = mycursor.fetchall()
+    mycursor.close()
+
+    return survey[0][0]

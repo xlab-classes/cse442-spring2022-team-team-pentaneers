@@ -39,28 +39,27 @@
         {% set count = {'value': 0} %}
 
         <div class = "vertical_flex4">
-        {% for survey_title in titles %}
-                <h9>
-                    <a class = "u" href="{{ url_for('survey_responses', surveys_id=loop.index) }}">{{survey_title}}</a>
+            {% if URLlist %}
+            {% for surveytitle in titles %}
+                    <h9>
+                        <a class = "u" href="{{ url_for('survey_responses', surveys_id=loop.index) }}">{{surveytitle}}</a>
 
-                    <button onclick = "getLink()" button class = "buttonlink">Copy link</button>
+                        <button onclick = "getLink('{{URLlist[count.value]}}')" button class = "buttonlink">Copy link</button>
 
-                    <a button class = "buttonedit" href = "{{ url_for('survey_editor') }}" >Edit</button></a>
+                        <a button class = "buttonedit" href = "{{ url_for('survey_editor') }}" >Edit</button></a>
 
-                    {% if count.update({'value': (count.value + 1)}) %} {% endif %}
-                    <button onclick = "deleteWarning('{{ count.value }}')" button class = "buttondelete">Delete</button>
-                    
-                    <div class = status id=status{{ count.value }}></div>
-                    <select name="status" id=changeStatus{{ count.value }} class="custom-select" name="status" onChange="updateStatus(this.options[this.selectedIndex].value,'{{ count.value }}')">
-                        <option value="">Status</option>
-                        <option value="public">Public</option>
-                        <option value="private">Private</option>
-                        <option value="close">Close</option>
-                    </select>
+                        {% if count.update({'value': (count.value + 1)}) %} {% endif %}
+                        <button onclick = "deleteWarning('{{ count.value }}')" button class = "buttondelete">Delete</button>
 
-                </h9>
+                        <select name="status" id=changeStatus{{ count.value }} class="custom-select" name="status" onChange="updateStatus(this.options[this.selectedIndex].value,'{{ count.value }}')">
+                            <option value="open">Open</option>
+                            <option value="close">Close</option>
+                        </select>
+                        <div id=status{{ count.value }}></div>
+                    </h9>
             <br><br><br>
-        {% endfor %}
+            {% endfor %}
+            {% endif %}
         </div>
 
     </div>
@@ -70,8 +69,8 @@
             if(value=="public"){
                 open(id);
             }
-            else if(value=="private"){
-                private(id);
+            else if(value=="open"){
+                open(id);
             }
             else if(value=="close"){
                 close(id);
@@ -81,14 +80,24 @@
     </script>
 
     <script>
-        function getLink() {
-            var input = document.body.appendChild(document.createElement("input"));
-            input.value = window.location.href;
-            input.focus();
+        function getLink(URLlist) {
+
+            var text = URLlist
+
+            var input = document.createElement('textArea');
+            input.innerHTML = text;
+            document.body.appendChild(input);
             input.select();
-            document.execCommand('copy');
-            input.parentNode.removeChild(input);
+            var result = document.execCommand('copy');
+            document.body.removeChild(input);
+
+            // Avoid scrolling to bottom after copying
+            // textArea.style.top = "0";
+            // textArea.style.left = "0";
+            // textArea.style.position = "fixed";
+
             alert("URL Copied.");
+            return result;
         }
     </script>
 
@@ -102,7 +111,7 @@
 
             if (confirm("Are you sure you want to delete this survey? This can NOT be undone!") == true) {
                 del = "OK";
-                alert("Survey will be deleted.");
+                alert("Survey will be deleted. Please refresh the page.");
 
             } else {
                 del = "Cancel";
@@ -111,8 +120,8 @@
             }
 
             var xhr = new XMLHttpRequest();
-            var url = "/delete"; // Should not be hardcoded?
-            xhr.open("POST", url);
+            var url = "/delete"; // Should not be hardcoded
+            xhr.open("POST", url, true);
             xhr.setRequestHeader("Content-Type", "application/json");
             var del = JSON.stringify(del + " " + surveys_id);
             xhr.send(del);
@@ -121,11 +130,11 @@
     </script>
 
     <script>
-        function private(id) {
+        function open(id) {
             var surveys_id;
             surveys_id = id;
             var xhr = new XMLHttpRequest();
-            var url = "/survey/private/"+surveys_id; // Should not be hardcoded?
+            var url = "/survey/open/"+surveys_id; // Should not be hardcoded
             xhr.open("PUT", url);
             //xhr.setRequestHeader("Content-Type", "application/json");
             //var del = JSON.stringify(del + " " + surveys_id);
@@ -138,42 +147,11 @@
             var surveys_id;
             surveys_id = id;
             var xhr = new XMLHttpRequest();
-            var url = "/survey/close/"+surveys_id; // Should not be hardcoded?
+            var url = "/survey/private/"+surveys_id; // Should not be hardcoded?
             xhr.open("PUT", url);
             //xhr.setRequestHeader("Content-Type", "application/json");
             //var del = JSON.stringify(del + " " + surveys_id);
             xhr.send();
-        }
-    </script>
-
-    <script>
-        function open(id) {
-            var surveys_id;
-            surveys_id = id;
-            var statusid='status'+surveys_id.toString();
-            var finishid='finish'+surveys_id.toString();
-            var expireid='expiredDate'+surveys_id.toString();
-            var changestatusID="changeStatus"+surveys_id.toString();
-            document.getElementById(changestatusID).remove();
-            document.getElementById(statusid).innerHTML+=
-                "<input type='date' id="+expireid+" name='fname' autocomplete = 'off' class='date-change' min={{ mindate }}>";
-            document.getElementById(statusid).innerHTML+=
-                "<button class='button-finish' onclick=\"finish(\'"+surveys_id+"\')\" id=" + finishid +" role='button'>Finish</button><br>";
-        }
-    </script>
-
-    <script>
-        function finish(id){
-            var surveys_id;
-            surveys_id = id;
-            var expireid='expiredDate'+id.toString();
-            var date=document.getElementById(expireid).value
-            var xhr = new XMLHttpRequest();
-            var url = "/survey/reopen/"+surveys_id; // Should not be hardcoded?
-            xhr.open("PUT", url, true);
-            xhr.setRequestHeader("Content-Type", "application/json");
-            var data = JSON.stringify({"expired_date":date});
-            xhr.send(data)
         }
     </script>
 

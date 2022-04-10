@@ -6,6 +6,7 @@ body{
     margin: 0;
 }
 
+/* --------------------------------Display flex----------------------------- */
 div.horizontal_flex{
     display: flex;
 	flex-direction: row;
@@ -74,7 +75,7 @@ div.vertical_flex4{
 	align-items: flex-end;
 }
 
-/* Title of page */
+/* ------------------h1 = Title of page--------------------- */
 h1{
     text-align: center;
     text-shadow: 0px 4px 2px rgba(0, 0, 0, 0.25);
@@ -174,7 +175,6 @@ h9{
     font-weight: 700;
     font-size: 35px;
     text-transform: capitalize;
-    text-shadow: 1px 2px 1px rgba(0, 0, 0, 0.25);
     height: 100px;
     color: #FFFFFF;
 }
@@ -212,6 +212,7 @@ b{
 }
 
 .u::before {
+  margin-bottom: 3.5rem;
   content: '';
   position: absolute;
   width: 100%;
@@ -231,7 +232,7 @@ b{
 }
 
 
-/* Buttons */
+/* ---------------------------------Buttons----------------------------- */
 .buttonsignup {
     display: block;
     float: right;
@@ -265,6 +266,8 @@ b{
 .buttonsignup:visited {
     text-decoration: none;
 }
+
+
 
 .buttonlogin {
     float: right;
@@ -300,6 +303,8 @@ b{
     text-decoration: none;
 }
 
+
+
 .buttonbrowse {
     float: right;
     display: block;
@@ -333,6 +338,8 @@ b{
 .buttonbrowse:visited {
     text-decoration: none;
 }
+
+
 
 .buttonlogout {
     float: right;
@@ -368,6 +375,8 @@ b{
     text-decoration: none;
 }
 
+
+
 .buttonback {
     display: block;
     float: right;
@@ -401,6 +410,8 @@ b{
 .buttonback:visited {
     text-decoration: none;
 }
+
+
 
 .button{
 	width: 28.4vw;
@@ -443,6 +454,8 @@ b{
     text-decoration: none;
 }
 
+
+
 input[type=text], select {
     font-family: Montserrat;
     font-weight: 700;
@@ -484,6 +497,8 @@ label{
 
 }
 
+
+
 .button-private{
     display: block;
     float: left;
@@ -523,6 +538,8 @@ label{
 .button-private:visited {
     text-decoration: none;
 }
+
+
 
 .button-public{
     display: block;
@@ -564,6 +581,8 @@ label{
     text-decoration: none;
 }
 
+
+
 .button-mc{
     display: block;
     float: right;
@@ -601,6 +620,8 @@ label{
 .button-mc:visited {
     text-decoration: none;
 }
+
+
 
 .button-wr{
     display: block;
@@ -640,6 +661,8 @@ label{
     text-decoration: none;
 }
 
+
+
 .button-cancel{
     display: block;
     float: left;
@@ -676,6 +699,8 @@ label{
 .button-cancel:visited {
     text-decoration: none;
 }
+
+
 
 .button-publish{
     display: block;
@@ -714,6 +739,8 @@ label{
     text-decoration: none;
 }
 
+
+
 .button-add-mc{
     margin-bottom: 1rem;
     width: 80px;
@@ -749,6 +776,8 @@ label{
 .button-add-mc:visited {
     text-decoration: none;
 }
+
+
 
 .button-add-question{
     display: inline-flex;
@@ -790,6 +819,8 @@ label{
     text-decoration: none;
 }
 
+
+
 .buttonlink {
     margin-left: 1rem;
     margin-right: 1rem;
@@ -823,49 +854,13 @@ label{
 }
 
 
+
 .buttondelete {
     margin-left: 1rem;
     margin-bottom: 1rem;
     margin-top: 0.5rem;
     padding: 0.75rem 2.5rem;
-    background-color: #ffffff;
-    font-family: Montserrat;
-    font-weight: 700;
-    font-size: 50%;
-    color: #60abdd;
-    border-radius: 0.5rem;
-    outline: none;
-    border: none;
-    cursor: pointer;
-    -webkit-transition: background-color 200ms ease in;
-    transition: background-color 200ms ease in;
-}
-
-.buttondelete:hover {
-    background-color: #d0d0d0;
-    text-decoration: none;
-}
-
-.buttondelete:link {
-    text-decoration: none;
-}
-
-.buttondelete:visited {
-    text-decoration: none;
-}
-
-.buttonedit {
-    line-height: 3rem;
-    display: block;
-    float: right;
-    margin-right: 1rem;
-    margin-left: 1rem;
-    margin-bottom: 1rem;
-    margin-top: 0.5rem;
-    width: 80px;
-    padding: 0.75rem 2rem;
     background-color: #60abdd;
-    text-align: center;
     font-family: Montserrat;
     font-weight: 700;
     font-size: 50%;
@@ -878,8 +873,47 @@ label{
     transition: background-color 200ms ease in;
 }
 
-.buttonedit:hover {
+.buttondelete:hover {
     background-color: #4d87ae;
+    text-decoration: none;
+}
+
+.buttondelete:link {
+    text-decoration: none;
+}
+
+.buttondelete:visited {
+    text-decoration: none;
+}
+
+
+
+.buttonedit {
+    line-height: 3.3rem;
+    display: block;
+    float: right;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    width: 80px;
+    padding: 0.75rem 2rem;
+    background-color: #ffffff;
+    text-align: center;
+    font-family: Montserrat;
+    font-weight: 700;
+    font-size: 50%;
+    color: #60abdd;
+    border-radius: 0.5rem;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    -webkit-transition: background-color 200ms ease in;
+    transition: background-color 200ms ease in;
+}
+
+.buttonedit:hover {
+    background-color: #d0d0d0;
     text-decoration: none;
 }
 
@@ -891,7 +925,9 @@ label{
     text-decoration: none;
 }
 
-/* Images */
+
+
+/* ------------------------Images---------------------------- */
 .duck{
     display: inline-flex;
     margin-left: 0%;
@@ -915,7 +951,7 @@ img.corner_duck{
 	object-fit: contain;
 }
 
-/* Side scroll bar */
+/* -----------------------------Scroll bars------------------------------ */
 ::-webkit-scrollbar {
     height: 15px;
     width: 15px;
@@ -938,13 +974,13 @@ img.corner_duck{
 
 
 
-
 input::-webkit-datetime-edit-fields-wrapper{
     font-weight: 700;
     color: #3e7192;
     padding: 10px 20px;
     position:center;
 }
+
 ::-webkit-calendar-picker-indicator{
     border-radius: 20px;
     opacity: 1;
@@ -954,6 +990,7 @@ input::-webkit-datetime-edit-fields-wrapper{
     border-width: thin;
     color: #3e7192;
 }
+
 ::-webkit-datetime-edit{
     padding-left: 20px;
     padding-right: 10px;
@@ -969,7 +1006,11 @@ input::-webkit-datetime-edit-text {
     display: inline;
     font: inherit !important;
 }
+
+
+
 .custom-select{
+    text-align: center;
     margin-left: 2rem;
     margin-bottom: 1rem;
     margin-top: 0.5rem;
@@ -985,12 +1026,27 @@ input::-webkit-datetime-edit-text {
     cursor: pointer;
     -webkit-transition: background-color 200ms ease in;
     transition: background-color 200ms ease in;
-    width:15%;
+    width: 8.5rem;
 }
 
 .custom-select select {
   display: none; /*hide original SELECT element: */
 }
+
+.custom-select:hover {
+    background-color: #d0d0d0;
+    text-decoration: none;
+}
+
+.custom-select:link {
+    text-decoration: none;
+}
+
+.custom-select:visited {
+    text-decoration: none;
+}
+
+
 
 .select-selected {
   background-color: #ffffff;
@@ -1003,58 +1059,19 @@ input::-webkit-datetime-edit-text {
     width: 12%;
     padding: 1px;
     display: table-cell;
-    /* margin-top: -100px; */
     margin-left: 300px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
   }
 
-.button-finish {
-    display: grid;
-    margin-left: 1.7rem;
-    margin-bottom: 1rem;
-    margin-top: 0.5rem;
-    padding: 0.75rem 2rem;
-    background-color: #60abdd;
-    font-family: Montserrat;
-    font-weight: 700;
-    font-size: 50%;
-    color: #ffffff;
-    border-radius: 0.5rem;
-    outline: none;
-    border: none;
-    cursor: pointer;
-    -webkit-transition: background-color 200ms ease in;
-    transition: background-color 200ms ease in;
-}
-
-.button-finish:hover {
-    background-color: #4d87ae;
-    text-decoration: none;
-}
-
-.button-finish:link {
-    text-decoration: none;
-}
-
-.button-finish:visited {
-    text-decoration: none;
-}
-
 .date-change {
     font-family: Montserrat;
     font-weight: 700;
     color: #3e7192;
     display: table-cell;
-    /* margin-top: -100px; */
     margin-left: 0px;
     border: 2px solid #60abdd;
     border-radius: 4px;
     box-sizing: border-box;
   }
-
-.status {
-    margin-left: 0.2rem;
-    display: auto;
-}

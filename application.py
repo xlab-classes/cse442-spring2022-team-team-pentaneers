@@ -1,8 +1,8 @@
 import json
+import time
 from queue import Empty
 from typing import List
 
-from flask_apscheduler import APScheduler
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, request, redirect, url_for, render_template, flash, session
 from flask import Flask,request, redirect, url_for, render_template, flash, session
@@ -23,22 +23,19 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, log
 import db_connector
 from datetime import timedelta, date, datetime
 
-class Config:
-    SCHEDULER_API_ENABLED = True
+
 from werkzeug.security import check_password_hash
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user
 import db_connector
 from datetime import timedelta, date
+import time
 
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
 cors = CORS(app)
 
-# set up scheduler
-app.config.from_object(Config())
-scheduler = APScheduler()
-scheduler.init_app(app)
+
 
 # IMPORTANT: Set to environment variable!
 app.config['SECRET_KEY'] = config.SECRET_KEY
@@ -74,7 +71,7 @@ def load_user(id):
 #------------------The path to our homepage-----------------------
 @app.route("/")
 def home():
-    return render_template('Homepage.html', title="Homepage")
+    return render_template('Homepage.html', title = "Homepage")
 
 #------------------The path our survey creation page-----------------------
 @app.route("/submitSurvey", methods=['GET', 'POST'])
@@ -89,18 +86,14 @@ def createSurvey():
     print(data)
 
     id=Survey.survey(data)
-    '''
     surveys_id = getSurveyID.surveysID(session['email'], id)
-    print("This is the id of the submitted survey: ", id, '\n')
-    print("This is the surveys_id of the submitted survey: ", surveys_id, '\n')
     survey_url = getSurveyURL.get(session['email'], surveys_id)
     session['surveys_id'] = surveys_id
-    print("Survey URL = ", survey_url)
-    '''
+
     return json.dumps(id)
 
 
-# ------------------The path our signup page-----------------------
+#------------------The path our signup page-----------------------
 @app.route("/signup", methods=['GET', 'POST'])
 def signup():
 
@@ -126,11 +119,12 @@ def signup():
             email = form.email.data
             return redirect(url_for('signup'))
 
-    return render_template('Signup.html', title="Sign up", form=form)
+
+    return render_template('Signup.html', title = "Sign up", form = form)
 
 
-# ------------------The path to our login page-----------------------
-@app.route("/login", methods=['GET', 'POST'])
+#------------------The path to our login page-----------------------
+@app.route("/login", methods = ['GET', 'POST'])
 def login():
 
     form = LoginForm()
@@ -154,7 +148,7 @@ def login():
         flash(f"Please enter a valid email and password.", 'Error')
         return redirect(url_for('login'))
 
-    return render_template('Login.html', title="Login", form=form)
+    return render_template('Login.html', title = "Login", form = form)
 
 
 #------------------Path to logout--------------------------------------
@@ -171,7 +165,7 @@ def logout():
 @app.route("/user_homepage")
 @login_required
 def user_homepage():
-    return render_template('User_Homepage.html', title="User Homepage")
+    return render_template('User_Homepage.html', title = "User Homepage")
 
 #------------------The path to our user view survey page-----------------------
 @app.route("/view_surveys", methods = ['POST', 'GET'])
@@ -188,6 +182,7 @@ def view_surveys():
     count = len(surveys[1])
     num = 0
     titles = []
+    URLlist = []
 
     while num != count:
         title = str(surveys[1][num].keys())
@@ -195,11 +190,14 @@ def view_surveys():
         titles += [title[1]]
 
         num = num + 1
+
+        URL = getSurveyURL.get(session["email"], num)
+        URLlist.append(URL)
     mindate = (date.today() + timedelta(days=1)).strftime("%Y-%m-%d")
-    return render_template('View_Surveys.html', title = "View Surveys", titles = titles,mindate=mindate)
+    return render_template('View_Surveys.html', title = "View Surveys", titles = titles, URLlist = URLlist,mindate=mindate)
 
 
-# ------------------The path to the survey editor page-----------------------
+#------------------The path to the survey editor page-----------------------
 @app.route("/survey_editor", methods=['GET', 'POST'])
 @login_required
 def survey_editor():
@@ -209,8 +207,8 @@ def survey_editor():
 #------------------The path to our submit survey response page-----------------------
 @app.route("/submitResponse", methods=['POST'])
 def createResponse():
-    data = json.loads(request.get_data(as_text=True))
-    survey_id = Response.response(data)
+    data=json.loads(request.get_data(as_text=True))
+    survey_id=Response.response(data)
     return survey_id
 
 #------------------The path to the view survey responses page-----------------------
@@ -266,11 +264,11 @@ def survey_responses(surveys_id):
 @app.route("/creation_success", methods=['POST', 'GET'])
 @login_required
 def creation_success():
-    URL = getSurveyURL.get(session["email"], session["surveys_id"])
-    print("Email: ", session["email"], "Survey_ID: ", session["surveys_id"])
-    print("The URL is: ", URL)
+    time.sleep(0.10)
+    get_latest_surveys_id = getSurveyID.latestSurveysID(session['email'])
+    URL = getSurveyURL.get(session["email"], get_latest_surveys_id)
 
-    return render_template('Creation_Completion.html', title = "Survey Creation Success")
+    return render_template('Creation_Completion.html', title = "Survey Creation Success", URL = URL)
 
 
 #------------------The path to our survey answer submission success page-----------------------
@@ -326,8 +324,7 @@ def retrievePublicSurveys():
     return all_surveys
 
 
-@app.route('/survey/form/<survey_id>', methods=['GET'])
-@login_required
+@app.route('/survey/form/<survey_id>', methods = ['GET'])
 def retrieveSurveyForResponse(survey_id):
     survey = RetrieveSurveyForResponse.retrieveSurveyForResponse(survey_id)
     return survey
@@ -367,6 +364,7 @@ def deleteSurvey(email, id):
 def clearDatabase(ubid):
     if ubid in config.UBITS:
         drop()
+        initial()
     return render_template('Homepage.html', title = "Homepage")
 
 @app.route("/survey/private/<survey_id>", methods = ['PUT'])
@@ -392,88 +390,7 @@ def close(survey_id):
 def error(error):
     return f"page '{error}' does not exist!"
 
-@scheduler.task('cron', id='autoClose', week='*', day_of_week='mon,tue,wed,thu,fri,sat,sun')
-def auto1():
-    survey=Auto.autoClose()
-    print(str(datetime.now()) + "AUTO CLOSE 1 !!!")
-    return "success"
 
-@scheduler.task('cron', id='autoClose2', day='*', hour='00', minute='00', second='00')
-def auto2():
-    survey=Auto.autoClose()
-    print(str(datetime.now()) + "AUTO CLOSE 2 !!!")
-    return "success"
-
-scheduler.start()
-
-# User class
-class User(UserMixin):
-    user_email = ''
-
-    def __init__(self, email):
-        self.email = email
-
-    def get_password(self, email):
-        # connect database
-        mydb = db_connector.dbConnector()
-        mycursor = mydb.cursor()
-        # select user_id
-        sql = "select password from Users where email=%s"
-        val = (self.email,)
-        mycursor.execute(sql, val)
-        myresult = mycursor.fetchall()
-        mydb.close()
-        mydb.close()
-        if len(myresult) > 0:
-            return myresult[0][0]
-
-    def is_active(self):
-        # connect database
-        mydb = db_connector.dbConnector()
-        mycursor = mydb.cursor()
-        # select user_id
-        sql = "select id from Users where email=%s"
-        val = (self.email,)
-        mycursor.execute(sql, val)
-        myresult = mycursor.fetchall()
-        mydb.close()
-        if len(myresult) > 0:
-            return True
-        else:
-            return False
-
-    def is_anonymous(self):
-        return False
-
-    def is_authenticated(self):
-        # connect database
-        mydb = db_connector.dbConnector()
-        mycursor = mydb.cursor()
-        # select user_id
-        sql = "select id from Users where email=%s"
-        val = (self.email,)
-        mycursor.execute(sql, val)
-        myresult = mycursor.fetchall()
-        mydb.close()
-        if len(myresult) > 0:
-            return True
-        else:
-            return False
-
-    def get_id(self):
-        print(self.email)
-        # connect database
-        mydb = db_connector.dbConnector()
-        mycursor = mydb.cursor()
-        # select user_id
-        sql = "select id from Users where email=%s"
-        val = (self.email,)
-        mycursor.execute(sql, val)
-        myresult = mycursor.fetchall()
-        print("in User class: ", myresult)
-        mydb.close()
-        if len(myresult) > 0:
-            return myresult[0][0]
 
 
 # User class
