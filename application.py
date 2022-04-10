@@ -171,7 +171,7 @@ def user_homepage():
 @app.route("/view_surveys", methods = ['POST', 'GET'])
 @login_required
 def view_surveys():
-
+    print("This is the host url: ", request.host_url)
     email = session['email']
 
     surveys = retrieveSurveysUsers(email)
