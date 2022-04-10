@@ -373,11 +373,10 @@ def private(survey_id):
     survey=Private.closeSurvey(survey_id,email)
     return "success"
 
-@app.route("/survey/reopen/<survey_id>", methods = ['PUT'])
+@app.route("/survey/open/<survey_id>", methods = ['PUT'])
 def reopen(survey_id):
     email = session['email']
-    data = json.loads(request.get_data(as_text=True))
-    survey=Open.openSurvey(survey_id,data,email)
+    survey=Open.openSurvey(survey_id,email)
     return "success"
 
 @app.route("/survey/close/<survey_id>", methods = ['PUT'])
