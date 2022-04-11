@@ -1,5 +1,6 @@
 import db_connector
 from Survey.Retrieve import RetrieveSurveyById
+from flask import request
 
 
 def deleteSurvey(email, id):
@@ -59,7 +60,7 @@ def deleteSurvey(email, id):
             mydb.commit()
             unique_string = survey[9]
             #Generate the full unique url
-            unique_url = 'http://127.0.0.1:5000/survey/respond/' + str(counter) + '/' + unique_string #Hard coded,
+            unique_url = request.host_url + 'survey/respond/' + str(counter) + '/' + unique_string
             update_unique_url = "UPDATE Surveys SET unique_url = %s WHERE id = %s"
             val = (unique_url, survey_id)
             mycursor.execute(update_unique_url, val)
