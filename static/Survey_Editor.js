@@ -32,7 +32,7 @@ function mc(){
 function wr(){
   document.getElementById("mc").remove();
   document.getElementById("wr").remove();
-  question_type.push('Written Response');
+  question_type.push('Short Response');
   }
 
 function add_option(){
@@ -85,15 +85,15 @@ async function publish(){
   }
   else{
     if (count > 0){
-      let q = []
       for(let i = 0; i <= count ;i++){
+        let q = []
         let question_id = 'Question' + '_' + i.toString()
         let question_title = document.getElementById(question_id).value
         if (question_title == ''){
           success = false;
         }
-        q.push(question_type[i])
         q.push(question_title)
+        q.push(question_type[i])
         let mc_option_list = []
         for(let v = 0; v < mc_options[count]; v++){
           let answer = document.getElementById(((v+1).toString() + i.toString()+'answer')).value
@@ -103,8 +103,8 @@ async function publish(){
           mc_option_list.push(answer)
         }
         q.push(mc_option_list)
+        question_list.push(q)
       }
-      question_list.push(q)
     }
     else{
       let q = []
@@ -114,6 +114,9 @@ async function publish(){
       for(let i = 0; i < mc_options[0]; i++){
         let answer = document.getElementById(((i+1).toString() + count.toString()+'answer')).value
         mc_option_list.push(answer)
+        if (answer == ''){
+          success = false
+        }
       }
       q.push(mc_option_list)
       question_list.push(q)
