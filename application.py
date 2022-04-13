@@ -276,6 +276,11 @@ def creation_success():
 def submission_success():
     return render_template('Answer_Completion.html', title = "Survey Submission Success")
 
+#------------------The path to our survey answer submission success page-----------------------
+@app.route("/deleted_survey", methods=['POST', 'GET'])
+def deleted_survey():
+    return render_template('Deleted_Survey.html', title = "Deleted Survey")
+
 
 #------------------The path that will delete a survey-----------------------
 @app.route('/delete', methods = ['DELETE', 'POST', 'GET'])
@@ -376,14 +381,15 @@ def private(survey_id):
 @app.route("/survey/open/<survey_id>", methods = ['PUT'])
 def reopen(survey_id):
     email = session['email']
-    survey=Open.openSurvey(survey_id,email)
+    survey = Open.openSurvey(survey_id,email)
     return "success"
 
 @app.route("/survey/close/<survey_id>", methods = ['PUT'])
 def close(survey_id):
     email = session['email']
-    survey=Close.closeSurvey(survey_id,email)
+    survey = Close.closeSurvey(survey_id,email)
     return "success"
+
 # Invalid path.
 @app.route("/<error>")
 def error(error):

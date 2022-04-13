@@ -152,6 +152,6 @@ async function publish(){
 
   else{
     question_list = []
-    alert('You left some fields blank')
+    alert('You are missing required fields.')
   }
 }
