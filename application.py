@@ -338,6 +338,9 @@ def retrieveSurveyForResponse(survey_id):
 def respondToSurveyWithURL(surveys_id, unique_string):
     survey = RetrieveSurveyForResponseByString.retrieve(surveys_id, unique_string)
     print(str(survey))
+    if survey == None:
+        return render_template('Deleted_Survey.html', title = "Deleted Survey")
+        
     print(survey[0])
     t = survey[0]
     if type(survey[1]) == str:
