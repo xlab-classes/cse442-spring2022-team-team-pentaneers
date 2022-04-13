@@ -1,8 +1,8 @@
 import db_connector
 from Survey.Status import Auto
-
-
+from datetime import datetime
 def retrieve(surveys_id, unique_string):
+
     # Access the Database
     Auto.autoClose()
     mydb = db_connector.dbConnector()
@@ -14,9 +14,15 @@ def retrieve(surveys_id, unique_string):
     survey = mycursor.fetchall()
     print("This is the survey: ", survey, '\n')
     if len(survey) == 0:
-        return "This Survey is no longer available!"
+        return None
+    
+    visibility = survey[0][7]
+
+    if visibility == 'close':
+        return None
 
     survey_id = survey[0][0]
+    
 
     query = "SELECT * FROM Questions WHERE survey_id = %s"
     value = (survey_id, )
@@ -29,7 +35,8 @@ def retrieve(surveys_id, unique_string):
 
     if len(survey) == 0:
         # Make this a 404 message
-        return "The survey that you are trying to access does not exist!"
+        return None
+        
     survey = survey[0]
     
     # Appending the survey information ('survey' index 1 = email, 'survey' index 2 = title, 'survey' index 3 = description)
