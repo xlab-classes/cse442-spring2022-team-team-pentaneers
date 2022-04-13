@@ -337,7 +337,29 @@ def retrieveSurveyForResponse(survey_id):
 @app.route('/survey/respond/<surveys_id>/<unique_string>', methods = ['GET'])
 def respondToSurveyWithURL(surveys_id, unique_string):
     survey = RetrieveSurveyForResponseByString.retrieve(surveys_id, unique_string)
-    return str(survey)
+    print(str(survey))
+    print(survey[0])
+    t = survey[0]
+    if type(survey[1]) == str:
+        d = survey[1]
+    else:
+        q = survey[1]
+    file = open('Rendered_Survey.html', 'w')
+    # html_form = """<form action="/action_page.php">
+    #         <label for="cars">Choose a car:</label>
+    #         <select name="cars" id="cars" multiple>
+    #             <option value="volvo">Volvo</option>
+    #             <option value="saab">Saab</option>
+    #             <option value="opel">Opel</option>
+    #             <option value="audi">Audi</option>
+    #         </select>
+    #         <br><br>
+    #         <input type="submit" value="Submit">
+    #         </form>"""
+    # file.write(html_form)
+    file.close()
+    q = survey[2]['question_1'][1]
+    return render_template('Survey_Answering_Page.html', title = t, description = d, question = q)
 
 
 @app.route('/retrieve/survey/<email>/<survey_id>', methods = ['GET'])
