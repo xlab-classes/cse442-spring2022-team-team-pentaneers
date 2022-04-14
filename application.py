@@ -142,8 +142,13 @@ def login():
                 session['id'] = user.get_id()
                 flash(f"Welcome Back {email}!", 'Success')
                 return redirect(url_for('user_homepage'))
-
-    
+            else:
+                print("Line 146")
+                flash(f"Please enter a valid email and password.", 'Error')
+                return redirect(url_for('login'))
+        else:
+            print("Testing")
+            flash(f"Please enter a valid email and password.", 'Error')
     if len(form.errors) != 0:
         flash(f"Please enter a valid email and password.", 'Error')
         return redirect(url_for('login'))
