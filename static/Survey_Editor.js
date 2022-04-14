@@ -73,14 +73,14 @@ async function publish(){
   let success = true
   const title = document.getElementById('Title').value
   if(title == ''){
-    alert("You are missing a Survey Title!")
+    alert("You are missing a title!")
     success = false;
   }
   const description = document.getElementById('Description').value
   var date=document.getElementById('expiredDate').value
   let question_list = []
   if (question_type.length == 0 && title != ''){
-    alert('Please add a question with at least 2 options!')
+    alert('You must include at least one question with a minimum of two options.')
     success = false;
   }
   else{
@@ -98,7 +98,7 @@ async function publish(){
         for(let v = 0; v < mc_options[i]; v++){
           let answer = document.getElementById(((v+1).toString() + i.toString()+'answer')).value
           if (answer == '' && question_title != '' && v < 2 && mc_option_list.length > 0){
-            alert("\u2022Please put a minimum of two options for question " + (i + 1).toString() + '.\n\n' + '\u2022IF you dont wan\'t to include the question in your survey then please DELETE the question title!')
+            alert("\u2022Please include at least two options for question " + (i + 1).toString() + '.\n\n' + '\u2022IF you dont wan\'t to include the question in your survey then please DELETE the question title!')
             success = false
             break;
           }
@@ -107,7 +107,7 @@ async function publish(){
             console.log(mc_option_list)
           }
           if (question_title == '' && answer != ''){
-            alert("\u2022Please put a Question Title for question " + (i + 1).toString() + '.\n\n' + '\u2022IF you dont wan\'t to include the question in your survey then please DELETE the question options!')
+            alert("\u2022Please include a question title for question " + (i + 1).toString() + '.\n\n' + '\u2022If you dont wan\'t to include the question in your survey then please DELETE the question options!')
             success = false
             break;
           }
@@ -116,7 +116,7 @@ async function publish(){
         }
 
         if (mc_option_list.length == 0 && question_title != '' && i > 0){
-          alert("\u2022Please put a minimum of two options for question " + (i + 1).toString() + '.\n\n' + '\u2022IF you dont wan\'t to include the question in your survey then please DELETE the question title!')
+          alert("\u2022Please include at least two options for question " + (i + 1).toString() + '.\n\n' + '\u2022If you dont wan\'t to include the question in your survey then please DELETE the question title!')
           success = false
           break;
         }
@@ -132,7 +132,7 @@ async function publish(){
       let question_id = 'Question_0'
       let question_title = document.getElementById(question_id).value
         if (question_title == '' && title != ''){
-          alert("Please add a question title to the first question.")
+          alert("Please include a question title for question 1.")
           success = false;
         }
       q.push(question_title)
@@ -141,7 +141,7 @@ async function publish(){
       for(let i = 0; i < mc_options[0]; i++){
         let answer = document.getElementById(((i+1).toString() + count.toString()+'answer')).value
         if (answer == '' && i < 2 && question_title != '' && title != ''){
-          alert("Please put a minimum two options for the first question.")
+          alert("Please include at least two options for question 1.")
           success = false
           break;
         }
