@@ -15,9 +15,9 @@ function mc(){
 
   subject.insertAdjacentHTML("beforeend", "<label for='mc'>a)</label>")
 
-  subject.insertAdjacentHTML("beforeend", ("<form><input type='text' id='1" + question_id))
+  subject.insertAdjacentHTML("beforeend", ("<form><input type='text' onkeydown='return event.key != 'Enter';' id='1" + question_id))
 
-  subject.insertAdjacentHTML("beforeend", ("<label>b)<form><input type='text' id='2" + question_id + "</label>"))
+  subject.insertAdjacentHTML("beforeend", ("<label>b)<form><input type='text' onkeydown='return event.key != 'Enter';' id='2" + question_id + "</label>"))
 
 
   subject.insertAdjacentHTML("beforeend", "<button class='button-add-mc' onclick='add_option()' id='add-mc' role='button'>+</button>")
@@ -42,7 +42,7 @@ function add_option(){
   mc_options[count] += 1
   let to_add = mc_options[count] 
   let op = "<label>".concat(options.shift())
-  op += "<form><input type='text' id='" + to_add.toString() + count.toString() + "answer' name='mc'><br></form></label>"
+  op += "<form><input type='text' onkeydown='return event.key != 'Enter';' id='" + to_add.toString() + count.toString() + "answer' name='mc'><br></form></label>"
   subject.insertAdjacentHTML("beforeend", op)
 
   subject.insertAdjacentHTML("beforeend", "<button class='button-add-mc' onclick='add_option()' id='add-mc' role='button'>+</button>");
@@ -57,7 +57,7 @@ function add_question(){
   count++
 
   const subject = document.querySelector('#question_type');
-  var head = "<h5>Question " + (count + 1).toString() + ":</h5><form><input type='text' id='Question_"+count.toString()+"'" + "name='fname'><br></form>"
+  var head = "<h5>Question " + (count + 1).toString() + ":</h5><form><input type='text' onkeydown='return event.key != 'Enter';' id='Question_"+count.toString()+"'" + "name='fname'><br></form>"
 
   subject.insertAdjacentHTML("beforeend", head)
 
@@ -111,14 +111,11 @@ async function publish(){
             success = false
             break;
           }
-
-          
-        }
-
-        if (mc_option_list.length == 0 && question_title != '' && i > 0){
-          alert("\u2022Please include at least two options for question " + (i + 1).toString() + '.\n\n' + '\u2022If you dont wan\'t to include the question in your survey then please DELETE the question title!')
-          success = false
-          break;
+          if(question_title != '' && answer == '' && mc_option_list.length == 0){
+            alert("\u2022Please include at least two options for question " + (i + 1).toString() + '.\n\n' + '\u2022If you dont wan\'t to include the question in your survey then please DELETE the question title!')
+            success = false
+            break;
+          } 
         }
         if (question_title != '' && mc_option_list.length != 0){
           q.push(mc_option_list)
