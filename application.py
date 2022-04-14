@@ -336,10 +336,13 @@ def retrieveSurveyForResponse(survey_id):
 
 @app.route('/survey/respond/<surveys_id>/<unique_string>', methods = ['GET'])
 def respondToSurveyWithURL(surveys_id, unique_string):
+    authenticated = False
+    if 'email' in session.keys():
+        authenticated = True
     survey = RetrieveSurveyForResponseByString.retrieve(surveys_id, unique_string)
     print(str(survey))
     if survey == None:
-        return render_template('Deleted_Survey.html', title = "Deleted Survey")
+        return render_template('Deleted_Survey.html', title = "Deleted Survey", authenticated = authenticated)
         
     print(survey[0])
     t = survey[0]
@@ -398,22 +401,25 @@ def clearDatabase(ubid):
     return render_template('Homepage.html', title = "Homepage")
 
 @app.route("/survey/private/<survey_id>", methods = ['PUT'])
+@login_required
 def private(survey_id):
     email = session['email']
     survey=Private.closeSurvey(survey_id,email)
     return "success"
 
 @app.route("/survey/open/<survey_id>", methods = ['PUT'])
+@login_required
 def reopen(survey_id):
     email = session['email']
     survey = Open.openSurvey(survey_id,email)
     return "success"
 
 @app.route("/survey/close/<survey_id>", methods = ['PUT'])
+@login_required
 def close(survey_id):
     email = session['email']
     survey = Close.closeSurvey(survey_id,email)
-    return "success"
+    return "The Survey that you are attempting to answer has been closed!"
 
 # Invalid path.
 @app.route("/<error>")

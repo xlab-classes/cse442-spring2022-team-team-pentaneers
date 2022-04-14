@@ -18,7 +18,11 @@
 		<h1> This survey <br> no longer exists. </h1>
         
         <br><br><br><br><br><br><br>
-		<a button class = "button" href = "{{ url_for('home') }}">Back to homepage</button></a>
+        {% if authenticated %}
+		    <a button class = "button" href = "{{ url_for('user_homepage') }}">Back to user homepage</button></a>
+        {% else %}
+            <a button class = "button" href = "{{ url_for('home') }}">Back to homepage</button></a>
+        {% endif %}
 
 	</div>
 
