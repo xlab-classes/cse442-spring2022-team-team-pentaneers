@@ -1,6 +1,6 @@
 var count = 0
-var options = ['d)','e)','f)','g)','h)','i)','j)']
-var added_options = ['a', 'b', 'c']
+var options = ['c)','d)','e)','f)','g)','h)','i)','j)']
+var added_options = ['a', 'b']
 var question_type = []
 var option_count = []
 var mc_options = {}
@@ -19,13 +19,12 @@ function mc(){
 
   subject.insertAdjacentHTML("beforeend", ("<label>b)<form><input type='text' id='2" + question_id + "</label>"))
 
-  subject.insertAdjacentHTML("beforeend", ("<label>c)<form><input type='text' id='3" + question_id + "</label>"))
 
   subject.insertAdjacentHTML("beforeend", "<button class='button-add-mc' onclick='add_option()' id='add-mc' role='button'>+</button>")
   
   subject.insertAdjacentHTML("beforeend", "<button class='button-add-question' onclick='add_question()' id='add-question' role='button'>Add question</button>")
   
-  mc_options[count] = 3
+  mc_options[count] = 2
   question_type.push('Multiple Choice') ;
   }
   
@@ -58,7 +57,7 @@ function add_question(){
   count++
 
   const subject = document.querySelector('#question_type');
-  var head = "<h5>Question(s):</h5><form><input type='text' id='Question_"+count.toString()+"'" + "name='fname'><br></form>"
+  var head = "<h5>Question " + (count + 1).toString() + ":</h5><form><input type='text' id='Question_"+count.toString()+"'" + "name='fname'><br></form>"
 
   subject.insertAdjacentHTML("beforeend", head)
 
@@ -66,22 +65,23 @@ function add_question(){
 
   subject.insertAdjacentHTML("beforeend", "<button class='button-wr' onclick='wr()' role='button' onclick='mc()' id='wr'>WR</button>")
 
-  added_options = ['a', 'b', 'c']
-  options = ['d)','e)','f)','g)','h)','i)','j)']
+  added_options = ['a', 'b']
+  options = ['c)','d)','e)','f)','g)','h)','i)','j)']
 }
 
 async function publish(){
   let success = true
   const title = document.getElementById('Title').value
-  console.log(title)
   if(title == ''){
+    alert("You are missing a Survey Title!")
     success = false;
   }
   const description = document.getElementById('Description').value
   var date=document.getElementById('expiredDate').value
   let question_list = []
-  if (question_type.length == 0){
-    success = false
+  if (question_type.length == 0 && title != ''){
+    alert('Please add a question with at least 2 options!')
+    success = false;
   }
   else{
     if (count > 0){
@@ -89,33 +89,64 @@ async function publish(){
         let q = []
         let question_id = 'Question' + '_' + i.toString()
         let question_title = document.getElementById(question_id).value
-        if (question_title == ''){
-          success = false;
-        }
+
+        
         q.push(question_title)
         q.push(question_type[i])
         let mc_option_list = []
-        for(let v = 0; v < mc_options[count]; v++){
+        
+        for(let v = 0; v < mc_options[i]; v++){
           let answer = document.getElementById(((v+1).toString() + i.toString()+'answer')).value
-          if (answer == ''){
+          if (answer == '' && question_title != '' && v < 2 && mc_option_list.length > 0){
+            alert("\u2022Please put a minimum of two options for question " + (i + 1).toString() + '.\n\n' + '\u2022IF you dont wan\'t to include the question in your survey then please DELETE the question title!')
             success = false
+            break;
           }
-          mc_option_list.push(answer)
+          if (answer != '' && question_title != '' && v >= 0){
+            mc_option_list.push(answer.toString())
+            console.log(mc_option_list)
+          }
+          if (question_title == '' && answer != ''){
+            alert("\u2022Please put a Question Title for question " + (i + 1).toString() + '.\n\n' + '\u2022IF you dont wan\'t to include the question in your survey then please DELETE the question options!')
+            success = false
+            break;
+          }
+
+          
         }
-        q.push(mc_option_list)
-        question_list.push(q)
+
+        if (mc_option_list.length == 0 && question_title != '' && i > 0){
+          alert("\u2022Please put a minimum of two options for question " + (i + 1).toString() + '.\n\n' + '\u2022IF you dont wan\'t to include the question in your survey then please DELETE the question title!')
+          success = false
+          break;
+        }
+        if (question_title != '' && mc_option_list.length != 0){
+          q.push(mc_option_list)
+          question_list.push(q)
+        }
+        
       }
     }
-    else{
+    if (count == 0){
       let q = []
-      q.push(document.getElementById('Question_0').value)
+      let question_id = 'Question_0'
+      let question_title = document.getElementById(question_id).value
+        if (question_title == '' && title != ''){
+          alert("Please add a question title to the first question.")
+          success = false;
+        }
+      q.push(question_title)
       q.push(question_type[0])
       let mc_option_list = []
       for(let i = 0; i < mc_options[0]; i++){
         let answer = document.getElementById(((i+1).toString() + count.toString()+'answer')).value
-        mc_option_list.push(answer)
-        if (answer == ''){
+        if (answer == '' && i < 2 && question_title != '' && title != ''){
+          alert("Please put a minimum two options for the first question.")
           success = false
+          break;
+        }
+        if (answer != '' && i >= 0){
+          mc_option_list.push(answer)
         }
       }
       q.push(mc_option_list)
@@ -142,16 +173,13 @@ async function publish(){
         }
     };
     var data = JSON.stringify(survey_data);
+    console.log(data)
     xhr.send(data);
     location.href = "creation_success"
   }
 
-  else if(question_type.length == 0){
-    alert('You have not created any questions!')
-  }
-
   else{
     question_list = []
-    alert('You are missing required fields.')
+    //alert('You are missing required fields.')
   }
 }
