@@ -1,6 +1,6 @@
 import datetime
 import db_connector
-from datetime import date
+from datetime import datetime
 
 from Survey.Status import Auto
 from db_initial import initial
@@ -15,17 +15,22 @@ def survey(data):
     questions=data['questions']
     expired=data['expired_date']
     if(expired!=''):
-        expired=datetime.datetime.strptime(expired,"%Y-%m-%d").date()
+        expired=int(expired)
     else:
         expired=None
-    status=data['visibility']
+    visibility=data['visibility']
     
     # Generate a unique url for the survey so that it can be shared around.
     letters = string.ascii_letters
     unique_string = ''.join(random.choice(letters) for i in range(5))
-
+    print(unique_string)
     #get current date,YYYY-MM-DD format
-    created_date=date.today()
+    created_date=datetime.now()
+    created_date=int(datetime.timestamp(created_date))
+    print("created date")
+    print(created_date)
+    print("expired")
+    print(expired)
 
     #var need to be calculated
     countrow = -1
@@ -58,7 +63,7 @@ def survey(data):
     unique_url = request.host_url + 'survey/respond/' + str(surveys_id) + '/' + unique_string 
     #insert data into Surveys
     sql="Insert into Surveys (email, title, description, created_on, expired_on, surveys_id,visibility,unique_url,unique_string) values (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-    val=(email,title,description,created_date,expired,surveys_id,status,unique_url,unique_string)
+    val=(email,title,description,created_date,expired,surveys_id,visibility,unique_url,unique_string)
     mycursor.execute(sql,val)
     mydb.commit()
     

@@ -12,7 +12,7 @@ def closeSurvey(surveys_id,email):
     # when close a survey, set expires_on NULL
     mydb = db_connector.dbConnector()
     mycursor = mydb.cursor()
-    close_survey = "UPDATE Surveys SET visibility = %s, expired_on = null WHERE surveys_id = %s and email=%s"
+    close_survey = "UPDATE Surveys SET status = %s WHERE surveys_id = %s and email=%s"
     val = ("close", surveys_id, email)
     mycursor.execute(close_survey, val)
     mydb.commit()

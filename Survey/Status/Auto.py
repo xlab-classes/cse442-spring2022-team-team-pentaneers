@@ -3,15 +3,16 @@ import json
 from flask import Flask
 
 import db_connector
-import datetime
+from datetime import datetime
 from datetime import date
 
 def autoClose():
-    actualDate=date.today()
+    actualDate=datetime.now()
+    actualDate=int(datetime.timestamp(actualDate))
     mydb = db_connector.dbConnector()
     mycursor = mydb.cursor()
-    close_survey = "UPDATE Surveys SET visibility = %s, expired_on = null WHERE expired_on <= %s"
-    val = ("private", actualDate)
+    close_survey = "UPDATE Surveys SET status = %s WHERE expired_on <= %s"
+    val = ("close", actualDate)
     mycursor.execute(close_survey, val)
     mydb.commit()
     mydb.close()

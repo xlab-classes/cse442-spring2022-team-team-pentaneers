@@ -17,5 +17,11 @@ def get(email, surveys_id):
 
     survey_url= survey[0][8]
     print("This is the survey url: ", survey_url)
-
+    query = "SELECT status FROM Surveys WHERE email = %s AND surveys_id = %s"
+    value = (email, surveys_id)
+    mycursor.execute(query, value)
+    survey = mycursor.fetchall()
+    status=survey[0][0]
+    if(status=="close"):
+        return "survey closed"
     return survey_url

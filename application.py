@@ -332,6 +332,8 @@ def retrieveSurveyForResponse(survey_id):
 @app.route('/survey/respond/<surveys_id>/<unique_string>', methods = ['GET'])
 def respondToSurveyWithURL(surveys_id, unique_string):
     survey = RetrieveSurveyForResponseByString.retrieve(surveys_id, unique_string)
+    if(survey=="survey closed"):
+        return ("This survey is closed")
     return str(survey)
 
 
@@ -389,7 +391,20 @@ def close(survey_id):
 def error(error):
     return f"page '{error}' does not exist!"
 
+@app.route("/clear")
+def cleardb():
+    drop()
+    initial()
+    return "cleared"
 
+@app.route("/getlink/<surveys_id>")
+def getlink(surveys_id):
+    email = session['email']
+    result=getSurveyURL.get(email,surveys_id)
+    print("result")
+    print(result)
+    return result
+    pass
 
 
 # User class

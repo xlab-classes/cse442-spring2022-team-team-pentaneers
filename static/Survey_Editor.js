@@ -79,6 +79,7 @@ async function publish(){
   }
   const description = document.getElementById('Description').value
   var date=document.getElementById('expiredDate').value
+  var timestamp = +new Date(date)/1000
   let question_list = []
   if (question_type.length == 0){
     success = false
@@ -127,7 +128,7 @@ async function publish(){
                         'title':title,
                         'description':description,
                         'questions':question_list,
-                        'expired_date': date,
+                        'expired_date': timestamp,
                         'visibility': 'public'
                       }
 
