@@ -202,6 +202,8 @@ def view_surveys():
 @login_required
 def survey_editor():
     mindate = (date.today() + timedelta(days=1)).strftime("%Y-%m-%d")
+    print(mindate)
+    mindate+="T00:00:00"
     return render_template('Survey_Editor.html', title="Survey Editor",mindate=mindate)
 
 #------------------The path to our submit survey response page-----------------------
