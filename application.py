@@ -207,6 +207,8 @@ def view_surveys():
 @login_required
 def survey_editor():
     mindate = (date.today() + timedelta(days=1)).strftime("%Y-%m-%d")
+    print(mindate)
+    mindate+="T00:00:00"
     return render_template('Survey_Editor.html', title="Survey Editor",mindate=mindate)
 
 #------------------The path to our submit survey response page-----------------------
@@ -330,6 +332,8 @@ def retrieveSurveyResults(email, surveys_id):
 # User does NOT have to be logged in to see public surveys
 def retrievePublicSurveys():
     all_surveys = RetrievePublicSurveys.retrievePublicSurveys()
+    if all_surveys == None:
+        return "There are no public surveys available yet!"
     
     return all_surveys
 
@@ -348,7 +352,7 @@ def respondToSurveyWithURL(surveys_id, unique_string):
     print(str(survey))
     if survey == None:
         return render_template('Deleted_Survey.html', title = "Deleted Survey", authenticated = authenticated)
-        
+
     print(survey[0])
     t = survey[0]
     if type(survey[1]) == str:
@@ -416,7 +420,7 @@ def private(survey_id):
 @login_required
 def reopen(survey_id):
     email = session['email']
-    survey = Open.openSurvey(survey_id,email)
+    survey = Open.openSurvey(survey_id, email)
     return "success"
 
 @app.route("/survey/close/<survey_id>", methods = ['PUT'])
@@ -432,6 +436,14 @@ def error(error):
     return f"page '{error}' does not exist!"
 
 
+@app.route("/getlink/<surveys_id>")
+def getlink(surveys_id):
+    email = session['email']
+    result=getSurveyURL.get(email,surveys_id)
+    print("result")
+    print(result)
+    return result
+    pass
 
 
 # User class

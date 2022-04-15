@@ -16,9 +16,9 @@ def retrieve(surveys_id, unique_string):
     if len(survey) == 0:
         return None
     
-    visibility = survey[0][7]
+    status = survey[0][10]
 
-    if visibility == 'close':
+    if status == 'close':
         return None
 
     survey_id = survey[0][0]

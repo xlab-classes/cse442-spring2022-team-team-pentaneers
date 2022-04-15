@@ -16,7 +16,7 @@ def retrieveSurveyById (survey_id, email):
     # Fetch the survey information belonging to the requested Survey
     survey = mycursor.fetchall()
     if len(survey) == 0:
-        return "Error 404, This survey does not exist!"
+        return None
     survey = survey[0]
 
     # Fetch the questions for the requested Survey
