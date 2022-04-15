@@ -52,12 +52,13 @@
                         <button onclick = "getLink('{{URLlist[count.value]}}','{{count.value}}')" button class = "buttonlink">Copy link</button>
                         <button onclick = "deleteWarning('{{ count.value }}')" button class = "buttondelete">Delete</button>
 
-                        <select name="status" id=changeStatus{{ count.value }} class="custom-select" name="status" onChange="updateStatus(this.options[this.selectedIndex].value,'{{ count.value }}')">
+                        <select name = "status" id = changeStatus{{ count.value }} class="custom-select" name="status" onChange="updateStatus(this.options[this.selectedIndex].value,'{{ count.value }}')">
                             <option>Status</option>
-                            <option value="open">open</option>
-                            <option value="close">close</option>
+                            <option value="open">Open</option>
+                            <option value="close">Close</option>
                         </select>
                         <div id=status{{ count.value }}></div>
+
                     </h9>
             <br><br><br>
             {% endfor %}
@@ -67,11 +68,8 @@
     </div>
 
      <script>
-        function  updateStatus(value,id){
-            if(value=="public"){
-                open(id);
-            }
-            else if(value=="open"){
+        function  updateStatus(value, id) {
+            if(value=="open"){
                 open(id);
             }
             else if(value=="close"){
@@ -119,23 +117,6 @@
                 alert("URL Copied.");
                 return result;
             }
-
-            /*
-            var text = URLlist
-
-            var input = document.createElement('textArea');
-            input.innerHTML = text;
-            document.body.appendChild(input);
-            input.select();
-            var result = document.execCommand('copy');
-            document.body.removeChild(input);
-            */
-            // Avoid scrolling to bottom after copying
-            // textArea.style.top = "0";
-            // textArea.style.left = "0";
-            // textArea.style.position = "fixed";
-
-            //return result;
         }
     </script>
 
@@ -158,7 +139,7 @@
             }
 
             var xhr = new XMLHttpRequest();
-            var url = "/delete"; // Should not be hardcoded
+            var url = "/delete";
             xhr.open("POST", url, true);
             xhr.setRequestHeader("Content-Type", "application/json");
             var del = JSON.stringify(del + " " + surveys_id);
@@ -172,7 +153,7 @@
             var surveys_id;
             surveys_id = id;
             var xhr = new XMLHttpRequest();
-            var url = "/survey/open/"+surveys_id; // Should not be hardcoded
+            var url = "/survey/open/" + surveys_id;
             xhr.open("PUT", url);
             //xhr.setRequestHeader("Content-Type", "application/json");
             //var del = JSON.stringify(del + " " + surveys_id);
@@ -185,7 +166,7 @@
             var surveys_id;
             surveys_id = id;
             var xhr = new XMLHttpRequest();
-            var url = "/survey/close/"+surveys_id; // Should not be hardcoded?
+            var url = "/survey/close/" + surveys_id;
             xhr.open("PUT", url);
             //xhr.setRequestHeader("Content-Type", "application/json");
             //var del = JSON.stringify(del + " " + surveys_id);

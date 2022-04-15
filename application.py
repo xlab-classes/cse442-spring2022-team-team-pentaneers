@@ -278,6 +278,11 @@ def creation_success():
 def submission_success():
     return render_template('Answer_Completion.html', title = "Survey Submission Success")
 
+#------------------The path to our survey answer submission success page-----------------------
+@app.route("/deleted_survey", methods=['POST', 'GET'])
+def deleted_survey():
+    return render_template('Deleted_Survey.html', title = "Deleted Survey")
+
 
 #------------------The path that will delete a survey-----------------------
 @app.route('/delete', methods = ['DELETE', 'POST', 'GET'])
@@ -333,10 +338,38 @@ def retrieveSurveyForResponse(survey_id):
 
 @app.route('/survey/respond/<surveys_id>/<unique_string>', methods = ['GET'])
 def respondToSurveyWithURL(surveys_id, unique_string):
+    authenticated = False
+    if 'email' in session.keys():
+        authenticated = True
     survey = RetrieveSurveyForResponseByString.retrieve(surveys_id, unique_string)
-    if(survey=="survey closed"):
+    print(str(survey))
+    if (survey == "survey closed"):
         return ("This survey is closed")
-    return str(survey)
+    if survey == None:
+        return render_template('Deleted_Survey.html', title = "Deleted Survey", authenticated = authenticated)
+
+    print(survey[0])
+    t = survey[0]
+    if type(survey[1]) == str:
+        d = survey[1]
+    else:
+        q = survey[1]
+    file = open('Rendered_Survey.html', 'w')
+    # html_form = """<form action="/action_page.php">
+    #         <label for="cars">Choose a car:</label>
+    #         <select name="cars" id="cars" multiple>
+    #             <option value="volvo">Volvo</option>
+    #             <option value="saab">Saab</option>
+    #             <option value="opel">Opel</option>
+    #             <option value="audi">Audi</option>
+    #         </select>
+    #         <br><br>
+    #         <input type="submit" value="Submit">
+    #         </form>"""
+    # file.write(html_form)
+    file.close()
+    q = survey[2]['question_1'][1]
+    return render_template('Survey_Answering_Page.html', title = t, description = d, question = q)
 
 
 @app.route('/retrieve/survey/<email>/<survey_id>', methods = ['GET'])
@@ -372,22 +405,26 @@ def clearDatabase(ubid):
     return render_template('Homepage.html', title = "Homepage")
 
 @app.route("/survey/private/<survey_id>", methods = ['PUT'])
+@login_required
 def private(survey_id):
     email = session['email']
     survey=Private.closeSurvey(survey_id,email)
     return "success"
 
 @app.route("/survey/open/<survey_id>", methods = ['PUT'])
+@login_required
 def reopen(survey_id):
     email = session['email']
-    survey=Open.openSurvey(survey_id,email)
+    survey = Open.openSurvey(survey_id,email)
     return "success"
 
 @app.route("/survey/close/<survey_id>", methods = ['PUT'])
+@login_required
 def close(survey_id):
     email = session['email']
-    survey=Close.closeSurvey(survey_id,email)
-    return "success"
+    survey = Close.closeSurvey(survey_id,email)
+    return "The Survey that you are attempting to answer has been closed!"
+
 # Invalid path.
 @app.route("/<error>")
 def error(error):
