@@ -53,7 +53,7 @@
                         <button onclick = "deleteWarning('{{ count.value }}')" button class = "buttondelete">Delete</button>
 
                         <select name = "status" id = changeStatus{{ count.value }} class="custom-select" name="status" onChange="updateStatus(this.options[this.selectedIndex].value,'{{ count.value }}')">
-                            <option>Status</option>
+                            <option hidden>Status</option>
                             <option value="open">Open</option>
                             <option value="close">Close</option>
                         </select>
