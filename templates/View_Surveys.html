@@ -44,16 +44,17 @@
                     <h9>
                         <a class = "u" href="{{ url_for('survey_responses', surveys_id=loop.index) }}">{{surveytitle}}</a>
 
-
+                       
 
                         <a button class = "buttonedit" href = "{{ url_for('survey_editor') }}" >Edit</button></a>
 
                         {% if count.update({'value': (count.value + 1)}) %} {% endif %}
-                        <button onclick = "getLink('{{URLlist[count.value]}}','{{count.value}}')" button class = "buttonlink">Copy link</button>
-                        <button onclick = "deleteWarning('{{ count.value }}')" button class = "buttondelete">Delete</button>
 
-                        <select name = "status" id = changeStatus{{ count.value }} class="custom-select" name="status" onChange="updateStatus(this.options[this.selectedIndex].value,'{{ count.value }}')">
-                            <option hidden>Status</option>
+                        <button onclick = "getLink('{{URLlist[count.value]}}','{{count.value}}')" button class = "buttonlink">Copy link</button>
+
+                        <button onclick = "deleteWarning('{{ count.value }}')" button class = "buttondelete">Delete</button>
+                        
+                        <select name = "status" id = changeStatus {{ count.value }} class="custom-select" onChange="updateStatus(this.options[this.selectedIndex].value,'{{ count.value }}')">
                             <option value="open">Open</option>
                             <option value="close">Close</option>
                         </select>
@@ -68,11 +69,12 @@
     </div>
 
      <script>
-        function  updateStatus(value, id) {
+        function updateStatus(value, id) {
             if(value=="open"){
                 open(id);
             }
-            else if(value=="close"){
+
+            if(value=="close"){
                 close(id);
             }
         }
@@ -85,7 +87,7 @@
             surveys_id = id;
 
             var xhr = new XMLHttpRequest();
-            var url = "/getlink/"+surveys_id; // Should not be hardcoded
+            var url = "/getlink/"+surveys_id; 
 
             xhr.open("GET", url, true);
             xhr.setRequestHeader("Content-Type", "application/json");

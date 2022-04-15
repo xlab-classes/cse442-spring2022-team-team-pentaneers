@@ -206,13 +206,14 @@ b{
 }
 
 .u {
+  margin-top: 1.5rem;
   color: #ffffff;
   position: relative;
   text-decoration: none;
 }
 
 .u::before {
-  margin-bottom: 3.5rem;
+  margin-bottom: 2.3rem;
   content: '';
   position: absolute;
   width: 100%;
@@ -827,11 +828,11 @@ label{
     margin-bottom: 1rem;
     margin-top: 0.5rem;
     padding: 0.75rem 2rem;
-    background-color: #60abdd;
+    background-color: #ffffff;
     font-family: Montserrat;
     font-weight: 700;
     font-size: 50%;
-    color: #ffffff;
+    color: #60abdd;
     border-radius: 0.5rem;
     outline: none;
     border: none;
@@ -841,7 +842,7 @@ label{
 }
 
 .buttonlink:hover {
-    background-color: #4d87ae;
+    background-color: #d0d0d0;
     text-decoration: none;
 }
 
@@ -898,12 +899,12 @@ label{
     margin-top: 0.5rem;
     width: 80px;
     padding: 0.75rem 2rem;
-    background-color: #ffffff;
+    background-color: #60abdd;
     text-align: center;
     font-family: Montserrat;
     font-weight: 700;
     font-size: 50%;
-    color: #60abdd;
+    color: #ffffff;
     border-radius: 0.5rem;
     outline: none;
     border: none;
@@ -913,7 +914,7 @@ label{
 }
 
 .buttonedit:hover {
-    background-color: #d0d0d0;
+    background-color: #4d87ae;
     text-decoration: none;
 }
 

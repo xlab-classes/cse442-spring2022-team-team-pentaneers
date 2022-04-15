@@ -350,6 +350,8 @@ def respondToSurveyWithURL(surveys_id, unique_string):
         authenticated = True
     survey = RetrieveSurveyForResponseByString.retrieve(surveys_id, unique_string)
     print(str(survey))
+    if survey == "close":
+        return render_template('Closed_Survey.html', title = "Closed Survey", authenticated = authenticated)
     if survey == None:
         return render_template('Deleted_Survey.html', title = "Deleted Survey", authenticated = authenticated)
 
