@@ -5,7 +5,7 @@ from Survey.Status import Auto
 def retrieveSurveysUsers(email):
     Auto.autoClose()
     List_to_return = []
-    
+    List_of_statuses = []
     # Access the Database
     mydb = db_connector.dbConnector()
     mycursor = mydb.cursor()
@@ -30,7 +30,10 @@ def retrieveSurveysUsers(email):
         dictionary[survey_title] = surveys_id
         # Append the created dictionary to the list that we are going to return
         List_to_return.append(dictionary)
-
-    final_content = [email, List_to_return]
+        # Get the status and append it to the list "List_of_statuses"
+        survey_status = row[10]
+        List_of_statuses.append(survey_status)
+    final_content = [email, List_to_return, List_of_statuses]
+    print("This is the final content: ", final_content)
 
     return final_content

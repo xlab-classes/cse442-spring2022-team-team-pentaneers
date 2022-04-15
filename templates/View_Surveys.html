@@ -54,7 +54,13 @@
 
                         <button onclick = "deleteWarning('{{ count.value }}')" button class = "buttondelete">Delete</button>
                         
-                        <select name = "status" id = changeStatus {{ count.value }} class="custom-select" onChange="updateStatus(this.options[this.selectedIndex].value,'{{ count.value }}')">
+                        <select name = "status" id = changeStatus {{ count.value }} class="custom-select" onChange="updateStatus(this.options[this.selectedIndex].value,'{{ count.value }}','{{ statuses[count.value - 1] }}')">
+                            {% if statuses[count.value - 1] == 'close' %}
+                                <option hidden>Closed</option>
+                            {% else %}
+                                <option hidden>Open</option>
+                            {% endif %}
+
                             <option value="open">Open</option>
                             <option value="close">Close</option>
                         </select>
@@ -69,13 +75,25 @@
     </div>
 
      <script>
-        function updateStatus(value, id) {
+        function updateStatus(value, id, status) {
             if(value=="open"){
-                open(id);
+                if (status == "close"){
+                    alert("\u2022 Your survey is now Open. \n\n\u2022 You must edit your survey to add a new expiration date and time if needed!");
+                    open(id);
+                }
+                if (status == "open") {
+                    alert("\u2022 This survey is already Open.");
+                }
             }
 
             if(value=="close"){
-                close(id);
+                if (status == "open"){
+                    alert("\u2022 Your survey is now Closed. \n\n\u2022 No one will be able to respond to your survey until you Open it back up!")
+                    close(id);
+                }
+                if (status == "close"){
+                    alert("\u2022 This survey is already Closed.");
+                }
             }
         }
 

@@ -188,6 +188,7 @@ def view_surveys():
     num = 0
     titles = []
     URLlist = []
+    statuses = surveys[2]
 
     while num != count:
         title = str(surveys[1][num].keys())
@@ -199,7 +200,7 @@ def view_surveys():
         URL = getSurveyURL.get(session["email"], num)
         URLlist.append(URL)
     mindate = (date.today() + timedelta(days=1)).strftime("%Y-%m-%d")
-    return render_template('View_Surveys.html', title = "View Surveys", titles = titles, URLlist = URLlist,mindate=mindate)
+    return render_template('View_Surveys.html', title = "View Surveys", titles = titles, URLlist = URLlist,mindate=mindate,statuses=statuses)
 
 
 #------------------The path to the survey editor page-----------------------
