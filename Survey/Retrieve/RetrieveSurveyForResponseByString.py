@@ -19,7 +19,7 @@ def retrieve(surveys_id, unique_string):
     status = survey[0][10]
 
     if status == 'close':
-        return None
+        return 'close'
 
     survey_id = survey[0][0]
     

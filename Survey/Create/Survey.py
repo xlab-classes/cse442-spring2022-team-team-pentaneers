@@ -62,7 +62,7 @@ def survey(data):
     unique_url = request.host_url + 'survey/respond/' + str(surveys_id) + '/' + unique_string 
     #insert data into Surveys
     sql="Insert into Surveys (email, title, description, created_on, expired_on, surveys_id,visibility,unique_url,unique_string,status) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-    val=(email,title,description,created_date,expired,surveys_id,visibility,unique_url,unique_string,None)
+    val=(email,title,description,created_date,expired,surveys_id,visibility,unique_url,unique_string,"open")
     mycursor.execute(sql,val)
     mydb.commit()
     

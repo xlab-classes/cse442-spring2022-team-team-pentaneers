@@ -7,7 +7,7 @@ var mc_options = {}
 
 function mc(){
   document.getElementById("mc").remove();
-  document.getElementById("wr").remove();
+  // document.getElementById("wr").remove();
 
   const subject = document.querySelector('#question_type');
 
@@ -28,11 +28,11 @@ function mc(){
   question_type.push('Multiple Choice') ;
   }
   
-function wr(){
-  document.getElementById("mc").remove();
-  document.getElementById("wr").remove();
-  question_type.push('Short Response');
-  }
+// function wr(){
+//   document.getElementById("mc").remove();
+//   document.getElementById("wr").remove();
+//   question_type.push('Short Response');
+//   }
 
 function add_option(){
   document.getElementById("add-mc").remove();
@@ -63,7 +63,7 @@ function add_question(){
 
   subject.insertAdjacentHTML("beforeend", "<button class='button-mc' onclick='mc()' role='button' id='mc'>MC</button>")
 
-  subject.insertAdjacentHTML("beforeend", "<button class='button-wr' onclick='wr()' role='button' onclick='mc()' id='wr'>WR</button>")
+  // subject.insertAdjacentHTML("beforeend", "<button class='button-wr' onclick='wr()' role='button' onclick='mc()' id='wr'>WR</button>")
 
   added_options = ['a', 'b']
   options = ['c)','d)','e)','f)','g)','h)','i)','j)']
