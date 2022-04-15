@@ -11,7 +11,7 @@ def autoClose():
     actualDate=int(datetime.timestamp(actualDate))
     mydb = db_connector.dbConnector()
     mycursor = mydb.cursor()
-    close_survey = "UPDATE Surveys SET status = %s WHERE expired_on <= %s"
+    close_survey = "UPDATE Surveys SET status = %s, expired_on = null WHERE expired_on <= %s"
     val = ("close", actualDate)
     mycursor.execute(close_survey, val)
     mydb.commit()

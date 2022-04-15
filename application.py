@@ -415,7 +415,7 @@ def private(survey_id):
 @login_required
 def reopen(survey_id):
     email = session['email']
-    survey = Open.openSurvey(survey_id,email)
+    survey = Open.openSurvey(survey_id, email)
     return "success"
 
 @app.route("/survey/close/<survey_id>", methods = ['PUT'])
