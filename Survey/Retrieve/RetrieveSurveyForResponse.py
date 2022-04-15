@@ -29,7 +29,7 @@ def retrieveSurveyForResponse(survey_id):
     survey = mycursor.fetchall()
     if len(survey) == 0:
         # Make this a 404 message
-        return "The survey that you are trying to access does not exist!"
+        return None
     survey = survey[0]
     
     # Appending the survey information ('survey' index 1 = email, 'survey' index 2 = title, 'survey' index 3 = description)

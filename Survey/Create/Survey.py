@@ -14,10 +14,9 @@ def survey(data):
     description=data['description']
     questions=data['questions']
     expired=data['expired_date']
-    if(expired!=''):
+    if(expired != None):
         expired=int(expired)
-    else:
-        expired=None
+    
     visibility=data['visibility']
     
     # Generate a unique url for the survey so that it can be shared around.
@@ -62,8 +61,8 @@ def survey(data):
     #Generate the full unique url
     unique_url = request.host_url + 'survey/respond/' + str(surveys_id) + '/' + unique_string 
     #insert data into Surveys
-    sql="Insert into Surveys (email, title, description, created_on, expired_on, surveys_id,visibility,unique_url,unique_string) values (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-    val=(email,title,description,created_date,expired,surveys_id,visibility,unique_url,unique_string)
+    sql="Insert into Surveys (email, title, description, created_on, expired_on, surveys_id,visibility,unique_url,unique_string,status) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    val=(email,title,description,created_date,expired,surveys_id,visibility,unique_url,unique_string,None)
     mycursor.execute(sql,val)
     mydb.commit()
     

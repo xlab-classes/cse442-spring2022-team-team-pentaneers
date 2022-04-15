@@ -16,18 +16,10 @@ def retrieve(surveys_id, unique_string):
     if len(survey) == 0:
         return None
     
-    visibility = survey[0][7]
+    status = survey[0][10]
 
-    if visibility == 'close':
+    if status == 'close':
         return None
-
-    query = "SELECT status FROM Surveys WHERE surveys_id = %s AND unique_string = %s"
-    values = (surveys_id, unique_string)
-    mycursor.execute(query, values)
-    status = mycursor.fetchall()
-    print(status)
-    if(status[0][0]=="close"):
-        return "survey closed"
 
     survey_id = survey[0][0]
     

@@ -1,5 +1,5 @@
 import db_connector
-from datetime import date
+from datetime import datetime
 
 from Survey.Status import Auto
 
@@ -19,7 +19,8 @@ def retrievePublicSurveys():
     # fetch all the matching rows 
     result = mycursor.fetchall()
     # Get todyas date to check whether or not the survey has expired.
-    todays_date = date.today()
+    todays_date = datetime.now()
+    todays_date = int(datetime.timestamp(todays_date))
 
     # row format = [id, email, title, description, created_on, expire, surveys_id, visibility]
     for row in result:
@@ -29,8 +30,9 @@ def retrievePublicSurveys():
         expiration_date = row[5]
         
         visibility = row[7]
+        status = row[10]
 
-        if expiration_date == None and visibility == 'public':
+        if expiration_date == None and visibility == 'public' and (status == 'open' or status == None):
             survey_id = row[0]
             survey_title = row[2]
             survey_description = row[3]
@@ -40,7 +42,7 @@ def retrievePublicSurveys():
             List_to_return.append(Dictionary_to_append)
 
         if expiration_date != None:
-            if expiration_date > todays_date and visibility == 'public':
+            if expiration_date > todays_date and visibility == 'public' and (status == 'open' or status == None):
                 survey_id = row[0]
                 survey_title = row[2]
                 survey_description = row[3]
@@ -48,7 +50,9 @@ def retrievePublicSurveys():
                 Dictionary_to_append['survey_title'] = survey_title
                 Dictionary_to_append['survey_description'] = survey_description
                 List_to_return.append(Dictionary_to_append)
-
+                
+    if len(List_to_return) == 0:
+        return None
             
 
-    return List_to_return
+    return str(List_to_return)

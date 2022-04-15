@@ -327,6 +327,8 @@ def retrieveSurveyResults(email, surveys_id):
 # User does NOT have to be logged in to see public surveys
 def retrievePublicSurveys():
     all_surveys = RetrievePublicSurveys.retrievePublicSurveys()
+    if all_surveys == None:
+        return "There are no public surveys available yet!"
     
     return all_surveys
 
@@ -343,8 +345,6 @@ def respondToSurveyWithURL(surveys_id, unique_string):
         authenticated = True
     survey = RetrieveSurveyForResponseByString.retrieve(surveys_id, unique_string)
     print(str(survey))
-    if (survey == "survey closed"):
-        return ("This survey is closed")
     if survey == None:
         return render_template('Deleted_Survey.html', title = "Deleted Survey", authenticated = authenticated)
 
@@ -430,11 +430,6 @@ def close(survey_id):
 def error(error):
     return f"page '{error}' does not exist!"
 
-@app.route("/clear")
-def cleardb():
-    drop()
-    initial()
-    return "cleared"
 
 @app.route("/getlink/<surveys_id>")
 def getlink(surveys_id):
