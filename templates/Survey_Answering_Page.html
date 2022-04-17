@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='Style.css') }}">
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='Survey_Answering.css') }}">
         <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
         <link href="https://fonts.googleapis.com/css2?family=Fredoka+One" rel="stylesheet">
         <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon_duck.png') }}" sizes ="32x32"/>
@@ -16,10 +16,11 @@
     <a button class = "buttonlogout" href = "{{ url_for('logout') }}" >Log out</button></a>
 
     <div class="vertical_flex">
+        <br>
 
         <h1> {{title}} </h1>
 
-        <h11> {{description}} </h11>
+        <h2> {{description}} </h2>
 
         <div id = 'q_and_a'></div>
 
@@ -40,13 +41,13 @@
                 // console.log(keys[i][q])
                 let ques = keys[i][q][0]
                 names.push(ques)
-                subject.insertAdjacentHTML("beforeend", ('<h12>' + ques + '</h12>'))//question
+                subject.insertAdjacentHTML("beforeend", ('<h3>' + ques + '</h3>'))//question
                 if(keys[i][q].includes('Multiple Choice')){
                     let all_options = ['Multiple Choice']
                     for(let v = 0; v < keys[i][q][2].length; v++){
                         let option = keys[i][q][2][v]
-                        subject.insertAdjacentHTML("beforeend", ('<input type="radio" id = "'+ option +'" name = "'+ ques +'" value ="'+ option +'"><BR>'))//have to add id
-                        subject.insertAdjacentHTML("beforeend", "<label for='"+option+"'>" + option + "</label>")
+                        subject.insertAdjacentHTML("beforeend", ('<input type="radio" id = "'+ option +'" name = "'+ ques +'" value ="'+ option +'">'))//have to add id
+                        subject.insertAdjacentHTML("beforeend", "<label for='"+option+"'>" + option + "</label><br>")
                         all_options.push(option)                    
                     }
                     all_questions.push(all_options)
@@ -92,7 +93,7 @@
             };
                 var data = JSON.stringify(survey_data);
                 xhr.send(data);
-                location.href = "submission_success" 
+                // location.href = "submission_success" 
             }
             
 

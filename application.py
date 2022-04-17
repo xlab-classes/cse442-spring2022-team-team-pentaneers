@@ -208,24 +208,15 @@ def survey_editor():
 @app.route("/submitResponse", methods=['GET', 'POST'])
 def createResponse():
     data=json.loads(request.get_data(as_text=True))
-    # survey_id=Response.response(data)
 
-
-    # email = {'email': session['email']}
-    # data = request.get_json('survey_data')
-
-    # # Merging the logged in user with the incoming data to submit the survey properly
-    # data = {**email, **data}
-    # print(data)
-
-    # id=Survey.survey(data)
-    # surveys_id = getSurveyID.surveysID(session['email'], id)
-    # survey_url = getSurveyURL.get(session['email'], surveys_id)
-    # session['surveys_id'] = surveys_id
+    data['survey_id'] = 1
+    email = {'email': 'anonymous'} 
+    if 'email' in session:
+        email = {'email': session['email']}
+    data['email'] = email['email']
     print(data)
-    # Response.response(data)
-    # return survey_id
-    return 'boy'
+    return redirect(url_for('submission_success'))
+
 #------------------The path to the view survey responses page-----------------------
 @app.route("/survey_responses/<surveys_id>", methods=['GET', 'POST'])
 @login_required
@@ -289,7 +280,7 @@ def creation_success():
 #------------------The path to our survey answer submission success page-----------------------
 @app.route("/submission_success", methods=['POST', 'GET'])
 def submission_success():
-    print('submitted response')
+    # print('lets_go')
     return render_template('Answer_Completion.html', title = "Survey Submission Success")
 
 
