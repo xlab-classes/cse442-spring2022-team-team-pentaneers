@@ -97,7 +97,7 @@ label {
 }
 
 
-.buttonlogout {
+.buttonhome {
     float: right;
     display: block;
     margin-right: 1rem;
@@ -118,16 +118,16 @@ label {
     transition: background-color 200ms ease in;
 }
 
-.buttonlogout:hover {
+.buttonhome:hover {
     background-color: #d0d0d0;
     text-decoration: none;
 }
 
-.buttonlogout:link {
+.buttonhome:link {
     text-decoration: none;
 }
 
-.buttonlogout:visited {
+.buttonhome:visited {
     text-decoration: none;
 }
 

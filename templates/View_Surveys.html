@@ -198,6 +198,17 @@
         }
     </script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) { 
+        var keepscrollposs = localStorage.getItem('scrollpos');
+        if (keepscrollposs) window.scrollTo(0, scrollpos);
+    });
+
+    window.onbeforeunload = function(e) {
+        localStorage.setItem('keepscrollposs', window.scrollY);
+    };
+</script>
+
     </body>
 
 </html>
