@@ -15,8 +15,10 @@ def survey(data):
     questions=data['questions']
     expired=data['expired_date']
     if(expired != None):
-        expired=int(expired)
-    
+        expired=datetime.strptime(expired, "%Y-%m-%dT%H:%M")
+        time_stamp = int(datetime.timestamp(expired))
+        expired=time_stamp
+        
     visibility=data['visibility']
     
     # Generate a unique url for the survey so that it can be shared around.
