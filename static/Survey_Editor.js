@@ -4,6 +4,7 @@ var added_options = ['a', 'b', 'c']
 var question_type = []
 var option_count = []
 var mc_options = {}
+var visible = 'public'
 
 function mc(){
   document.getElementById("mc").remove();
@@ -33,7 +34,17 @@ function wr(){
   document.getElementById("mc").remove();
   document.getElementById("wr").remove();
   question_type.push('Short Response');
-  }
+}
+
+function private(){
+  visible = 'private'
+  alert('This survey will be private')
+}
+
+function public(){
+  visible = 'public'
+  alert('This survey will be public')
+}
 
 function add_option(){
   document.getElementById("add-mc").remove();
@@ -128,7 +139,7 @@ async function publish(){
                         'description':description,
                         'questions':question_list,
                         'expired_date': date,
-                        'visibility': 'public'
+                        'visibility': visible
                       }
 
     var xhr = new XMLHttpRequest();

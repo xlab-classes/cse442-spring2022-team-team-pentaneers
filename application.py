@@ -205,12 +205,27 @@ def survey_editor():
     return render_template('Survey_Editor.html', title="Survey Editor",mindate=mindate)
 
 #------------------The path to our submit survey response page-----------------------
-@app.route("/submitResponse", methods=['POST'])
+@app.route("/submitResponse", methods=['GET', 'POST'])
 def createResponse():
     data=json.loads(request.get_data(as_text=True))
-    survey_id=Response.response(data)
-    return survey_id
+    # survey_id=Response.response(data)
 
+
+    # email = {'email': session['email']}
+    # data = request.get_json('survey_data')
+
+    # # Merging the logged in user with the incoming data to submit the survey properly
+    # data = {**email, **data}
+    # print(data)
+
+    # id=Survey.survey(data)
+    # surveys_id = getSurveyID.surveysID(session['email'], id)
+    # survey_url = getSurveyURL.get(session['email'], surveys_id)
+    # session['surveys_id'] = surveys_id
+    print(data)
+    # Response.response(data)
+    # return survey_id
+    return 'boy'
 #------------------The path to the view survey responses page-----------------------
 @app.route("/survey_responses/<surveys_id>", methods=['GET', 'POST'])
 @login_required
@@ -274,6 +289,7 @@ def creation_success():
 #------------------The path to our survey answer submission success page-----------------------
 @app.route("/submission_success", methods=['POST', 'GET'])
 def submission_success():
+    print('submitted response')
     return render_template('Answer_Completion.html', title = "Survey Submission Success")
 
 
@@ -332,29 +348,28 @@ def retrieveSurveyForResponse(survey_id):
 @app.route('/survey/respond/<surveys_id>/<unique_string>', methods = ['GET'])
 def respondToSurveyWithURL(surveys_id, unique_string):
     survey = RetrieveSurveyForResponseByString.retrieve(surveys_id, unique_string)
-    print(str(survey))
-    print(survey[0])
+    # print(survey)
     t = survey[0]
-    if type(survey[1]) == str:
+    dic = {}
+    if type(survey[1]) == str:#have to make case for when option is not there
         d = survey[1]
+        c = 2
+        c2 = 0
+        while c < len(survey):
+            dic[c2] = survey[c]
+            c+=1
+            c2 += 1
+        data = survey[2]
     else:
-        q = survey[1]
-    file = open('Rendered_Survey.html', 'w')
-    # html_form = """<form action="/action_page.php">
-    #         <label for="cars">Choose a car:</label>
-    #         <select name="cars" id="cars" multiple>
-    #             <option value="volvo">Volvo</option>
-    #             <option value="saab">Saab</option>
-    #             <option value="opel">Opel</option>
-    #             <option value="audi">Audi</option>
-    #         </select>
-    #         <br><br>
-    #         <input type="submit" value="Submit">
-    #         </form>"""
-    # file.write(html_form)
-    file.close()
-    q = survey[2]['question_1'][1]
-    return render_template('Survey_Answering_Page.html', title = t, description = d, question = q)
+        c = 1
+        c2 = 0
+        while c < len(survey):
+            dic[c2] = survey[c]
+            c+=1
+            c2 += 1
+    data = dic
+    # print(dic)
+    return render_template('Survey_Answering_Page.html', title = t, description = d, data = data)
 
 
 @app.route('/retrieve/survey/<email>/<survey_id>', methods = ['GET'])

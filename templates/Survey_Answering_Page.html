@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='Completion.css') }}">
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='Style.css') }}">
         <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
         <link href="https://fonts.googleapis.com/css2?family=Fredoka+One" rel="stylesheet">
         <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon_duck.png') }}" sizes ="32x32"/>
@@ -17,18 +17,86 @@
 
     <div class="vertical_flex">
 
-		<h1> {{title}} </h1>
+        <h1> {{title}} </h1>
 
-        <h2> {{description}} </h2>
+        <h11> {{description}} </h11>
 
-        <div class="output">
-            {% include 'Rendered_Survey.html' %}
-        </div>
-        <h2> {{question}} </h2>
+        <div id = 'q_and_a'></div>
 
-        <h2>{{options}}</h2>
+        <!-- <a button class="button-cancel" href = "{{ url_for('user_homepage') }}" >Cancel</button></a> -->
 
-        <!-- <br><br><br><br><br><br><br><br><br><br> -->
+        <a button class="button-submit" onclick="Submit()">Submit</button></a>
+
+        <script>
+            var data = JSON.parse('{{ data | tojson | safe}}')
+            var subject = document.querySelector('#q_and_a');
+            
+            let keys = []
+            let all_questions = []
+            let names = []
+            Object.values(data).forEach(val => keys.push(val))
+            for(let i = 0; i < keys.length; i++){
+                let q = 'question_' + (i+1).toString()
+                // console.log(keys[i][q])
+                let ques = keys[i][q][0]
+                names.push(ques)
+                subject.insertAdjacentHTML("beforeend", ('<h12>' + ques + '</h12>'))//question
+                if(keys[i][q].includes('Multiple Choice')){
+                    let all_options = ['Multiple Choice']
+                    for(let v = 0; v < keys[i][q][2].length; v++){
+                        let option = keys[i][q][2][v]
+                        subject.insertAdjacentHTML("beforeend", ('<input type="radio" id = "'+ option +'" name = "'+ ques +'" value ="'+ option +'"><BR>'))//have to add id
+                        subject.insertAdjacentHTML("beforeend", "<label for='"+option+"'>" + option + "</label>")
+                        all_options.push(option)                    
+                    }
+                    all_questions.push(all_options)
+                }
+                // else{//for wr
+
+                // }
+            }
+            // console.log(names)
+            function Submit(){
+                let mc_answers = []
+                for(let i = 0; i < names.length; i++){
+                    mc_answers.push(document.querySelector('input[name="' + names[i] + '"]:checked').value)
+                }
+
+                console.log(mc_answers)
+                console.log(all_questions)
+                // alert(all_questions)
+                
+                let response = []
+                for(let i = 0; i < all_questions.length; i++){
+                    if (all_questions[i].includes('Multiple Choice')){
+                        response.push(['Multiple Choice', all_questions[i].indexOf(mc_answers[i])])
+                    }
+                    else{
+                        response.push(['Short Response', all_questions[i]])
+                    }
+                }
+                
+                const survey_data = {
+                        'response': response
+                }
+
+                var xhr = new XMLHttpRequest();
+                var url = "/submitResponse";
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var json = JSON.parse(xhr.responseText);
+                    // console.log(json.email + ", " + json.password);
+                }
+            };
+                var data = JSON.stringify(survey_data);
+                xhr.send(data);
+                location.href = "submission_success" 
+            }
+            
+
+        </script>
 
 
 
