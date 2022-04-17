@@ -29,24 +29,24 @@
 
         <h5>Title:</h5>
         <form>
-            <input type="text" id="Title" name="fname" autocomplete = "off" required><br>
+            <input type="text" id="Title" name="fname" autocomplete = "off" onkeydown="return event.key != 'Enter';" required><br>
         </form>
 
         <h5>Description(Optional):</h5>
         <form>
-            <input type="text" id="Description" name="fname" autocomplete = "off"><br>
+            <input type="text" id="Description" name="fname" onkeydown="return event.key != 'Enter';" autocomplete = "off"><br>
         </form>
 
 
 
         <h5>Expiration Date (Optional):</h5>
         <form>
-            <input type="date" id="expiredDate" name="date" autocomplete = "off" class="edit-date" min={{ mindate }}><br>
+            <input type="datetime-local" id="expiredDate" name="date" autocomplete = "off" class="edit-date" min={{ mindate }}><br>
         </form>
         
-        <h5>Question(s):</h5>
+        <h5>Question 1:</h5>
         <form>
-            <input type="text" id="Question_0" name="fname" autocomplete = "off" ><br>
+            <input type="text" id="Question_0" name="fname" onkeydown="return event.key != 'Enter';" autocomplete = "off" ><br>
         </form>
 
         <div id="question_type">
@@ -55,7 +55,7 @@
 
         <button class="button-mc" onclick="mc()" role="button" id="mc">MC</button>
 
-        <button class="button-wr" onclick="wr()" role="button" onclick="mc()" id="wr">WR</button>
+        <!-- <button class="button-wr" onclick="wr()" role="button" onclick="mc()" id="wr">WR</button> -->
 
         <div class = horizontal_flex>
             <a button class="button-cancel" href = "{{ url_for('user_homepage') }}" >Cancel</button></a>

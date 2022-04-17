@@ -44,19 +44,28 @@
                     <h9>
                         <a class = "u" href="{{ url_for('survey_responses', surveys_id=loop.index) }}">{{surveytitle}}</a>
 
-                        <button onclick = "getLink('{{URLlist[count.value]}}')" button class = "buttonlink">Copy link</button>
+                       
 
                         <a button class = "buttonedit" href = "{{ url_for('survey_editor') }}" >Edit</button></a>
 
                         {% if count.update({'value': (count.value + 1)}) %} {% endif %}
-                        <button onclick = "deleteWarning('{{ count.value }}')" button class = "buttondelete">Delete</button>
 
-                        <select name="status" id=changeStatus{{ count.value }} class="custom-select" name="status" onChange="updateStatus(this.options[this.selectedIndex].value,'{{ count.value }}')">
-                            <option>Status</option>
-                            <option value="private">Private</option>
-                            <option value="public">Public</option>
+                        <button onclick = "getLink('{{URLlist[count.value]}}','{{count.value}}')" button class = "buttonlink">Copy link</button>
+
+                        <button onclick = "deleteWarning('{{ count.value }}')" button class = "buttondelete">Delete</button>
+                        
+                        <select name = "status" id = changeStatus {{ count.value }} class="custom-select" onChange="updateStatus(this.options[this.selectedIndex].value,'{{ count.value }}','{{ statuses[count.value - 1] }}')">
+                            {% if statuses[count.value - 1] == 'close' %}
+                                <option hidden>Closed</option>
+                            {% else %}
+                                <option hidden>Open</option>
+                            {% endif %}
+
+                            <option value="open">Open</option>
+                            <option value="close">Closed</option>
                         </select>
                         <div id=status{{ count.value }}></div>
+
                     </h9>
             <br><br><br>
             {% endfor %}
@@ -66,39 +75,72 @@
     </div>
 
      <script>
-        function  updateStatus(value,id){
-            if(value=="public"){
-                open(id);
+        function updateStatus(value, id, status) {
+            if(value=="open"){
+                if (status == "close"){
+                    alert("\u2022 Your survey is now open. \n\n\u2022 You must edit your survey to add a new expiration date and time if needed!");
+                    open(id);
+                    location.reload()
+                }
+                if (status == "open") {
+                    alert("\u2022 This survey is already open.");
+                    location.reload()
+                }
             }
-            else if(value=="open"){
-                open(id);
-            }
-            else if(value=="private"){
-                close(id);
+
+            if(value=="close"){
+                if (status == "open"){
+                    alert("\u2022 Your survey is now closed. \n\n\u2022 No one will be able to respond to your survey until you open it back up!")
+                    close(id);
+                    location.reload()
+                }
+                if (status == "close"){
+                    alert("\u2022 This survey is already closed.");
+                    location.reload()
+                }
             }
         }
 
     </script>
 
     <script>
-        function getLink(URLlist) {
+        function getLink(list,id) {
+            var surveys_id;
+            surveys_id = id;
 
-            var text = URLlist
+            var xhr = new XMLHttpRequest();
+            var url = "/getlink/"+surveys_id; 
 
-            var input = document.createElement('textArea');
-            input.innerHTML = text;
-            document.body.appendChild(input);
-            input.select();
-            var result = document.execCommand('copy');
-            document.body.removeChild(input);
+            xhr.open("GET", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            var del = JSON.stringify(surveys_id);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                  load(list,xhr.response);
+                }
+            }
+            xhr.send(del);}
+    </script>
 
-            // Avoid scrolling to bottom after copying
-            // textArea.style.top = "0";
-            // textArea.style.left = "0";
-            // textArea.style.position = "fixed";
-
-            alert("URL Copied.");
-            return result;
+    <script>
+            function load(list,data){
+            var text=data;
+            console.log(data);
+            //console.log(geturl);
+            if(text==="survey closed"){
+                alert("This survey is closed.");
+                return;
+            }
+            else{
+                var input = document.createElement('textArea');
+                input.innerHTML = text;
+                document.body.appendChild(input);
+                input.select();
+                var result = document.execCommand('copy');
+                document.body.removeChild(input);
+                alert("URL Copied.");
+                return result;
+            }
         }
     </script>
 
@@ -121,7 +163,7 @@
             }
 
             var xhr = new XMLHttpRequest();
-            var url = "/delete"; // Should not be hardcoded
+            var url = "/delete";
             xhr.open("POST", url, true);
             xhr.setRequestHeader("Content-Type", "application/json");
             var del = JSON.stringify(del + " " + surveys_id);
@@ -135,7 +177,7 @@
             var surveys_id;
             surveys_id = id;
             var xhr = new XMLHttpRequest();
-            var url = "/survey/open/"+surveys_id; // Should not be hardcoded
+            var url = "/survey/open/" + surveys_id;
             xhr.open("PUT", url);
             //xhr.setRequestHeader("Content-Type", "application/json");
             //var del = JSON.stringify(del + " " + surveys_id);
@@ -148,7 +190,7 @@
             var surveys_id;
             surveys_id = id;
             var xhr = new XMLHttpRequest();
-            var url = "/survey/private/"+surveys_id; // Should not be hardcoded?
+            var url = "/survey/close/" + surveys_id;
             xhr.open("PUT", url);
             //xhr.setRequestHeader("Content-Type", "application/json");
             //var del = JSON.stringify(del + " " + surveys_id);

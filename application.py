@@ -142,8 +142,13 @@ def login():
                 session['id'] = user.get_id()
                 flash(f"Welcome Back {email}!", 'Success')
                 return redirect(url_for('user_homepage'))
-
-    
+            else:
+                print("Line 146")
+                flash(f"Please enter a valid email and password.", 'Error')
+                return redirect(url_for('login'))
+        else:
+            print("Testing")
+            flash(f"Please enter a valid email and password.", 'Error')
     if len(form.errors) != 0:
         flash(f"Please enter a valid email and password.", 'Error')
         return redirect(url_for('login'))
@@ -183,6 +188,7 @@ def view_surveys():
     num = 0
     titles = []
     URLlist = []
+    statuses = surveys[2]
 
     while num != count:
         title = str(surveys[1][num].keys())
@@ -194,7 +200,7 @@ def view_surveys():
         URL = getSurveyURL.get(session["email"], num)
         URLlist.append(URL)
     mindate = (date.today() + timedelta(days=1)).strftime("%Y-%m-%d")
-    return render_template('View_Surveys.html', title = "View Surveys", titles = titles, URLlist = URLlist,mindate=mindate)
+    return render_template('View_Surveys.html', title = "View Surveys", titles = titles, URLlist = URLlist,mindate=mindate,statuses=statuses)
 
 
 #------------------The path to the survey editor page-----------------------
@@ -202,6 +208,8 @@ def view_surveys():
 @login_required
 def survey_editor():
     mindate = (date.today() + timedelta(days=1)).strftime("%Y-%m-%d")
+    print(mindate)
+    mindate+="T00:00:00"
     return render_template('Survey_Editor.html', title="Survey Editor",mindate=mindate)
 
 #------------------The path to our submit survey response page-----------------------
@@ -284,6 +292,11 @@ def submission_success():
     # print('lets_go')
     return render_template('Answer_Completion.html', title = "Survey Submission Success")
 
+#------------------The path to our survey answer submission success page-----------------------
+@app.route("/deleted_survey", methods=['POST', 'GET'])
+def deleted_survey():
+    return render_template('Deleted_Survey.html', title = "Deleted Survey")
+
 
 #------------------The path that will delete a survey-----------------------
 @app.route('/delete', methods = ['DELETE', 'POST', 'GET'])
@@ -328,6 +341,8 @@ def retrieveSurveyResults(email, surveys_id):
 # User does NOT have to be logged in to see public surveys
 def retrievePublicSurveys():
     all_surveys = RetrievePublicSurveys.retrievePublicSurveys()
+    if all_surveys == None:
+        return "There are no public surveys available yet!"
     
     return all_surveys
 
@@ -339,8 +354,17 @@ def retrieveSurveyForResponse(survey_id):
 
 @app.route('/survey/respond/<surveys_id>/<unique_string>', methods = ['GET'])
 def respondToSurveyWithURL(surveys_id, unique_string):
+    authenticated = False
+    if 'email' in session.keys():
+        authenticated = True
     survey = RetrieveSurveyForResponseByString.retrieve(surveys_id, unique_string)
-    # print(survey)
+    print(str(survey))
+    if survey == "close":
+        return render_template('Closed_Survey.html', title = "Closed Survey", authenticated = authenticated)
+    if survey == None:
+        return render_template('Deleted_Survey.html', title = "Deleted Survey", authenticated = authenticated)
+
+    print(survey[0])
     t = survey[0]
     dic = {}
     if type(survey[1]) == str:#have to make case for when option is not there
@@ -397,28 +421,40 @@ def clearDatabase(ubid):
     return render_template('Homepage.html', title = "Homepage")
 
 @app.route("/survey/private/<survey_id>", methods = ['PUT'])
+@login_required
 def private(survey_id):
     email = session['email']
     survey=Private.closeSurvey(survey_id,email)
     return "success"
 
 @app.route("/survey/open/<survey_id>", methods = ['PUT'])
+@login_required
 def reopen(survey_id):
     email = session['email']
-    survey=Open.openSurvey(survey_id,email)
+    survey = Open.openSurvey(survey_id, email)
     return "success"
 
 @app.route("/survey/close/<survey_id>", methods = ['PUT'])
+@login_required
 def close(survey_id):
     email = session['email']
-    survey=Close.closeSurvey(survey_id,email)
-    return "success"
+    survey = Close.closeSurvey(survey_id,email)
+    return "The Survey that you are attempting to answer has been closed!"
+
 # Invalid path.
 @app.route("/<error>")
 def error(error):
     return f"page '{error}' does not exist!"
 
 
+@app.route("/getlink/<surveys_id>")
+def getlink(surveys_id):
+    email = session['email']
+    result=getSurveyURL.get(email,surveys_id)
+    print("result")
+    print(result)
+    return result
+    pass
 
 
 # User class

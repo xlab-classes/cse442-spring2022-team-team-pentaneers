@@ -39,6 +39,14 @@ div.vertical_flex{
     margin-bottom: 7rem;
 }
 
+div.vertical_flex2{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+    margin-bottom: 7rem;
+}
+
 /* Buttons */
 .buttonlogout {
     float: right;

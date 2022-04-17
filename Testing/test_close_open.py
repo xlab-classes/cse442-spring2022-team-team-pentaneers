@@ -5,13 +5,14 @@ import requests
 
 from db_initial import initial,drop
 from db_connector import dbConnector
+from Survey.Create import Survey
+from Survey.Status import Close,Open,Auto
 
 class MyTestCase(unittest.TestCase):
-    path = 'http://172.16.42.82:8000/'
 
-    def testCloseReopenSurvey(self):
+    def test_close_reopen_auto_close_survey(self):
         drop()
-        url = self.path + 'submitSurvey'
+        initial()
         mydb = dbConnector()
         mycursor = mydb.cursor()
         dict1 = {
@@ -20,68 +21,47 @@ class MyTestCase(unittest.TestCase):
             "description": "test survey1",
             "questions": [["test_title1", "Multiple Choice", ["yes", "nonono"]],
                           ["test_title2", "Multiple Choice", ["lipu", "wuyu"]]],
-            "expired_date": "2023-04-02",
+            "expired_date": 1800000000,
             "visibility": "private"
         }
         #submit survey
-        r = requests.post(url, json=dict1)
-        answer1 = r.json()
-        self.assertEqual(answer1, 1)
-        url = self.path + 'survey/close/1'
-        r=requests.put(url)
+        sql = "Insert into Surveys (email, title, description, created_on, expired_on, surveys_id,visibility,unique_url,unique_string,status) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+        val = ("example@buffalo.edu", "test1", "test survey1", 1500000000, 1600000000, 1, "private", "asdf", "unique_string", "open")
+        mycursor.execute(sql, val)
+        mydb.commit()
+        answer2 = Close.closeSurvey(1, "example@buffalo.edu")
         mydb = dbConnector()
         mycursor = mydb.cursor()
         #check status
-        query = "SELECT visibility FROM Surveys WHERE id = 1"
+        query = "SELECT status FROM Surveys WHERE id = 1"
         mycursor.execute(query)
         survey = mycursor.fetchall()
-        self.assertEqual(survey[0][0], 'private')
+        self.assertEqual(survey[0][0], 'close')
         #check expired date
         query = "SELECT expired_on FROM Surveys WHERE id = 1"
         mycursor.execute(query)
         survey = mycursor.fetchall()
         self.assertEqual(survey[0][0], None)
         # reopen survey
-        url=self.path+'survey/reopen/1'
-        dict2={
-            "expired_date": "2023-04-02"
-        }
-        r=requests.put(url,json=dict2)
+        answer2 = Open.openSurvey(1, "example@buffalo.edu")
         mydb = dbConnector()
         mycursor = mydb.cursor()
         # check status
-        query = "SELECT visibility FROM Surveys WHERE id = 1"
+        query = "SELECT status FROM Surveys WHERE id = 1"
         mycursor.execute(query)
         survey = mycursor.fetchall()
-        self.assertEqual(survey[0][0], 'public')
-        # check expired date
-        query = "SELECT expired_on FROM Surveys WHERE id = 1"
-        mycursor.execute(query)
-        survey = mycursor.fetchall()
-        expired=datetime.datetime.strptime("2023-04-02", "%Y-%m-%d").date()
-        self.assertEqual(survey[0][0], expired)
-
-    def autoClose(self):
-        drop()
-        url = self.path + 'submitSurvey'
-        mydb = dbConnector()
-        mycursor = mydb.cursor()
-        dict1 = {
-            "email": "example@buffalo.edu",
-            "title": "test1",
-            "description": "test survey1",
-            "questions": [["test_title1", "Multiple Choice", ["yes", "nonono"]],
-                          ["test_title2", "Multiple Choice", ["lipu", "wuyu"]]],
-            "expired_date": "2022-04-02",
-            "visibility": "private"
-        }
+        self.assertEqual(survey[0][0], 'open')
         # submit survey
-        r = requests.post(url, json=dict1)
-        answer1 = r.json()
-        self.assertEqual(answer1, 1)
-        url = self.path + 'retrieve/PublicSurveys'
-        r = requests.get(url)
-        self.assertEqual(len(r), 0)
+        sql = "Insert into Surveys (email, title, description, created_on, expired_on, surveys_id,visibility,unique_url,unique_string,status) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+        val = ("example@buffalo.edu", "test1", "test survey1", 1400000000, 1500000000, 2, "private", "asdf", "unique_string", "open")
+        mycursor.execute(sql, val)
+        mydb.commit()
+        Auto.autoClose()
+        query = "SELECT status FROM Surveys WHERE id = 2"
+        mycursor.execute(query)
+        survey = mycursor.fetchall()
+        print(survey)
+        self.assertEqual(survey[0][0], 'close')
 
 
 
