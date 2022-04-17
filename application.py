@@ -208,14 +208,15 @@ def survey_editor():
 @app.route("/submitResponse", methods=['GET', 'POST'])
 def createResponse():
     data=json.loads(request.get_data(as_text=True))
-
-    data['survey_id'] = 1
     email = {'email': 'anonymous'} 
     if 'email' in session:
         email = {'email': session['email']}
     data['email'] = email['email']
-    print(data)
-    return redirect(url_for('submission_success'))
+    survey_id = getSurveyID.get_surveys_id_by_uniqueString(data['unique_string'])
+    data['survey_id'] = survey_id
+    
+    Response.response(data)
+    return "Data sent to the database"
 
 #------------------The path to the view survey responses page-----------------------
 @app.route("/survey_responses/<surveys_id>", methods=['GET', 'POST'])

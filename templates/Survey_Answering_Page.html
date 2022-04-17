@@ -76,9 +76,12 @@
                         response.push(['Short Response', all_questions[i]])
                     }
                 }
+                var path_name = window.location.pathname
+                var unique_string = path_name.substring(path_name.length - 5)
                 
                 const survey_data = {
-                        'response': response
+                        'response': response,
+                        'unique_string': unique_string
                 }
 
                 var xhr = new XMLHttpRequest();
@@ -91,9 +94,10 @@
                     // console.log(json.email + ", " + json.password);
                 }
             };
+                
                 var data = JSON.stringify(survey_data);
                 xhr.send(data);
-                // location.href = "submission_success" 
+                location.href = "/submission_success" 
             }
             
 

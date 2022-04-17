@@ -55,6 +55,8 @@ label {
     font-family: Montserrat;
     color: white;
     margin-left: 1%;
+    font-size: 25px;
+    font-weight: 500;
 }
 
 .button-submit{
