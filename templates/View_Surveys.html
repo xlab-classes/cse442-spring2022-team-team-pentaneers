@@ -78,24 +78,24 @@
         function updateStatus(value, id, status) {
             if(value=="open"){
                 if (status == "close"){
-                    alert("\u2022 Your survey is now Open. \n\n\u2022 You must edit your survey to add a new expiration date and time if needed!");
+                    alert("\u2022 Your survey is now open. \n\n\u2022 You must edit your survey to add a new expiration date and time if needed!");
                     open(id);
                     location.reload()
                 }
                 if (status == "open") {
-                    alert("\u2022 This survey is already Open.");
+                    alert("\u2022 This survey is already open.");
                     location.reload()
                 }
             }
 
             if(value=="close"){
                 if (status == "open"){
-                    alert("\u2022 Your survey is now Closed. \n\n\u2022 No one will be able to respond to your survey until you Open it back up!")
+                    alert("\u2022 Your survey is now closed. \n\n\u2022 No one will be able to respond to your survey until you open it back up!")
                     close(id);
                     location.reload()
                 }
                 if (status == "close"){
-                    alert("\u2022 This survey is already Closed.");
+                    alert("\u2022 This survey is already closed.");
                     location.reload()
                 }
             }
