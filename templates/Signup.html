@@ -88,17 +88,17 @@
       <p class="bottom__text"> &nbsp; &nbsp;Already have an account?&nbsp; <a class="bottom__link" href="{{url_for('login')}}">Sign in here</a></p>
  
     </body>
+    
+    <!-- Code to assist with FE data encryption -- https://phpgurukul.com/how-to-encrypt-password-on-client-side/ -->
     <script>
       function encrypt()
       {
-      var pass=document.getElementById('password').value;
+      var encypt_password=document.getElementById('password').value;
       var hide=document.getElementById('hide').value;
 
       document.getElementById("hide").value = document.getElementById("password").value;
-      var hash = CryptoJS.MD5(pass);
-      document.getElementById('password').value=hash;
-
-
+      var hashed = CryptoJS.MD5(encypt_password);
+      document.getElementById('password').value=hashed;
 
 
       var conf_pass=document.getElementById('confirm_password').value;
