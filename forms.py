@@ -10,7 +10,7 @@ class RegistrationForm(FlaskForm):
 
     email = StringField('Email', validators = [InputRequired(message="An Email is required!"), DataRequired(), Email(message="Not a valid email")])
 
-    password = PasswordField('Password', validators = [InputRequired(message="A password is required!"), DataRequired(message="Please enter a password"), Length(min = 5, max = 30, message="Password must be between 5 and 30 characters")])
+    password = PasswordField('Password', validators = [InputRequired(message="A password is required!"), DataRequired(message="Please enter a password"), Length(min = 5, max = 32, message="Password must be between 5 and 32 characters")])
 
     confirm_password = PasswordField('Confirm Password', validators = [InputRequired(message="You must enter a matching password!"), DataRequired(), EqualTo('password', message="Passwords must match")])
 
@@ -21,7 +21,7 @@ class RegistrationForm(FlaskForm):
 class LoginForm(FlaskForm):
     email = StringField('Email', validators = [DataRequired(), Email()])
 
-    password = PasswordField('Password', validators = [DataRequired(), Length(min = 5, max = 30)])
+    password = PasswordField('Password', validators = [DataRequired(), Length(min = 5, max = 32)])
     
     remember = BooleanField('Remember Me')
 

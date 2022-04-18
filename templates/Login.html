@@ -7,6 +7,8 @@
       <link rel=stylesheet type=text/css href="{{ url_for('static', filename='Login_Signup_Style.css') }}">
       <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
       <link href="https://fonts.googleapis.com/css2?family=Fredoka+One" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+      <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
       <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon_duck.png') }}" sizes ="32x32"/>
   </head>
     <body>
@@ -51,13 +53,26 @@
             <label for = "password" class = "form__label">Password</label>
           </div>
 
-
+          
           <!--Creating the "Confirm password" box for Signing up-->
-          <button class = "form__button">Sign in</button>
+          <button type="hidden" id="hide" class = "form__button" onclick="return encrypt()" >Sign in</button>
 
         </form>
         <!--Back to Sign up page link at bottom-->
         <p class="bottom__text"> &nbsp; &nbsp;Don't have an account?&nbsp; <a class="bottom__link" href="{{url_for('signup')}}">Create one here!</a></p>
     
     </body>
+    <script>
+      function encrypt()
+      {
+      var pass=document.getElementById('password').value;
+      var hide=document.getElementById('hide').value;
+
+      document.getElementById("hide").value = document.getElementById("password").value;
+      var hash = CryptoJS.MD5(pass);
+      document.getElementById('password').value=hash;
+      return true;
+      
+      }
+      </script>
 </html>

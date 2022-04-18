@@ -8,6 +8,8 @@
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One" rel="stylesheet">
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon_duck.png') }}" sizes ="32x32"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
   </head>
     <body>
 
@@ -78,13 +80,36 @@
             {% endif %}
             </div>
             
-
             <!--Creating the "Register" button for Signing up-->
-            <input type="submit" class="form__button" value="Register"></br>
+            <input type="submit" id="hide" onclick="return encrypt()" class="form__button" value="Register"></br>
 
       </form>
       <!--Back to Login page link at bottom-->
       <p class="bottom__text"> &nbsp; &nbsp;Already have an account?&nbsp; <a class="bottom__link" href="{{url_for('login')}}">Sign in here</a></p>
  
     </body>
+    <script>
+      function encrypt()
+      {
+      var pass=document.getElementById('password').value;
+      var hide=document.getElementById('hide').value;
+
+      document.getElementById("hide").value = document.getElementById("password").value;
+      var hash = CryptoJS.MD5(pass);
+      document.getElementById('password').value=hash;
+
+
+
+
+      var conf_pass=document.getElementById('confirm_password').value;
+      var hide=document.getElementById('hide').value;
+
+      document.getElementById("hide").value = document.getElementById("confirm_password").value;
+      var hash = CryptoJS.MD5(conf_pass);
+      document.getElementById('confirm_password').value=hash;
+
+      return true;
+      
+      }
+      </script>
 </html>
