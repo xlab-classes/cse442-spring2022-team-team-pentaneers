@@ -97,13 +97,16 @@ label {
 }
 
 
+
 .buttonhome {
+    position: absolute;
+    top: 0;
+    right: 0;
     float: right;
     display: block;
     margin-right: 1rem;
     margin-bottom: 1rem;
     margin-top: 0.5rem;
-    width: 75px;
     padding: 0.75rem 2rem;
     background-color: #ffffff;
     font-family: Montserrat;

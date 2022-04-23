@@ -32,12 +32,12 @@ function mc(){
 
 function private(){
   visible = 'private'
-  alert('This survey will be private')
+  alert('This survey will be private.')
 }
 
 function public(){
   visible = 'public'
-  alert('This survey will be public')
+  alert('This survey will be public.')
 }
 // function wr(){
 //   document.getElementById("mc").remove();

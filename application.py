@@ -274,7 +274,6 @@ def survey_responses(surveys_id):
     total_num_of_responses = total_num_of_responses, survey_title = survey_title, survey_description = survey_description,
     percent_values = percent_values, questionsSA = questionsSA, responsesSA = responsesSA)
 
-
 #------------------The path to our survey creation success page-----------------------
 @app.route("/creation_success", methods=['POST', 'GET'])
 @login_required
@@ -337,14 +336,14 @@ def retrieveSurveyResults(email, surveys_id):
     return survey_results
 
 
-@app.route('/retrieve/PublicSurveys')
+#------------------The path to our browse survey page-----------------------
+@app.route("/browse_surveys", methods = ['GET', 'POST'])
 # User does NOT have to be logged in to see public surveys
-def retrievePublicSurveys():
+def browse_surveys():
     all_surveys = RetrievePublicSurveys.retrievePublicSurveys()
-    if all_surveys == None:
-        return "There are no public surveys available yet!"
+    #print("All public surveys: ", all_surveys)
+    return render_template('Browse_Survey.html', title = "Browse surveys", all_surveys = all_surveys)
     
-    return all_surveys
 
 
 @app.route('/survey/form/<survey_id>', methods = ['GET'])
