@@ -15,6 +15,9 @@
 
     <a button class = "buttonlogout" href = "{{ url_for('logout') }}" >Log out</button></a>
 
+    <button id="toggle" class="dark_button" onclick="setDarkMode()">Change Theme</button>
+    <script src="{{url_for('static', filename='Dark_Mode.js')}}"></script>
+
     <div class="vertical_flex">
 
 		<h1> We have received <br> your survey submission! </h1>

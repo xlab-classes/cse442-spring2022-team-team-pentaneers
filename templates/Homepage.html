@@ -11,7 +11,6 @@
         <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon_duck.png') }}" sizes ="32x32"/>
     </head>
 <body>
-    
     <h2> Team Pentaneers </h2>
 
     <a button class = "buttonlogin" href = "{{ url_for('login') }}" >Sign in</button></a>
@@ -20,6 +19,8 @@
 
     <a button class = "buttonbrowse" href = "{{ url_for('home') }}" >Browse</button></a>
 
+    <button id="toggle" class="dark_button" onclick="setDarkMode()">Change Theme</button>
+    <script src="{{url_for('static', filename='Dark_Mode.js')}}"></script>
     <h1> DuckyForms </h1>
 
     <div class = "Successful_Account_Creation">      
@@ -35,11 +36,11 @@
     </div> 
 
     <div class="duck">
-        <img src="{{url_for('static', filename='duck.png')}}" class="animate__animated animate__bounce">
+        <img src="{{url_for('static', filename='d_copy.png')}}" class="animate__animated animate__bounce">
     </div>
 
     <h3>Ready to create a survey? Log in or create an account to begin!</h3>
-    
+
 </body>
 
 </html>

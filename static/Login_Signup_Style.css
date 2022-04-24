@@ -10,7 +10,8 @@
 body {
   font-family: Montserrat;
   font-weight: 700;
-  background-color: #60abdd;
+  --background-color: #60abdd;
+  background-color: var(--background-color);
   height: 100vh;
   display: -ms-grid;
   display: grid;
@@ -20,7 +21,43 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  color: #ffffff;
+  --color: #ffffff;
+  --button-hover: #4d87ae;
+  --dark-blue: #28475c;
+  --light-blue: #81d1fe;
+  --h4-color: rgb(50, 100, 141);
+  color: var(--color);
+}
+.dark{
+  --background-color: #1a1a1d;
+  --color: #ffffff;
+  --button-hover: #977dc6;
+  --dark-blue: #baa7d9;
+  --light-blue: #4a2d9f;
+  --h4-color: #ddd2ec;
+}
+
+.dark_button{
+  display: block;
+  margin-right: auto;
+  margin-bottom: 1rem;
+  width: 190px;
+  padding: 0.75rem 2rem;
+  background-color: var(--light-blue);
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: 80%;
+  color: var(--color);
+  border-radius: 0.5rem;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  -webkit-transition: background-color 200ms ease in;
+  transition: background-color 200ms ease in;
+}
+
+.dark_button:hover {
+  background-color: var(--button-hover);
 }
 
 .form {
@@ -28,7 +65,7 @@ body {
   height: 38rem;
   padding: 3rem;
   border-radius: 1rem;
-  background-color: #81d1fe;
+  background-color: var(--light-blue);
 }
 
 .form__buttonback {
@@ -37,11 +74,11 @@ body {
   margin-bottom: 1rem;
   width: 190px;
   padding: 0.75rem 2rem;
-  background-color: #60abdd;
+  background-color: var(--background-color);
   font-family: inherit;
   font-weight: inherit;
   font-size: 80%;
-  color: #ffffff;
+  color: var(--color);
   border-radius: 0.5rem;
   outline: none;
   border: none;
@@ -51,7 +88,7 @@ body {
 }
 
 .form__buttonback:hover {
-  background-color: #4d87ae;
+  background-color: var(--button-hover);
   text-decoration: none;
 }
 
@@ -77,6 +114,10 @@ body {
   margin-bottom: 2rem;
 }
 
+.span{
+  color:var(--h4-color);
+}
+
 h4{
   position: fixed;
   right: -1%;
@@ -86,12 +127,12 @@ h4{
   text-align: center;
   margin-top: -35px;
   width: 100%;
-  color: rgb(50, 100, 141);
+  color: var(--h4-color);
 } 
 
 .form__group {
   position: relative;
-  color: #4d87ae;
+  color: var(--button-hover);
   height: 3rem;
   margin-bottom: 1.5rem;
 }
@@ -99,7 +140,7 @@ h4{
 .form__input {
   width: 100%;
   height: 100%;
-  border: 2px solid #4d87ae;
+  border: 2px solid var(--button-hover);
   border-radius: 0.5rem;
   font-family: inherit;
   font-weight: inherit;
@@ -110,11 +151,11 @@ h4{
 }
 
 .form__input:hover {
-  border-color: #60abdd;
+  border-color: var(--background-color);
 }
 
 .form__input:focus {
-  border-color: #60abdd;
+  border-color: var(--background-color);
 }
 
 .form__label {
@@ -122,7 +163,7 @@ h4{
   left: 1rem;
   top: 0.9rem;
   padding: 0 0.5rem;
-  background-color: #81d1fe;
+  background-color: var(--light-blue);
   -webkit-transition: top 200ms ease-in, left 200ms ease-in, font-size 200ms ease-in;
   transition: top 200ms ease-in, left 200ms ease-in, font-size 200ms ease-in;
 }
@@ -131,10 +172,10 @@ h4{
   display: block;
   margin: auto;
   padding: 0.75rem 2rem;
-  background-color: #60abdd;
+  background-color: var(--background-color);
   font-family: inherit;
   font-weight: inherit;
-  color: #ffffff;
+  color: var(--color);
   border-radius: 0.5rem;
   outline: none;
   border: none;
@@ -144,7 +185,7 @@ h4{
 }
 
 .form__button:hover {
-  background-color: #4d87ae;
+  background-color: var(--button-hover);
 }
 
 .form__input:focus ~ .form__label,
@@ -159,11 +200,11 @@ h4{
 }
 
 .bottom__link {
-  color: #4d87ae;
+  color: var(--button-hover);
 }
 
 .bottom__link:hover {
-  color: #28475c;
+  color: var(--dark-blue);
   text-decoration: none;
 }
 
@@ -181,17 +222,17 @@ h4{
 }
 
 ::-webkit-scrollbar-track {
-  background: #81d1fe;
+  background: var(--light-blue);
 }
 
 ::-webkit-scrollbar-thumb {
   border-radius: 20px;
-  background: #4d87ae;
+  background: var(--button-hover);
 }
 
 ::-webkit-scrollbar-thumb:hover {
   border-radius: 20px;
-  background: #28475c;
+  background: var(--dark-blue);
 }
 
 input:-webkit-autofill,
@@ -199,5 +240,5 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
     transition: background-color 5000s ease-in-out 0s;
-    -webkit-text-fill-color: #4d87ae !important;
+    -webkit-text-fill-color: var(--button-hover) !important;
 }

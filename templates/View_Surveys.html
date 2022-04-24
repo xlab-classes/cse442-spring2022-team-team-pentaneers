@@ -12,13 +12,13 @@
         <link href="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
     </head>
 <body>
-
     <img class="corner_duck" src="{{url_for('static', filename='corner_duck.png')}}">
 
     <a button class = "buttonlogout" href = "{{ url_for('logout') }}" >Log out</button></a>
 
     <a button class = "buttonback" href = "{{ url_for('user_homepage') }}" >Go back</button></a>
-
+    <button id="toggle" class="dark_button" onclick="setDarkMode()">Change Theme</button>
+    <script src="{{url_for('static', filename='Dark_Mode.js')}}"></script>
     <div class="vertical_flex2">
 
         <h1>Here are <br> your surveys!</h1>
@@ -208,7 +208,6 @@
         localStorage.setItem('keepscrollposs', window.scrollY);
     };
 </script>
-
     </body>
 
 </html>

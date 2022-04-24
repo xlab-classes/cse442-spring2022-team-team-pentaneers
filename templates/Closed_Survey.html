@@ -10,7 +10,8 @@
         <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon_duck.png') }}" sizes ="32x32"/>
     </head>
 <body>
-
+    <button id="toggle" class="dark_button" onclick="setDarkMode()">Change Theme</button>
+    <script src="{{url_for('static', filename='Dark_Mode.js')}}"></script>
     <img class="corner_duck" src="{{url_for('static', filename='corner_duck.png')}}">
 
     <div class="vertical_flex2">
@@ -25,7 +26,6 @@
         {% endif %}
 
 	</div>
-
 </body>
 
 </html>
