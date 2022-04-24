@@ -207,10 +207,27 @@ def view_surveys():
 @app.route("/survey_editor", methods=['GET', 'POST'])
 @login_required
 def survey_editor():
-    mindate = (date.today() + timedelta(days=1)).strftime("%Y-%m-%d")
+    mindate = (date.today() + timedelta(days=0)).strftime("%Y-%m-%d")
     print(mindate)
     mindate+="T00:00:00"
     return render_template('Survey_Editor.html', title="Survey Editor",mindate=mindate)
+
+@app.route("/update_survey/<surveys_id>", methods = ['GET'])
+@login_required
+def update_survey(surveys_id):
+    mindate = (date.today() + timedelta(days=0)).strftime("%Y-%m-%d")
+    mindate+="T00:00:00"
+    
+    email = session['email']
+    survey_id = getSurveyID.surveyID(email, surveys_id)
+    survey_info = retrieveSurveyForResponse(survey_id)
+
+    survey_title = survey_info[1]
+    survey_description = survey_info[2]
+    question_1_title = survey_info[3]['question_1'][0]
+    survey_info = json.dumps(survey_info)
+    return render_template('Update_Survey.html', title="Update Survey", survey_data=survey_info, mindate=mindate, survey_title=survey_title, survey_description=survey_description, question_1_title=question_1_title)
+    
 
 #------------------The path to our submit survey response page-----------------------
 @app.route("/submitResponse", methods=['GET', 'POST'])
@@ -297,6 +314,15 @@ def submission_success():
 def deleted_survey():
     return render_template('Deleted_Survey.html', title = "Deleted Survey")
 
+
+#------------------The path to our update success success page-----------------------
+@app.route("/update_success/<surveys_id>", methods=['POST', 'GET'])
+@login_required
+def update_success(surveys_id):
+    time.sleep(0.10)
+    URL = getSurveyURL.get(session["email"], surveys_id)
+
+    return render_template('Update_Completion.html', title = "Survey Update Success", URL = URL)
 
 #------------------The path that will delete a survey-----------------------
 @app.route('/delete', methods = ['DELETE', 'POST', 'GET'])
@@ -395,14 +421,20 @@ def retrieveSurveyById(survey_id, email):
     return user_survey
 
 
-@app.route("/survey/modify/<id>", methods = ['PUT'])
+@app.route("/survey/modify/<surveys_id>", methods = ['PUT'])
 @login_required
-def modifySurvey(id):
-    # Add user validation later
+def modifySurvey(surveys_id):
 
     # Data that contains any updated information
-    data = json.loads(request.get_data(as_text=True))
-    modified_survey = ModifySurvey.modifySurvey(id, data)
+    email = {'email': session['email']}
+    data = request.get_json('survey_data')
+    # Merging the logged in user with the incoming data to submit the survey properly
+    data = {**email, **data}
+    print("Line 424: ", data)
+    # data = json.loads(request.get_data(as_text=True))
+    survey_id = getSurveyID.surveyID(session['email'], surveys_id)
+    modified_survey = ModifySurvey.modifySurvey(survey_id, data)
+    print("This is the modifed survey id: ", modified_survey)
     return modified_survey
 
 
