@@ -63,31 +63,6 @@ body{
   background-color: var(--blue-four);
 }
 
-.dark_button_user_homepage{
-    display: block;
-    float: left;
-    margin-right: auto;
-    margin-left: 0.5rem;
-    margin-bottom: 1rem;
-    margin-top: 0.5rem;
-    width: 190px;
-    padding: 0.75rem 2rem;
-    background-color: var(--blue-one);
-    font-family: Montserrat;
-    font-weight: 700;
-    font-size: 80%;
-    color: var(--text-color);
-    border-radius: 0.5rem;
-    outline: none;
-    border: none;
-    cursor: pointer;
-    -webkit-transition: background-color 200ms ease in;
-    transition: background-color 200ms ease in;
-}
-
-.dark_button_user_homepage:hover {
-  background-color: var(--blue-four);
-}
 /* --------------------------------Display flex----------------------------- */
 div.horizontal_flex{
     display: flex;
