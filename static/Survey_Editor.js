@@ -163,25 +163,34 @@ async function publish(){
       let q = []
       let question_id = 'Question_0'
       let question_title = document.getElementById(question_id).value
-        if (question_title == '' && title != ''){
+        if (question_title == '' && title != '' && question_type[0] == 'Multiple Choice'){
           alert("Please include a question title for question 1.")
           success = false;
         }
       q.push(question_title)
       q.push(question_type[0])
-      let mc_option_list = []
-      for(let i = 0; i < mc_options[0]; i++){
-        let answer = document.getElementById(((i+1).toString() + count.toString()+'answer')).value
-        if (answer == '' && i < 2 && question_title != '' && title != ''){
-          alert("Please include at least two options for question 1.")
-          success = false
-          break;
+      if(question_type[0] == 'Multiple Choice'){
+        let mc_option_list = []
+        for(let i = 0; i < mc_options[0]; i++){
+          let answer = document.getElementById(((i+1).toString() + count.toString()+'answer')).value
+          if (answer == '' && i < 2 && question_title != '' && title != ''){
+            alert("Please include at least two options for question 1.")
+            success = false
+            break;
+          }
+          if (answer != '' && i >= 0){
+            mc_option_list.push(answer)
+          }
         }
-        if (answer != '' && i >= 0){
-          mc_option_list.push(answer)
-        }
+        q.push(mc_option_list)
       }
-      q.push(mc_option_list)
+    else{
+      if(question_title == ''){
+        alert("Please include question for written response question 1.")
+        success = false
+      }
+      q.push('string')
+    }
       question_list.push(q)
     }
   }
