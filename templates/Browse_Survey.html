@@ -15,7 +15,8 @@
     <img class="corner_duck" src="{{url_for('static', filename='corner_duck.png')}}">
 
     <a button class = "buttonhome" href = "{{ url_for('home') }}" >Homepage</button></a>
-
+    <button id="toggle" class="dark_button" onclick="setDarkMode()">Change Theme</button>
+        <script src="{{url_for('static', filename='Dark_Mode.js')}}"></script>
     <br><br>
     <h1>Explore surveys!</h1><br><br>
     <h3>Select a survey below to begin!</h3>

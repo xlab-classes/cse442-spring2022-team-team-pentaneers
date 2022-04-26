@@ -114,10 +114,18 @@ label {
     font-weight: 500;
 }
 
+div.vertical_flex{
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+    min-width: 780px;
+    margin-bottom: 7rem;
+}
+
 .button-submit{
     display:relative;
     float: right;
-    margin-right: 43%;
+    margin-right: 44.5%;
     margin-bottom: 3rem;
     /* margin-top: 30%; */
     width: 80px;
@@ -154,7 +162,6 @@ label {
 
 
 .buttonhome {
-    position: absolute;
     top: 0;
     right: 0;
     float: right;

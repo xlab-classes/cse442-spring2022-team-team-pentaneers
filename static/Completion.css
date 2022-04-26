@@ -86,8 +86,8 @@ div.vertical_flex{
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-    margin-left: 23%;
-    min-width: 780px;
+    margin-left: 22%;
+    min-width: 800px;
     margin-bottom: 7rem;
 }
 
