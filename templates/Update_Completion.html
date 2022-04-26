@@ -14,15 +14,18 @@
     <img class="corner_duck" src="{{url_for('static', filename='corner_duck.png')}}">
 
     <a button class = "buttonlogout" href = "{{ url_for('logout') }}" >Log out</button></a>
-
     <button id="toggle" class="dark_button" onclick="setDarkMode()">Theme</button>
-    <script src="{{url_for('static', filename='Dark_Mode.js')}}"></script>
-
+        <script src="{{url_for('static', filename='Dark_Mode.js')}}"></script>
     <div class="vertical_flex">
 
-		<h1> We have received <br> your survey submission! </h1>
+		<h1> Your survey <br> has been successfully updated! </h1>
 
-        <br><br><br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br>
+        {% if URL %}
+            <button onclick = "getLink('{{ URL }}')" button class = "buttonlink">Copy link</button>
+        {% endif %}
+
+        <br><br><br>
 
     	<a button class = "button" href = "{{ url_for('view_surveys') }}">View your surveys</button></a>
 
@@ -31,6 +34,24 @@
 		<a button class = "button" href = "{{ url_for('user_homepage') }}">Browse surveys</button></a>
 
 	</div>
+
+
+    <script>
+        function getLink(URL) {
+
+            var text = URL
+
+            var input = document.createElement('textArea');
+            input.innerHTML = text;
+            document.body.appendChild(input);
+            input.select();
+            var result = document.execCommand('copy');
+            document.body.removeChild(input);
+
+            alert("URL Copied.");
+            return result;
+        }
+    </script>
 
 </body>
 

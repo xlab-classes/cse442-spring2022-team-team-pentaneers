@@ -12,7 +12,8 @@
       <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon_duck.png') }}" sizes ="32x32"/>
   </head>
     <body>
-
+    <button id="toggle" class="dark_button" onclick="setDarkMode()">Theme</button>
+        <script src="{{url_for('static', filename='Dark_Mode.js')}}"></script>
         <form action = "{{ url_for('login') }}" class = "form" method="post">
 
           {{ form.csrf_token }} <!--For security-->
@@ -59,8 +60,8 @@
 
         </form>
         <!--Back to Sign up page link at bottom-->
-        <p class="bottom__text"> &nbsp; &nbsp;Don't have an account?&nbsp; <a class="bottom__link" href="{{url_for('signup')}}">Create one here!</a></p>
-    
+        <p class="bottom__text"> Don't have an account? <a class="bottom__link" href="{{url_for('signup')}}"> Create one here!</a></p>
+
     </body>
     
     <!-- Code to assist with FE data encryption -- https://phpgurukul.com/how-to-encrypt-password-on-client-side/ -->

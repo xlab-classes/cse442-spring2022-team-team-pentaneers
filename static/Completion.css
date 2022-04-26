@@ -1,10 +1,61 @@
 
 body{
-    background-color: #81D1FE;
+    background-color: var(--blue-ten);
     height: 100;
     margin: 0;
+    --text-color: #ffffff;
+    --blue-one: #60abdd;
+    --blue-two: #479ad1;
+    --blue-three: #3e7192;
+    --blue-four: #4d87ae;
+    --blue-five: #72a4cf;
+    --blue-six: #619acc;
+    --blue-seven: #5b9cd5;
+    --blue-eight: #529aca;
+    --blue-nine: #368ec9;
+    --blue-ten: #81d1fe;
+    --blue-eleven: #28475c;
+    --grey-one: #d0d0d0;
+    --grey-two: #ccc;
+}
+.dark{
+    --text-color: #ffffff;
+    --blue-one: #4a2d9f;
+    --blue-two: #ddd2ec;
+    --blue-three: #977dc6;
+    --blue-four: #977dc6;
+    --blue-five: #72a4cf;
+    --blue-six: #619acc;
+    --blue-seven: #5b9cd5;
+    --blue-eight: #529aca;
+    --blue-nine: #368ec9;
+    --blue-ten: #1a1a1d;
+    --blue-eleven: #454545;
+    --grey-one: #d0d0d0;
+    --grey-two: #ccc;
+}
+.dark_button{
+    float: right;
+    display: block;
+    margin-right: 1rem;
+    margin-top: 0.5rem;
+    padding: 0.75rem 2rem;
+    background-color: var(--blue-one);
+    font-family: Montserrat;
+    font-weight: 700;
+    font-size: 120%;
+    color: var(--text-color);
+    border-radius: 0.5rem;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    -webkit-transition: background-color 200ms ease in;
+    transition: background-color 200ms ease in;
 }
 
+.dark_button:hover {
+  background-color: var(--blue-four);
+}
 /* Title of page */
 h1{
     text-align: center;
@@ -15,7 +66,7 @@ h1{
     letter-spacing: +0.04em;
     font-size: 70px;
     font-family: Fredoka One;  
-    color: white;
+    color: var(--text-color);
 }
 
 h2{
@@ -27,7 +78,7 @@ h2{
     letter-spacing: +0.04em;
     font-size: 40px;
     font-family: Fredoka One;  
-    color: white;
+    color: var(--text-color);;
 }
 
 div.vertical_flex{
@@ -35,7 +86,8 @@ div.vertical_flex{
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-    margin-left: 10%;
+    margin-left: 22%;
+    min-width: 800px;
     margin-bottom: 7rem;
 }
 
@@ -45,6 +97,7 @@ div.vertical_flex2{
 	justify-content: center;
 	align-items: center;
     margin-bottom: 7rem;
+    margin-left: 12%;
 }
 
 /* Buttons */
@@ -56,11 +109,11 @@ div.vertical_flex2{
     margin-top: 0.5rem;
     width: 75px;
     padding: 0.75rem 2rem;
-    background-color: #ffffff;
+    background-color: var(--text-color);;
     font-family: Montserrat;
     font-weight: 700;
     font-size: 120%;
-    color: #60abdd;
+    color: var(--blue-one);
     border-radius: 0.5rem;
     outline: none;
     border: none;
@@ -70,7 +123,7 @@ div.vertical_flex2{
 }
 
 .buttonlogout:hover {
-    background-color: #d0d0d0;
+    background-color: var(--grey-one);
     text-decoration: none;
 }
 
@@ -90,11 +143,11 @@ div.vertical_flex2{
     margin-top: 0.5rem;
     width: 80px;
     padding: 0.75rem 2rem;
-    background-color: #60abdd;
+    background-color: var(--blue-one);
     font-family: Montserrat;
     font-weight: 700;
     font-size: 120%;
-    color: #ffffff;
+    color: var(--text-color);;
     border-radius: 0.5rem;
     outline: none;
     border: none;
@@ -104,7 +157,7 @@ div.vertical_flex2{
 }
 
 .buttonback:hover {
-    background-color: #4d87ae;
+    background-color: var(--blue-four);
     text-decoration: none;
 }
 
@@ -127,8 +180,8 @@ div.vertical_flex2{
     font-size: 150%;
 	text-align: center;
 	
-	color: #FFFFFF;
-	background-color: #60ABDD;
+	color: var(--text-color);;
+	background-color: var(--blue-one);
 	
 	border: none;
 	border-radius: 0.5rem;
@@ -146,7 +199,7 @@ div.vertical_flex2{
 }
 
 .button:hover {
-    background-color: #4d87ae;
+    background-color: var(--blue-four);
     text-decoration: none;
 }
 
@@ -163,11 +216,11 @@ div.vertical_flex2{
     margin-bottom: 1rem;
     margin-top: 0.5rem;
     padding: 1rem 3rem;
-    background-color: #ffffff;
+    background-color: var(--text-color);;
     font-family: Montserrat;
     font-weight: 700;
     font-size: 100%;
-    color: #60abdd;
+    color: var(--blue-one);
     border-radius: 0.5rem;
     outline: none;
     border: none;
@@ -177,7 +230,7 @@ div.vertical_flex2{
 }
 
 .buttonlink:hover {
-    background-color: #d0d0d0;
+    background-color: var(--grey-one);
     text-decoration: none;
 }
 
@@ -207,15 +260,15 @@ img.corner_duck{
 }
   
 ::-webkit-scrollbar-track {
-    background: #81d1fe;
+    background: var(--blue-ten);
 }
   
 ::-webkit-scrollbar-thumb {
     border-radius: 20px;
-    background: #4d87ae;
+    background: var(--blue-four);
 }
   
 ::-webkit-scrollbar-thumb:hover {
     border-radius: 20px;
-    background: #28475c;
+    background: var(--blue-eleven);
 }
