@@ -24,8 +24,8 @@ def retrievePublicSurveys():
 
     # row format = [id, email, title, description, created_on, expire, surveys_id, visibility]
     for row in result:
-        # This will be the dictionary that we use to add in all Surveys that have not expired
-        Dictionary_to_append = {}
+        # This will be the list that we use to add in all Surveys that have not expired
+        list_to_append = []
         # If the expiration date has not passed, then we add it to a list that we will return.
         expiration_date = row[5]
         
@@ -36,23 +36,25 @@ def retrievePublicSurveys():
             survey_id = row[0]
             survey_title = row[2]
             survey_description = row[3]
-            Dictionary_to_append['survey_id'] = survey_id
-            Dictionary_to_append['survey_title'] = survey_title
-            Dictionary_to_append['survey_description'] = survey_description
-            List_to_return.append(Dictionary_to_append)
+            survey_url = row[8]
+            list_to_append.append(survey_title)
+            list_to_append.append(survey_description)
+            list_to_append.append(survey_url)
+            List_to_return.append(list_to_append)
 
         if expiration_date != None:
             if expiration_date > todays_date and visibility == 'public' and (status == 'open' or status == None):
                 survey_id = row[0]
                 survey_title = row[2]
                 survey_description = row[3]
-                Dictionary_to_append['survey_id'] = survey_id
-                Dictionary_to_append['survey_title'] = survey_title
-                Dictionary_to_append['survey_description'] = survey_description
-                List_to_return.append(Dictionary_to_append)
+                survey_url = row[8]
+                list_to_append.append(survey_title)
+                list_to_append.append(survey_description)
+                list_to_append.append(survey_url)
+                List_to_return.append(list_to_append)
                 
     if len(List_to_return) == 0:
         return None
             
 
-    return str(List_to_return)
+    return List_to_return

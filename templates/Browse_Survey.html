@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='Style.css') }}">
+        <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+        <link href="https://fonts.googleapis.com/css2?family=Fredoka+One" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@900&display=swap" rel="stylesheet">
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon_duck.png') }}" sizes ="32x32"/>
+    </head>
+<body>
+
+    <img class="corner_duck" src="{{url_for('static', filename='corner_duck.png')}}">
+
+    <a button class = "buttonhome" href = "{{ url_for('home') }}" >Homepage</button></a>
+
+    <br><br>
+    <h1>Explore surveys!</h1><br><br>
+    <h3>Select a survey below to begin!</h3>
+
+    {% for surveys in all_surveys %}
+        <div class = "vertical_flex5">
+
+            {% set count = {'value': 0} %}
+
+            <h10>{{surveys[count.value]}}</h10><br><br>
+            {% if count.update({'value': (count.value + 1)}) %} {% endif %}
+
+            <h8>{{surveys[count.value]}}</h8><br><br>
+            {% if count.update({'value': (count.value + 1)}) %} {% endif %}
+
+            <button onclick = "getLink('{{surveys[count.value]}}')" button class = "buttonlink2">Start survey</button>
+            {% if count.update({'value': (count.value + 1)}) %} {% endif %} 
+
+        </div>
+    {% endfor %}
+
+    <script>
+        function getLink(URL) {
+            var text = URL
+            window.open(URL)
+        }
+    </script>
+
+</body>
+
+</html>

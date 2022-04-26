@@ -131,9 +131,37 @@ div.vertical_flex4{
 	align-items: flex-end;
 }
 
+div.vertical_flex5{
+    overflow: auto;
+	justify-content: center;
+	align-items: center;
+    text-align: center;
+    margin-left: 28%;
+    width: 40rem;
+    height: 20rem;
+    margin-top: 5rem;
+    margin-bottom: 10rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    background: linear-gradient(to bottom, #529aca 35%, #60abdd 0%);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+div.vertical_flex5:hover {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    animation-name: side_border;
+    animation-duration: 0.25s;
+    border-left: 8px solid #529aca;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  }
+
+
 /* ------------------h1 = Title of page--------------------- */
 h1{
     text-align: center;
+    word-wrap: break-word;
     text-shadow: 0px 4px 2px rgba(0, 0, 0, 0.25);
     margin-top: 70px;
     width: 100%;
@@ -160,6 +188,7 @@ h3{
     font-weight: 700;
     font-size: 35px;
     text-align: center;
+    word-wrap: break-word;
     text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
     margin-top: -60px;
     width: 100%;
@@ -218,6 +247,7 @@ h8{
     text-shadow: 1px 2px 1px rgba(0, 0, 0, 0.25);
     font-family: Montserrat;
     font-weight: 700;
+    word-wrap: break-word;
     font-size: 38px;
     text-align: center;
     width: 100%;
@@ -463,6 +493,45 @@ b{
 }
 
 .buttonlogout:visited {
+    text-decoration: none;
+}
+
+
+
+
+.buttonhome {
+    position: absolute;
+    top: 0;
+    right: 0;
+    float: right;
+    display: block;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    padding: 0.75rem 2rem;
+    background-color: #ffffff;
+    font-family: Montserrat;
+    font-weight: 700;
+    font-size: 120%;
+    color: #60abdd;
+    border-radius: 0.5rem;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    -webkit-transition: background-color 200ms ease in;
+    transition: background-color 200ms ease in;
+}
+
+.buttonhome:hover {
+    background-color: #d0d0d0;
+    text-decoration: none;
+}
+
+.buttonhome:link {
+    text-decoration: none;
+}
+
+.buttonhome:visited {
     text-decoration: none;
 }
 
@@ -988,6 +1057,38 @@ label{
     text-decoration: none;
 }
 
+
+.buttonlink2 {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    padding: 0.75rem 2rem;
+    background-color: #ffffff;
+    font-family: Montserrat;
+    font-weight: 700;
+    font-size: 150%;
+    color: #60abdd;
+    border-radius: 0.5rem;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    -webkit-transition: background-color 200ms ease in;
+    transition: background-color 200ms ease in;
+}
+
+.buttonlink2:hover {
+    background-color: #d0d0d0;
+    text-decoration: none;
+}
+
+.buttonlink2:link {
+    text-decoration: none;
+}
+
+.buttonlink2:visited {
+    text-decoration: none;
+}
 
 
 .buttondelete {
