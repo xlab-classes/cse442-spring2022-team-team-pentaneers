@@ -35,6 +35,8 @@
             let keys = []
             let all_questions = []
             let names = []
+            let types = []
+            let wr_id = []
             Object.values(data).forEach(val => keys.push(val))
             for(let i = 0; i < keys.length; i++){
                 let q = 'question_' + (i+1).toString()
@@ -44,6 +46,7 @@
                 subject.insertAdjacentHTML("beforeend", ('<h3>' + ques + '</h3>'))//question
                 if(keys[i][q].includes('Multiple Choice')){
                     let all_options = ['Multiple Choice']
+                    types.push('MC')
                     for(let v = 0; v < keys[i][q][2].length; v++){
                         let option = keys[i][q][2][v]
                         subject.insertAdjacentHTML("beforeend", ('<input type="radio" id = "'+ option +'" name = "'+ ques +'" value ="'+ option +'">'))//have to add id
@@ -52,55 +55,79 @@
                     }
                     all_questions.push(all_options)
                 }
-                // else{//for wr
-
-                // }
+                else{//for wr
+                    all_questions.push(['Short Response'])
+                    types.push('WR')
+                    // wr_id.push(ques)
+                    let id = ques + "'></form><br>"
+                    subject.insertAdjacentHTML("beforeend", ("<br><form><input type='text' id = '" + id))
+                }
             }
             // console.log(names)
             function Submit(){
-                let mc_answers = []
+                let success = true
+                let all_answers = []
+                // alert(names)
                 for(let i = 0; i < names.length; i++){
-                    mc_answers.push(document.querySelector('input[name="' + names[i] + '"]:checked').value)
+                    if(types[i] == 'MC'){
+                        let answer = document.querySelector('input[name="' + names[i] + '"]:checked')
+                        if(answer == null){
+                            alert('You need to answer all multiple choice questions')
+                            success = false
+                        }
+                        else{
+                            all_answers.push(answer.value)
+                        }
+                    }
+                    else{
+                        let answer = document.getElementById(names[i]).value
+                        all_answers.push(answer)
+                        if(answer == ''){
+                            alert('You need to answer all short response questions')
+                            success = false
+                        }
+                    }
                 }
 
-                console.log(mc_answers)
+                console.log(all_answers)
                 console.log(all_questions)
-                // alert(all_questions)
+                // alert(all_answers)
                 
                 let response = []
                 for(let i = 0; i < all_questions.length; i++){
                     if (all_questions[i].includes('Multiple Choice')){
-                        response.push(['Multiple Choice', all_questions[i].indexOf(mc_answers[i])])
+                        response.push(['Multiple Choice', all_questions[i].indexOf(all_answers[i])])
                     }
                     else{
-                        response.push(['Short Response', all_questions[i]])
+                        response.push(['Short Response', all_answers[i]])
                     }
                 }
+                alert(response)
                 var path_name = window.location.pathname
                 var unique_string = path_name.substring(path_name.length - 5)
-                
-                const survey_data = {
-                        'response': response,
-                        'unique_string': unique_string
-                }
 
-                var xhr = new XMLHttpRequest();
-                var url = "/submitResponse";
-                xhr.open("POST", url, true);
-                xhr.setRequestHeader("Content-Type", "application/json");
-                xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var json = JSON.parse(xhr.responseText);
-                    // console.log(json.email + ", " + json.password);
-                }
-            };
-                
-                var data = JSON.stringify(survey_data);
-                xhr.send(data);
-                location.href = "/submission_success" 
+
+                if(success == true){
+                    const survey_data = {
+                            'response': response,
+                            'unique_string': unique_string
+                    }
+
+                    var xhr = new XMLHttpRequest();
+                    var url = "/submitResponse";
+                    xhr.open("POST", url, true);
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                    xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var json = JSON.parse(xhr.responseText);
+                        // console.log(json.email + ", " + json.password);
+                    }
+                };
+                    var data = JSON.stringify(survey_data);
+                    xhr.send(data);
+                    location.href = "/submission_success" 
+                }    
             }
-            
-
         </script>
 
 
