@@ -44,6 +44,23 @@ h3{
     color: #FFFFFF;
 }
 
+input[type=text], select {
+    font-family: Montserrat;
+    font-weight: 700;
+    color: #3e7192;
+    width: 50%;
+    padding: 12px 20px;
+    display: table-cell;
+    margin-left: 25%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+textarea:focus, input:focus{
+    outline-color: #3e7192;
+}
+
 input[type=radio]{
     margin: .6rem;
     margin-left: 25%;
