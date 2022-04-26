@@ -8,7 +8,7 @@ var visible = 'public'
 
 function mc(){
   document.getElementById("mc").remove();
-  // document.getElementById("wr").remove();
+  document.getElementById("wr").remove();
 
   const subject = document.querySelector('#question_type');
 
@@ -29,6 +29,19 @@ function mc(){
   question_type.push('Multiple Choice') ;
   }
   
+function wr(){
+  document.getElementById("mc").remove();
+  document.getElementById("wr").remove();
+  question_type.push('Short Response');
+  const subject = document.querySelector('#question_type');
+
+  let question_id = count.toString() + "wr' name='wr'><br></form>"
+
+  subject.insertAdjacentHTML("beforeend", "<br><form><input type='text' onkeydown='return event.key != 'Enter';' id='" + question_id)
+
+  subject.insertAdjacentHTML("beforeend", "<button class='button-add-question' onclick='add_question()' id='add-question' role='button'>Add question</button>")
+
+}
 
 function private(){
   visible = 'private'
@@ -39,11 +52,7 @@ function public(){
   visible = 'public'
   alert('This survey will be public')
 }
-// function wr(){
-//   document.getElementById("mc").remove();
-//   document.getElementById("wr").remove();
-//   question_type.push('Short Response');
-//   }
+
 
 function add_option(){
   document.getElementById("add-mc").remove();
@@ -63,7 +72,9 @@ function add_option(){
   }
 
 function add_question(){
-  document.getElementById("add-mc").remove();
+  if (question_type[question_type.length - 1] == 'Multiple Choice'){
+    document.getElementById("add-mc").remove();
+  }
   document.getElementById("add-question").remove();
   count++
 
@@ -74,7 +85,7 @@ function add_question(){
 
   subject.insertAdjacentHTML("beforeend", "<button class='button-mc' onclick='mc()' role='button' id='mc'>MC</button>")
 
-  // subject.insertAdjacentHTML("beforeend", "<button class='button-wr' onclick='wr()' role='button' onclick='mc()' id='wr'>WR</button>")
+  subject.insertAdjacentHTML("beforeend", "<button class='button-wr' onclick='wr()' role='button' onclick='mc()' id='wr'>WR</button>")
 
   added_options = ['a', 'b']
   options = ['c)','d)','e)','f)','g)','h)','i)','j)']
@@ -105,35 +116,52 @@ async function publish(){
         
         q.push(question_title)
         q.push(question_type[i])
-        let mc_option_list = []
-        
-        for(let v = 0; v < mc_options[i]; v++){
-          let answer = document.getElementById(((v+1).toString() + i.toString()+'answer')).value
-          if (answer == '' && question_title != '' && v < 2 && mc_option_list.length > 0){
-            alert("\u2022Please include at least two options for question " + (i + 1).toString() + '.\n\n' + '\u2022IF you dont wan\'t to include the question in your survey then please DELETE the question title!')
-            success = false
-            break;
+        if(question_type[i] == 'Multiple Choice'){
+          let mc_option_list = []
+          
+          for(let v = 0; v < mc_options[i]; v++){
+            let answer = document.getElementById(((v+1).toString() + i.toString()+'answer')).value
+              if (answer == '' && question_title != '' && v < 2 && mc_option_list.length > 0){
+                alert("\u2022Please include at least two options for question " + (i + 1).toString() + '.\n\n' + '\u2022IF you dont wan\'t to include the question in your survey then please DELETE the question title!')
+                success = false
+                break;
+              }
+              if (answer != '' && question_title != '' && v >= 0){
+                mc_option_list.push(answer.toString())
+                console.log(mc_option_list)
+              }
+              if (question_title == '' && answer != ''){
+                alert("\u2022Please include a question title for question " + (i + 1).toString() + '.\n\n' + '\u2022If you dont wan\'t to include the question in your survey then please DELETE the question options!')
+                success = false
+                break;
+              }
+              if(question_title != '' && answer == '' && mc_option_list.length == 0){
+                alert("\u2022Please include at least two options for question " + (i + 1).toString() + '.\n\n' + '\u2022If you dont wan\'t to include the question in your survey then please DELETE the question title!')
+                success = false
+                break;
+              } 
           }
-          if (answer != '' && question_title != '' && v >= 0){
-            mc_option_list.push(answer.toString())
-            console.log(mc_option_list)
+          if (question_title != '' && mc_option_list.length != 0){
+            q.push(mc_option_list)
+            question_list.push(q)
           }
-          if (question_title == '' && answer != ''){
-            alert("\u2022Please include a question title for question " + (i + 1).toString() + '.\n\n' + '\u2022If you dont wan\'t to include the question in your survey then please DELETE the question options!')
-            success = false
-            break;
-          }
-          if(question_title != '' && answer == '' && mc_option_list.length == 0){
-            alert("\u2022Please include at least two options for question " + (i + 1).toString() + '.\n\n' + '\u2022If you dont wan\'t to include the question in your survey then please DELETE the question title!')
-            success = false
-            break;
-          } 
         }
-        if (question_title != '' && mc_option_list.length != 0){
-          q.push(mc_option_list)
+      else{
+        let answer = document.getElementById((i.toString() + 'wr')).value
+        if(answer == '' && question_title != ''){
+          alert("\u2022Please answer the short response question " + (i + 1).toString() + '.\n\n' + '\u2022IF you dont wan\'t to include the question in your survey then please DELETE the question title!')
+          success = false
+        }
+        else if (question_title == '' && answer != ''){
+          alert("\u2022Please include a question title for question " + (i + 1).toString() + '.\n\n' + '\u2022If you dont wan\'t to include the question in your survey then please DELETE the question response')
+          success = false
+          break;
+        }
+        else if(answer != '' && question_title != ''){
+          q.push(answer)
           question_list.push(q)
         }
-        
+      }
       }
     }
     if (count == 0){
@@ -146,22 +174,33 @@ async function publish(){
         }
       q.push(question_title)
       q.push(question_type[0])
-      let mc_option_list = []
-      for(let i = 0; i < mc_options[0]; i++){
-        let answer = document.getElementById(((i+1).toString() + count.toString()+'answer')).value
-        if (answer == '' && i < 2 && question_title != '' && title != ''){
-          alert("Please include at least two options for question 1.")
+      if(question_type[0] == 'Multiple Choice'){
+        let mc_option_list = []
+        for(let i = 0; i < mc_options[0]; i++){
+          let answer = document.getElementById(((i+1).toString() + count.toString()+'answer')).value
+          if (answer == '' && i < 2 && question_title != '' && title != ''){
+            alert("Please include at least two options for question 1.")
+            success = false
+            break;
+          }
+          if (answer != '' && i >= 0){
+            mc_option_list.push(answer)
+          }
+        }
+        q.push(mc_option_list)
+    }
+    else{
+      let answer = document.getElementById((count.toString()+ 'wr')).value
+        if(answer == ''){
+          alert("Please include an answer for question 1.")
           success = false
-          break;
         }
-        if (answer != '' && i >= 0){
-          mc_option_list.push(answer)
-        }
-      }
-      q.push(mc_option_list)
+      q.push(answer)
+    }
       question_list.push(q)
     }
   }
+
   if (success == true){
     const survey_data = {
                         'title':title,
