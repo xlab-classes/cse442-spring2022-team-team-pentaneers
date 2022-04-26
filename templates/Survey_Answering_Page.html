@@ -72,7 +72,7 @@
                     if(types[i] == 'MC'){
                         let answer = document.querySelector('input[name="' + names[i] + '"]:checked')
                         if(answer == null){
-                            alert('You need to answer all multiple choice questions')
+                            alert('You must answer all of the multiple choice questions.')
                             success = false
                         }
                         else{
@@ -83,7 +83,7 @@
                         let answer = document.getElementById(names[i]).value
                         all_answers.push(answer)
                         if(answer == ''){
-                            alert('You need to answer all short response questions')
+                            alert('You must answer all of the short response questions.')
                             success = false
                         }
                     }
@@ -102,7 +102,7 @@
                         response.push(['Short Response', all_answers[i]])
                     }
                 }
-                alert(response)
+                
                 var path_name = window.location.pathname
                 var unique_string = path_name.substring(path_name.length - 5)
 
