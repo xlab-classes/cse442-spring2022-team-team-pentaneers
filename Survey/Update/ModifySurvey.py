@@ -14,7 +14,8 @@ def modifySurvey(id, data):
     new_survey_description = data['description'].replace(";", "")
     new_survey_questions = data['questions']
     new_survey_expiration_date = data['expired_date'].replace(";", "")
-    new_survey_expiration_date = datetime.datetime.strptime(new_survey_expiration_date,"%Y-%m-%d").date()
+    if new_survey_expiration_date != '':
+        new_survey_expiration_date = datetime.datetime.strptime(new_survey_expiration_date,"%Y-%m-%d").date()
     new_survey_visibility = data['visibility'].replace(";", "")
 
     # check survey exists
@@ -68,7 +69,7 @@ def modifySurvey(id, data):
     #------------If there are no changes, just return with a message----------------------
     
     old_survey_questions = parseSurveyQuestions.parseSurveyQuestions(database_survey_questions)
-    
+
     if str(old_survey_questions) == str(new_survey_questions):
         return "No Question Changes were made!"
 
@@ -81,14 +82,14 @@ def modifySurvey(id, data):
     relation_id = len(old_survey_questions)
     # Looping through the newly (possibly) modified survey
     for question in new_survey_questions:
-        
+
         new_question_title = question[0]
         new_question_type = question[1]
         new_question_options = question[2]
         question_id += 1
         
         # If the User has not added any questions, then we can safely assume they have modified something
-        if question_id < len(old_survey_questions):
+        if question_id < len(old_survey_questions)+1:
             questionnumberList.append(question_id)
             
             # Checking to see if the question title has changed
@@ -137,7 +138,7 @@ def modifySurvey(id, data):
                     values = (question_id, id)
                     mycursor.execute(response_query, values)
                     mydb.commit()
-            
+
             if new_question_type == old_survey_questions[question_id-1][1]:
                 # Checking to see if the question options have changed
                 if new_question_options != old_survey_questions[question_id-1][2]:
@@ -212,4 +213,4 @@ def modifySurvey(id, data):
 
     response = RetrieveSurveyById.retrieveSurveyById(id, email)
 
-    return response
+    return str(response)

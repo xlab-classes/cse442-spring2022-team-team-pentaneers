@@ -44,11 +44,10 @@
                     <h9>
                         <a class = "u" href="{{ url_for('survey_responses', surveys_id=loop.index) }}">{{surveytitle}}</a>
 
-                       
-
-                        <a button class = "buttonedit" href = "{{ url_for('survey_editor') }}" >Edit</button></a>
 
                         {% if count.update({'value': (count.value + 1)}) %} {% endif %}
+
+                        <a button class = "buttonedit" href = "{{ url_for('update_survey', surveys_id=loop.index) }}" >Edit</button></a>
 
                         <button onclick = "getLink('{{URLlist[count.value]}}','{{count.value}}')" button class = "buttonlink">Copy link</button>
 
@@ -201,7 +200,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function(event) { 
         var keepscrollposs = localStorage.getItem('scrollpos');
-        if (keepscrollposs) window.scrollTo(0, scrollpos);
+        if (keepscrollposs) window.scrollTo(0, keepscrollposs);
     });
 
     window.onbeforeunload = function(e) {

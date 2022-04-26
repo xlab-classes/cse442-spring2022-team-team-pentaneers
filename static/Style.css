@@ -633,6 +633,20 @@ input[type=text], select {
     box-sizing: border-box;
   }
 
+  textarea[type=textarea], select {
+    font-family: Montserrat;
+    font-weight: 700;
+    color: #3e7192;
+    width: 52%;
+    padding: 12px 20px;
+    display: table-cell;
+    /* margin-top: -100px; */
+    margin-left: 300px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
 textarea:focus, input:focus{
     outline-color: var(--blue-three);
 }
