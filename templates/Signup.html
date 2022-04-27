@@ -97,19 +97,22 @@
       var encypt_password=document.getElementById('password').value;
       var hide=document.getElementById('hide').value;
 
-      document.getElementById("hide").value = document.getElementById("password").value;
-      var hashed = CryptoJS.MD5(encypt_password);
-      document.getElementById('password').value=hashed;
+      if (encypt_password.length > 4 && encypt_password.length < 33){
+        document.getElementById("hide").value = document.getElementById("password").value;
+        var hashed = CryptoJS.MD5(encypt_password);
+        document.getElementById('password').value=hashed;
 
 
-      var conf_pass=document.getElementById('confirm_password').value;
-      var hide=document.getElementById('hide').value;
+        var conf_pass=document.getElementById('confirm_password').value;
+        var hide=document.getElementById('hide').value;
 
-      document.getElementById("hide").value = document.getElementById("confirm_password").value;
-      var hash = CryptoJS.MD5(conf_pass);
-      document.getElementById('confirm_password').value=hash;
-
+        document.getElementById("hide").value = document.getElementById("confirm_password").value;
+        var hash = CryptoJS.MD5(conf_pass);
+        document.getElementById('confirm_password').value=hash;
+        return true;
+      }
       return true;
+      
       
       }
       </script>
