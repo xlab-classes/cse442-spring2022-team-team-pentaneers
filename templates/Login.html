@@ -69,10 +69,12 @@
       {
       var encypt_password=document.getElementById('password').value;
       var hide=document.getElementById('hide').value;
-
-      document.getElementById("hide").value = document.getElementById("password").value;
-      var hashed = CryptoJS.MD5(encypt_password);
-      document.getElementById('password').value=hashed;
+      if (encypt_password.length > 4 && encypt_password.length < 33){
+        document.getElementById("hide").value = document.getElementById("password").value;
+        var hashed = CryptoJS.MD5(encypt_password);
+        document.getElementById('password').value=hashed;
+        return true;
+      }
       return true;
       
       }

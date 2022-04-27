@@ -41,11 +41,11 @@
 
         <h5>Expiration Date (Optional):</h5>
         <form>
-            <input type="datetime-local" id="expiredDate" name="date" autocomplete = "off" class="edit-date" min={{ mindate }}><br>
+            <input type="datetime-local" id="expiredDate" name="date" autocomplete = "off" class="edit-date" value={{ mindate }}><br>
         </form>
         
         <h5>Question 1:</h5>
-        <form>
+        <form id="Question_0_form">
             <input type="text" id="Question_0" name="fname" onkeydown="return event.key != 'Enter';" value="{{ question_1_title }}" autocomplete = "off" ><br>
         </form>
 
