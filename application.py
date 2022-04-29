@@ -2,7 +2,6 @@ import json
 import time
 from queue import Empty
 from typing import List
-
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, request, redirect, url_for, render_template, flash, session
 from flask import Flask,request, redirect, url_for, render_template, flash, session
@@ -10,7 +9,7 @@ from flask_cors import CORS
 import config
 from Survey.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyForResponseByString, \
     RetrieveSurveyResults, RetrieveUserSurveys, RetrieveSurveyForResponse, getSurveyID, getSurveyURL
-from Survey.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyForResponseByString, RetrieveSurveyResults, RetrieveUserSurveys, RetrieveSurveyForResponse, getSurveyID, getSurveyURL
+from Survey.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyForResponseByString, RetrieveSurveyResults, RetrieveUserSurveys, RetrieveSurveyForResponse, getSurveyID, getSurveyURL, getPopularSurvey
 from Survey.Delete import Delete
 from Survey.Create import Survey, Response
 from Survey.Status import Auto, Close, Open, Private
@@ -71,7 +70,9 @@ def load_user(id):
 #------------------The path to our homepage-----------------------
 @app.route("/")
 def home():
-    return render_template('Homepage.html', title = "Homepage")
+    popular_survey_info = getPopularSurvey.get()
+    print(popular_survey_info)
+    return render_template('Homepage.html', title = "Homepage", featured = popular_survey_info)
 
 #------------------The path our survey creation page-----------------------
 @app.route("/submitSurvey", methods=['GET', 'POST'])
@@ -221,11 +222,18 @@ def update_survey(surveys_id):
     email = session['email']
     survey_id = getSurveyID.surveyID(email, surveys_id)
     survey_info = retrieveSurveyForResponse(survey_id)
-
     survey_title = survey_info[1]
     survey_description = survey_info[2]
     question_1_title = survey_info[3]['question_1'][0]
+    get_expiration = getExpiration.get(email, surveys_id)
+    survey_expiration = ''
+    if get_expiration != None:
+        survey_expiration = int(get_expiration)
+        timestamp = datetime.fromtimestamp(survey_expiration)
+        mindate = timestamp.strftime('%Y-%m-%dT%H:%M')
     survey_info = json.dumps(survey_info)
+    print("This is the expiration time: ", mindate)
+
     return render_template('Update_Survey.html', title="Update Survey", survey_data=survey_info, mindate=mindate, survey_title=survey_title, survey_description=survey_description, question_1_title=question_1_title)
     
 
