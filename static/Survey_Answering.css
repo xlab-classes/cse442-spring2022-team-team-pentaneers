@@ -39,8 +39,10 @@ body{
 .dark_button{
     float: right;
     display: block;
+    text-align: center;
+    width: 140px;
     margin-right: 1rem;
-    margin-left: 0.5rem;
+    margin-bottom: 1rem;
     margin-top: 0.5rem;
     padding: 0.75rem 2rem;
     background-color: var(--blue-one);
@@ -61,6 +63,7 @@ body{
 }
 
 h1{
+    text-transform: capitalize;
     text-align: center;
     text-shadow: 0px 4px 2px rgba(0, 0, 0, 0.25);
     margin-top: 70px;
@@ -73,7 +76,6 @@ h1{
 }
 
 h2{
-    /* text-transform: capitalize; */
     text-align: center;
     text-shadow: 0px 4px 2px rgba(0, 0, 0, 0.25);
     margin-top: 25px;
@@ -140,11 +142,11 @@ div.vertical_flex{
 }
 
 .button-submit{
-    display:relative;
+    display: relative;
     float: right;
     margin-right: 44.5%;
     margin-bottom: 3rem;
-    /* margin-top: 30%; */
+    margin-top: 10%;
     width: 80px;
     padding-left: 35px;
     padding-right: 45px;
@@ -154,6 +156,8 @@ div.vertical_flex{
     font-family: Montserrat;
     font-weight: 700;
     font-size: 150%;
+    width: 80px;
+    text-align: center;
     color: var(--text-color);
     border-radius: 0.5rem;
     outline: none;
@@ -183,6 +187,7 @@ div.vertical_flex{
     right: 0;
     float: right;
     display: block;
+    text-align: center;
     margin-right: 1rem;
     margin-bottom: 1rem;
     margin-top: 0.5rem;
@@ -191,6 +196,8 @@ div.vertical_flex{
     font-family: Montserrat;
     font-weight: 700;
     font-size: 120%;
+    width: 80px;
+    text-align: center;
     color: var(--blue-one);
     border-radius: 0.5rem;
     outline: none;

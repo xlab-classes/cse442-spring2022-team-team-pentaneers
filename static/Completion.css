@@ -37,7 +37,10 @@ body{
 .dark_button{
     float: right;
     display: block;
+    text-align: center;
+    width: 140px;
     margin-right: 1rem;
+    margin-bottom: 1rem;
     margin-top: 0.5rem;
     padding: 0.75rem 2rem;
     background-color: var(--blue-one);
