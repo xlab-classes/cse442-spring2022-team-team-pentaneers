@@ -14,7 +14,12 @@
 
     <img class="corner_duck" src="{{url_for('static', filename='corner_duck.png')}}">
 
+    {% if authenticated %}
+    <a button class = "buttonhome" href = "{{ url_for('user_homepage') }}" >Home</button></a>
+    {% else %}
     <a button class = "buttonhome" href = "{{ url_for('home') }}" >Home</button></a>
+    {% endif %}
+
     <button id="toggle" class="dark_button" onclick="setDarkMode()">Theme</button>
         <script src="{{url_for('static', filename='Dark_Mode.js')}}"></script>
     <br><br>

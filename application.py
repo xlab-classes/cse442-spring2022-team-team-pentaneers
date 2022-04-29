@@ -374,9 +374,12 @@ def retrieveSurveyResults(email, surveys_id):
 @app.route("/browse_surveys", methods = ['GET', 'POST'])
 # User does NOT have to be logged in to see public surveys
 def browse_surveys():
+    authenticated = False
+    if 'email' in session.keys():
+        authenticated = True
     all_surveys = RetrievePublicSurveys.retrievePublicSurveys()
     #print("All public surveys: ", all_surveys)
-    return render_template('Browse_Survey.html', title = "Browse surveys", all_surveys = all_surveys)
+    return render_template('Browse_Survey.html', title = "Browse surveys", all_surveys = all_surveys, authenticated = authenticated)
     
 
 
@@ -418,7 +421,7 @@ def respondToSurveyWithURL(surveys_id, unique_string):
             c2 += 1
     data = dic
     # print(dic)
-    return render_template('Survey_Answering_Page.html', title = t, description = d, data = data)
+    return render_template('Survey_Answering_Page.html', title = t, description = d, data = data, authenticated = authenticated)
 
 
 @app.route('/retrieve/survey/<email>/<survey_id>', methods = ['GET'])
