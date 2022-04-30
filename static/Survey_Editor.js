@@ -149,11 +149,11 @@ async function publish(){
       else{
         // let answer = document.getElementById((i.toString() + 'wr')).value
         if(question_title == ''){//have to create case for when user doesn't wants to delete question
-          alert("\u2022Please put a question for " + (i + 1).toString())
+          alert("\u2022 Please put a title for Question " + (i + 1).toString() + ". \n\u2022 If you include a question title and don't select a question type, it will default to a Written Respose when you publish. \n\u2022 If you don't want to include the question, just select a question type and leave it blank (Don't enter in question title, options, etc).")
           success = false
         }
-        else{
-          q.push('string')
+        if (question_title.toString() != ""){
+          q.push(null)
           question_list.push(q)
         }
       }
@@ -183,15 +183,18 @@ async function publish(){
           }
         }
         q.push(mc_option_list)
+        question_list.push(q)
       }
-    else{
+    if (question_type[0] == 'Short Response'){
       if(question_title == ''){
         alert("Please include question for written response question 1.")
         success = false
       }
-      q.push('string')
+      if (question_title.toString() != ""){
+        q.push(null)
+        question_list.push(q)
+      }
     }
-      question_list.push(q)
     }
   }
 
