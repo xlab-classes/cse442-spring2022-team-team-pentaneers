@@ -13,10 +13,13 @@ def surveyID(email, surveys_id):
     # Fetch the survey information belonging to the requested Survey
     survey = mycursor.fetchall()
 
-    survey_id = survey[0][0]
-    print("This is the survey: ", survey)
+    if len(survey) > 0:
+        survey_id = survey[0][0]
+        return survey_id
+    
+    return None
 
-    return survey_id
+    
 
 
 def surveysID(email, survey_id):

@@ -61,18 +61,25 @@ def retrieveSurveyResults(email, surveys_id):
             mc_options = []
             mc_question_names.append(question_name)
             parsed_options = getOptions(question_options)
-            for option in parsed_options:
-                mc_options.append(option)
-            mc_question_options.append(mc_options)
-            question_responses = countOptions(result, question_number, len(mc_options))
-            mc_question_responses.append(question_responses)
+            if len(parsed_options) != 0:
+              for option in parsed_options:
+                  mc_options.append(option)
+              mc_question_options.append(mc_options)
+              question_responses = countOptions(result, question_number, len(mc_options))
+              mc_question_responses.append(question_responses)
         #-----------------------------------------------------#
         if question_type == 'Short Response':
             sr_question_names.append(question_name)
             question_responses = shortAnswerResponses(result, question_number)
             sr_question_responses.append(question_responses)
 
-    total_number_of_responders = len(result)//len(survey_questions)
+    total_number_of_responders = 0
+    for response in result:
+      question_number = response[1]
+      if question_number == 1:
+        total_number_of_responders += 1
+
+
 
     multiple_choices_array.append(mc_question_names)
     multiple_choices_array.append(mc_question_options)

@@ -12,7 +12,6 @@ def retrieve(surveys_id, unique_string):
     values = (surveys_id, unique_string)
     mycursor.execute(query, values)
     survey = mycursor.fetchall()
-    print("This is the survey: ", survey, '\n')
     if len(survey) == 0:
         return None
     
@@ -30,7 +29,6 @@ def retrieve(surveys_id, unique_string):
     mycursor.execute(query, value)
     # Fetch all Questions belonging to the requested Survey
     survey_questions = mycursor.fetchall()
-    print("These are the survey questions: ", survey_questions, '\n')
 
 
     if len(survey) == 0:

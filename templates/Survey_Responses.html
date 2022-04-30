@@ -51,7 +51,7 @@
 
                     {% endfor %}
                 
-                <br>The total number of people who answered: <b>{{total_num_of_responses}}</b>
+                <br>The total number of people who answered: <b>{{total_num_of_responses[count.value]}}</b>
                 {% if count.update({'value': (count.value + 1)}) %} {% endif %}
             </h7>
         </div>

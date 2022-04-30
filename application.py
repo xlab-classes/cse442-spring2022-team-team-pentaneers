@@ -175,7 +175,6 @@ def user_homepage():
 @app.route("/view_surveys", methods = ['POST', 'GET'])
 @login_required
 def view_surveys():
-    print("This is the host url: ", request.host_url)
     email = session['email']
 
     surveys = retrieveSurveysUsers(email)
@@ -228,11 +227,10 @@ def update_survey(surveys_id):
     if get_expiration != None:
         survey_expiration = int(get_expiration)
         timestamp = datetime.fromtimestamp(survey_expiration)
-        mindate = timestamp.strftime('%Y-%m-%dT%H:%M')
+        survey_expiration = timestamp.strftime('%Y-%m-%dT%H:%M')
     survey_info = json.dumps(survey_info)
-    print("This is the expiration time: ", mindate)
 
-    return render_template('Update_Survey.html', title="Update Survey", survey_data=survey_info, mindate=mindate, survey_title=survey_title, survey_description=survey_description, question_1_title=question_1_title)
+    return render_template('Update_Survey.html', title="Update Survey", survey_data=survey_info, actual_expiration=survey_expiration, mindate=mindate, survey_title=survey_title, survey_description=survey_description, question_1_title=question_1_title)
     
 
 #------------------The path to our submit survey response page-----------------------
@@ -257,6 +255,9 @@ def survey_responses(surveys_id):
     email = session['email']
     survey_id = getSurveyID.surveyID(email, surveys_id)
 
+    if survey_id == None:
+        return render_template('Deleted_Survey.html', title = "Deleted Survey")
+
     results = retrieveSurveyResults(session['email'], surveys_id)
     survey_info = retrieveSurveyForResponse(survey_id)
 
@@ -279,22 +280,30 @@ def survey_responses(surveys_id):
     responsesSA = results[1][1]
 
     percent_values = []
+    individual_question_responses = []
+    for response in responses:
+        counter = 0
+        for number in response:
+            counter += number
+        individual_question_responses.append(counter)
 
+    total_num_of_question_responses = 0
     for response in responses:
         response_percentages = []
         for number in response:
             if number != 0:
-                decimal_number = number/total_num_of_responses
+                decimal_number = number/individual_question_responses[total_num_of_question_responses]
             else:
                 decimal_number = 0
             percentage = "{:.0%}".format(decimal_number)
             response_percentages.append(percentage)
         percent_values.append(response_percentages)
+        total_num_of_question_responses += 1
 
-    print(percent_values)
 
+    
     return render_template('Survey_Responses.html', title = "Survey Responses", questions = questions, options = options,
-    total_num_of_responses = total_num_of_responses, survey_title = survey_title, survey_description = survey_description,
+    total_num_of_responses = individual_question_responses, survey_title = survey_title, survey_description = survey_description,
     percent_values = percent_values, questionsSA = questionsSA, responsesSA = responsesSA)
 
 #------------------The path to our survey creation success page-----------------------
