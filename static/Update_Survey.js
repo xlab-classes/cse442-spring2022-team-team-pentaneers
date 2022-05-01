@@ -74,7 +74,7 @@ function load_survey(data){
 
 
 function add_first_two_existing_mc_options(option1, option2, total_options){
-    console.log("current count: ", count)
+    
     document.getElementById("mc").remove();
 
   
@@ -88,7 +88,7 @@ function add_first_two_existing_mc_options(option1, option2, total_options){
   
     current_mc_question.insertAdjacentHTML("beforeend", "<label for='mc' id=1" + count + ">a)</label>")
   
-    current_mc_question.insertAdjacentHTML("beforeend", ("<form onsubmit='return false;'> <input type='text' value=" + option1 + " id=1" + question_id))
+    current_mc_question.insertAdjacentHTML("beforeend", ("<form onsubmit='return false;'> <input type='text' value='" + option1.toString() + "' id=1" + question_id))
   
     current_mc_question.insertAdjacentHTML("beforeend", ("<label id=2" + count.toString() + ">b)<form onsubmit='return false;'> <input type='text' value='" + option2.toString() + "' id=2" + question_id + "</label>"))
   
@@ -154,7 +154,7 @@ function add_exisitng_mc_option(option, question_num, current_option){
 }
 
 function add_exisitng_wr_option(question_data){
-  console.log("Line 158")
+  
   // document.getElementById("wr").remove();
   document.getElementById("mc").remove();
   const subject = document.querySelector('#question_type');
@@ -240,11 +240,7 @@ function public(){
   visible = 'public'
   alert('This survey will be public')
 }
-// function wr(){
-//   document.getElementById("mc").remove();
-//   document.getElementById("wr").remove();
-//   question_type.push('Short Response');
-//   }
+
 
 function add_option(option_id){
 
