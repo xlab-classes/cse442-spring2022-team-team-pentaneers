@@ -636,7 +636,7 @@ input[type=text], select {
   textarea[type=textarea], select {
     font-family: Montserrat;
     font-weight: 700;
-    color: #3e7192;
+    color: var(--blue-three);
     width: 60%;
     resize: none;
     padding: 12px 20px;

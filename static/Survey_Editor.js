@@ -149,7 +149,7 @@ async function publish(){
       else{
         // let answer = document.getElementById((i.toString() + 'wr')).value
         if(question_title == ''){//have to create case for when user doesn't wants to delete question
-          alert("\u2022 Please put a title for Question " + (i + 1).toString() + ". \n\u2022 If you include a question title and don't select a question type, it will default to a Written Respose when you publish. \n\u2022 If you don't want to include the question, just select a question type and leave it blank (Don't enter in question title, options, etc).")
+          alert("\u2022 Please include a title for question " + (i + 1).toString() + ". \n\u2022 If you include a question title and do not select a question type, it will default to a written response question. \n\u2022 If you do not want to include the question, please select a question type and leave all the input fields blank for that question.")
           success = false
         }
         if (question_title.toString() != ""){
