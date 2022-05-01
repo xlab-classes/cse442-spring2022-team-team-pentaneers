@@ -3,7 +3,7 @@ import time
 from queue import Empty
 from typing import List
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask, request, redirect, url_for, render_template, flash, session
+from flask import Flask, jsonify, request, redirect, url_for, render_template, flash, session
 from flask import Flask,request, redirect, url_for, render_template, flash, session
 from flask_cors import CORS
 import config
@@ -228,7 +228,7 @@ def update_survey(surveys_id):
         survey_expiration = int(get_expiration)
         timestamp = datetime.fromtimestamp(survey_expiration)
         survey_expiration = timestamp.strftime('%Y-%m-%dT%H:%M')
-    survey_info = json.dumps(survey_info)
+    survey_info = json.dumps(survey_info).replace('"', '\\"')
 
     return render_template('Update_Survey.html', title="Update Survey", survey_data=survey_info, actual_expiration=survey_expiration, mindate=mindate, survey_title=survey_title, survey_description=survey_description, question_1_title=question_1_title)
     
@@ -425,6 +425,7 @@ def respondToSurveyWithURL(surveys_id, unique_string):
             c2 += 1
     data = dic
     # print(dic)
+    data = json.dumps(data).replace('"', '\\"')
     return render_template('Survey_Answering_Page.html', title = t, description = d, data = data)
 
 
