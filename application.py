@@ -425,7 +425,6 @@ def respondToSurveyWithURL(surveys_id, unique_string):
             c2 += 1
     data = dic
     # print(dic)
-    data = json.dumps(data).replace('"', '\\"')
     return render_template('Survey_Answering_Page.html', title = t, description = d, data = data)
 
 
