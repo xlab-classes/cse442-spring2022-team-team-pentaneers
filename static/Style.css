@@ -42,6 +42,8 @@ body{
 .dark_button{
     float: right;
     display: block;
+    text-align: center;
+    width: 140px;
     margin-right: 1rem;
     margin-bottom: 1rem;
     margin-top: 0.5rem;
@@ -75,11 +77,11 @@ div.horizontal_flex{
 
 div.vertical_flex{
 	display: flex;
+    margin: auto;
+    width: 100%;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-    min-width: 780px;
-    margin-left: 23%;
 }
 
 div.vertical_flex2{
@@ -87,16 +89,16 @@ div.vertical_flex2{
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-    margin-left: 23%;
-    min-width: 780px;
-}
+    margin: auto;
+    width: 100%
+} 
 
 div.vertical_flex3{
     overflow: auto;
 	justify-content: center;
 	align-items: center;
     text-align: center;
-    margin-left: 26%;
+    margin: auto;
     width: 40rem;
     height: 35rem;
     margin-top: 5rem;
@@ -125,6 +127,7 @@ div.vertical_flex3:hover {
 }
 
 div.vertical_flex4{
+    margin: auto;
     width: max-content;
     display: flex;
 	flex-direction: column;
@@ -137,14 +140,14 @@ div.vertical_flex5{
 	justify-content: center;
 	align-items: center;
     text-align: center;
-    margin-left: 26%;
+    margin: auto;
     width: 40rem;
     height: 20rem;
     margin-top: 5rem;
     margin-bottom: 10rem;
     padding: 1rem;
     border-radius: 1rem;
-    background: linear-gradient(to bottom, var(--blue-eight) 35%, var(--blue-one) 0%);
+    background: linear-gradient(to bottom, var(--blue-eight) 25%, var(--blue-one) 0%);
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
@@ -281,7 +284,7 @@ h10{
 }
 
 h11{
-    /* text-transform: capitalize; */
+    text-transform: capitalize;
     text-align: center;
     text-shadow: 0px 4px 2px rgba(0, 0, 0, 0.25);
     margin-top: 25px;
@@ -302,6 +305,22 @@ h12{
     font-size: 35px;
     text-transform: capitalize;
     height: 50px;
+    color: var(--text-color);
+}
+
+h13{
+    font-family: Montserrat;
+    font-weight: 700;
+    margin: auto;
+    display: flex;
+    font-size: 35px;
+    justify-content: center;
+    text-align: center;
+    word-wrap: break-word;
+    text-shadow: 0px 2px 2px rgb(0 0 0 / 25%);
+    margin-bottom: -100px;
+    width: 100%;
+    height: 100px;
     color: var(--text-color);
 }
 
@@ -358,6 +377,7 @@ b{
 .buttonsignup {
     display: block;
     float: right;
+    text-align: center;
     margin-right: 1rem;
     margin-bottom: 1rem;
     margin-top: 0.5rem;
@@ -375,16 +395,13 @@ b{
     -webkit-transition: background-color 200ms ease in;
     transition: background-color 200ms ease in;
 }
-
 .buttonsignup:hover {
     background-color: var(--blue-four);
     text-decoration: none;
 }
-
 .buttonsignup:link {
     text-decoration: none;
 }
-
 .buttonsignup:visited {
     text-decoration: none;
 }
@@ -394,6 +411,7 @@ b{
 .buttonlogin {
     float: right;
     display: block;
+    text-align: center;
     margin-right: 1rem;
     margin-bottom: 1rem;
     margin-top: 0.5rem;
@@ -411,16 +429,13 @@ b{
     -webkit-transition: background-color 200ms ease in;
     transition: background-color 200ms ease in;
 }
-
 .buttonlogin:hover {
     background-color: var(--grey-one);
     text-decoration: none;
 }
-
 .buttonlogin:link {
     text-decoration: none;
 }
-
 .buttonlogin:visited {
     text-decoration: none;
 }
@@ -430,6 +445,7 @@ b{
 .buttonbrowse {
     float: right;
     display: block;
+    text-align: center;
     margin-right: 1rem;
     margin-bottom: 1rem;
     margin-top: 0.5rem;
@@ -447,16 +463,13 @@ b{
     -webkit-transition: background-color 200ms ease in;
     transition: background-color 200ms ease in;
 }
-
 .buttonbrowse:hover {
     background-color: var(--grey-one);
     text-decoration: none;
 }
-
 .buttonbrowse:link {
     text-decoration: none;
 }
-
 .buttonbrowse:visited {
     text-decoration: none;
 }
@@ -466,6 +479,7 @@ b{
 .buttonlogout {
     float: right;
     display: block;
+    text-align: center;
     margin-right: 1rem;
     margin-bottom: 1rem;
     margin-top: 0.5rem;
@@ -483,16 +497,13 @@ b{
     -webkit-transition: background-color 200ms ease in;
     transition: background-color 200ms ease in;
 }
-
 .buttonlogout:hover {
     background-color: var(--grey-one);
     text-decoration: none;
 }
-
 .buttonlogout:link {
     text-decoration: none;
 }
-
 .buttonlogout:visited {
     text-decoration: none;
 }
@@ -505,12 +516,14 @@ b{
     right: 0;
     float: right;
     display: block;
+    text-align: center;
     margin-right: 1rem;
     margin-bottom: 1rem;
     margin-top: 0.5rem;
     padding: 0.75rem 2rem;
     background-color: #ffffff;
     font-family: Montserrat;
+    width: 80px;
     font-weight: 700;
     font-size: 120%;
     color: var(--blue-one);
@@ -521,16 +534,13 @@ b{
     -webkit-transition: background-color 200ms ease in;
     transition: background-color 200ms ease in;
 }
-
 .buttonhome:hover {
     background-color: #d0d0d0;
     text-decoration: none;
 }
-
 .buttonhome:link {
     text-decoration: none;
 }
-
 .buttonhome:visited {
     text-decoration: none;
 }
@@ -557,16 +567,13 @@ b{
     -webkit-transition: background-color 200ms ease in;
     transition: background-color 200ms ease in;
 }
-
 .buttonback:hover {
     background-color: var(--blue-four);
     text-decoration: none;
 }
-
 .buttonback:link {
     text-decoration: none;
 }
-
 .buttonback:visited {
     text-decoration: none;
 }
@@ -582,37 +589,32 @@ b{
     font-weight: 700;
     font-size: 150%;
 	text-align: center;
-	
 	color: var(--text-color);
 	background-color: var(--blue-one);
-	
 	border: none;
 	border-radius: 0.5rem;
-
     display: inline-flex;
     align-items: center;
     align-content: stretch;
     justify-content: space-evenly;
-
     outline: none;
     border: none;
     cursor: pointer;
     -webkit-transition: background-color 200ms ease in;
     transition: background-color 200ms ease in;
 }
-
 .button:hover {
     background-color: var(--blue-four);
     text-decoration: none;
 }
-
 .button:link {
     text-decoration: none;
 }
-
 .button:visited {
     text-decoration: none;
 }
+
+
 
 input[type=radio]{
     margin: .6rem;
@@ -688,7 +690,6 @@ label{
     padding-right: 85px;
     padding-top: 10px;
     padding-bottom: 10px;
-
     top: 290px;
     left: 120px;
     background-color: var(--blue-one);
@@ -703,12 +704,10 @@ label{
     -webkit-transition: background-color 200ms ease in;
     transition: background-color 200ms ease in;
 }
-
 .button-private:hover {
     background-color: var(--blue-four);
     text-decoration: none;
 }
-
 .button-private:link {
     text-decoration: none;
 }
@@ -745,16 +744,13 @@ label{
     -webkit-transition: background-color 200ms ease in;
     transition: background-color 200ms ease in;
 }
-
 .button-public:hover {
     background-color: var(--blue-four);
     text-decoration: none;
 }
-
 .button-public:link {
     text-decoration: none;
 }
-
 .button-public:visited {
     text-decoration: none;
 }
@@ -785,16 +781,13 @@ label{
     -webkit-transition: background-color 200ms ease in;
     transition: background-color 200ms ease in;
 }
-
 .button-mc:hover {
     background-color: var(--blue-four);
     text-decoration: none;
 }
-
 .button-mc:link {
     text-decoration: none;
 }
-
 .button-mc:visited {
     text-decoration: none;
 }
@@ -1111,6 +1104,7 @@ label{
     margin-bottom: 1rem;
     margin-top: 0.5rem;
     padding: 0.75rem 2.5rem;
+    text-align: center;
     background-color: var(--blue-one);
     font-family: Montserrat;
     font-weight: 700;
@@ -1123,16 +1117,13 @@ label{
     -webkit-transition: background-color 200ms ease in;
     transition: background-color 200ms ease in;
 }
-
 .buttondelete:hover {
     background-color: var(--blue-four);
     text-decoration: none;
 }
-
 .buttondelete:link {
     text-decoration: none;
 }
-
 .buttondelete:visited {
     text-decoration: none;
 }
@@ -1162,16 +1153,13 @@ label{
     -webkit-transition: background-color 200ms ease in;
     transition: background-color 200ms ease in;
 }
-
 .buttonedit:hover {
     background-color: var(--blue-four);
     text-decoration: none;
 }
-
 .buttonedit:link {
     text-decoration: none;
 }
-
 .buttonedit:visited {
     text-decoration: none;
 }
@@ -1185,14 +1173,12 @@ label{
     margin-top: 0%;
     height: auto;
 }
-
 .duck img{
     float: left;
     margin-left: 40%;
     margin-top: 0%;
     max-width: 40%;
 }
-
 img.corner_duck{
 	position: absolute;
 	width: 23.6vw;
@@ -1207,21 +1193,17 @@ img.corner_duck{
     height: 15px;
     width: 15px;
 }
-  
 ::-webkit-scrollbar-track {
     background: var(--blue-ten);
 }
-  
 ::-webkit-scrollbar-thumb {
     border-radius: 20px;
     background: var(--blue-four);
 }
-  
 ::-webkit-scrollbar-thumb:hover {
     border-radius: 20px;
     background: var(--blue-eleven);
 }
-
 
 
 input::-webkit-datetime-edit-fields-wrapper{
@@ -1230,7 +1212,6 @@ input::-webkit-datetime-edit-fields-wrapper{
     padding: 10px 20px;
     position:center;
 }
-
 ::-webkit-calendar-picker-indicator{
     border-radius: 20px;
     opacity: 1;
@@ -1240,7 +1221,6 @@ input::-webkit-datetime-edit-fields-wrapper{
     border-width: thin;
     color: var(--blue-three);
 }
-
 ::-webkit-datetime-edit{
     padding-left: 20px;
     padding-right: 10px;
@@ -1250,7 +1230,6 @@ input::-webkit-datetime-edit-fields-wrapper{
     border-bottom-left-radius: 10px;
     position: center;
 }
-
 input::-webkit-datetime-edit-text {
     -webkit-user-modify: read-only !important;
     display: inline;

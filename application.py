@@ -9,7 +9,7 @@ from flask_cors import CORS
 import config
 from Survey.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyForResponseByString, \
     RetrieveSurveyResults, RetrieveUserSurveys, RetrieveSurveyForResponse, getSurveyID, getSurveyURL
-from Survey.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyForResponseByString, RetrieveSurveyResults, RetrieveUserSurveys, RetrieveSurveyForResponse, getSurveyID, getSurveyURL, getExpiration
+from Survey.Retrieve import RetrievePublicSurveys, RetrieveSurveyById, RetrieveSurveyForResponseByString, RetrieveSurveyResults, RetrieveUserSurveys, RetrieveSurveyForResponse, getSurveyID, getSurveyURL, getExpiration, getPopularSurvey
 from Survey.Delete import Delete
 from Survey.Create import Survey, Response
 from Survey.Status import Auto, Close, Open, Private
@@ -70,7 +70,9 @@ def load_user(id):
 #------------------The path to our homepage-----------------------
 @app.route("/")
 def home():
-    return render_template('Homepage.html', title = "Homepage")
+    popular_survey_info = getPopularSurvey.get()
+    print(popular_survey_info)
+    return render_template('Homepage.html', title = "Homepage", featured = popular_survey_info)
 
 #------------------The path our survey creation page-----------------------
 @app.route("/submitSurvey", methods=['GET', 'POST'])
@@ -381,9 +383,12 @@ def retrieveSurveyResults(email, surveys_id):
 @app.route("/browse_surveys", methods = ['GET', 'POST'])
 # User does NOT have to be logged in to see public surveys
 def browse_surveys():
+    authenticated = False
+    if 'email' in session.keys():
+        authenticated = True
     all_surveys = RetrievePublicSurveys.retrievePublicSurveys()
     #print("All public surveys: ", all_surveys)
-    return render_template('Browse_Survey.html', title = "Browse surveys", all_surveys = all_surveys)
+    return render_template('Browse_Survey.html', title = "Browse surveys", all_surveys = all_surveys, authenticated = authenticated)
     
 
 
@@ -425,7 +430,7 @@ def respondToSurveyWithURL(surveys_id, unique_string):
             c2 += 1
     data = dic
     # print(dic)
-    return render_template('Survey_Answering_Page.html', title = t, description = d, data = data)
+    return render_template('Survey_Answering_Page.html', title = t, description = d, data = data, authenticated = authenticated)
 
 
 @app.route('/retrieve/survey/<email>/<survey_id>', methods = ['GET'])

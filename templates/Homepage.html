@@ -39,7 +39,34 @@
         <img src="{{url_for('static', filename='d_copy.png')}}" class="animate__animated animate__bounce">
     </div>
 
+
+    {% if featured %}
+        <h13>Check out our featured survey!</h13>
+        
+        <div class = "vertical_flex5">
+
+            {% set count = {'value': 0} %}
+
+            <h11>{{featured[count.value]}}</h11><br><br><br>
+            {% if count.update({'value': (count.value + 1)}) %} {% endif %}
+
+            <h8>{{featured[count.value]}}</h8><br><br>
+            {% if count.update({'value': (count.value + 1)}) %} {% endif %}
+
+            <button onclick = "getLink('{{featured[count.value]}}')" button class = "buttonlink2">Start survey</button>
+            {% if count.update({'value': (count.value + 1)}) %} {% endif %} 
+
+        </div>
+    {% endif %}
+
     <h3>Ready to create a survey? Log in or create an account to begin!</h3>
+
+    <script>
+        function getLink(URL) {
+            var text = URL
+            window.open(URL)
+        }
+    </script>
 
 </body>
 

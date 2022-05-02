@@ -40,13 +40,14 @@ body {
 .dark_button{
   display: block;
   margin-right: auto;
+  text-align: center;
   margin-bottom: 1rem;
-  width: 190px;
+  width: 150px;
   padding: 0.75rem 2rem;
   background-color: var(--light-blue);
   font-family: inherit;
   font-weight: inherit;
-  font-size: 80%;
+  font-size: 120%;
   color: var(--color);
   border-radius: 0.5rem;
   outline: none;
@@ -69,15 +70,16 @@ body {
 }
 
 .form__buttonback {
+  font-size: 100%;
   display: block;
   margin-right: auto;
+  text-align: center;
   margin-bottom: 1rem;
-  width: 190px;
+  width: 220px;
   padding: 0.75rem 2rem;
   background-color: var(--background-color);
   font-family: inherit;
   font-weight: inherit;
-  font-size: 80%;
   color: var(--color);
   border-radius: 0.5rem;
   outline: none;
@@ -170,6 +172,7 @@ h4{
 
 .form__button {
   display: block;
+  text-align: center;
   margin: auto;
   padding: 0.75rem 2rem;
   background-color: var(--background-color);
@@ -177,6 +180,7 @@ h4{
   font-weight: inherit;
   color: var(--color);
   border-radius: 0.5rem;
+  font-size: 120%;
   outline: none;
   border: none;
   cursor: pointer;

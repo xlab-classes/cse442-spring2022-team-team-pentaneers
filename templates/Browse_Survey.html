@@ -14,29 +14,36 @@
 
     <img class="corner_duck" src="{{url_for('static', filename='corner_duck.png')}}">
 
-    <a button class = "buttonhome" href = "{{ url_for('home') }}" >Homepage</button></a>
+    {% if authenticated %}
+    <a button class = "buttonhome" href = "{{ url_for('user_homepage') }}" >Home</button></a>
+    {% else %}
+    <a button class = "buttonhome" href = "{{ url_for('home') }}" >Home</button></a>
+    {% endif %}
+
     <button id="toggle" class="dark_button" onclick="setDarkMode()">Theme</button>
         <script src="{{url_for('static', filename='Dark_Mode.js')}}"></script>
     <br><br>
     <h1>Explore surveys!</h1><br><br>
     <h3>Select a survey below to begin!</h3>
 
-    {% for surveys in all_surveys %}
-        <div class = "vertical_flex5">
+    {% if all_surveys %}
+        {% for surveys in all_surveys %}
+            <div class = "vertical_flex5">
 
-            {% set count = {'value': 0} %}
+                {% set count = {'value': 0} %}
 
-            <h10>{{surveys[count.value]}}</h10><br><br>
-            {% if count.update({'value': (count.value + 1)}) %} {% endif %}
+                <h11>{{surveys[count.value]}}</h11><br><br><br>
+                {% if count.update({'value': (count.value + 1)}) %} {% endif %}
 
-            <h8>{{surveys[count.value]}}</h8><br><br>
-            {% if count.update({'value': (count.value + 1)}) %} {% endif %}
+                <h8>{{surveys[count.value]}}</h8><br><br>
+                {% if count.update({'value': (count.value + 1)}) %} {% endif %}
 
-            <button onclick = "getLink('{{surveys[count.value]}}')" button class = "buttonlink2">Start survey</button>
-            {% if count.update({'value': (count.value + 1)}) %} {% endif %} 
+                <button onclick = "getLink('{{surveys[count.value]}}')" button class = "buttonlink2">Start survey</button>
+                {% if count.update({'value': (count.value + 1)}) %} {% endif %} 
 
-        </div>
-    {% endfor %}
+            </div>
+        {% endfor %}
+    {% endif %}
 
     <script>
         function getLink(URL) {
