@@ -82,11 +82,6 @@ div.vertical_flex{
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: 2%;
-    margin-bottom: 2%;
-    width: 100%;
 }
 
 div.vertical_flex2{
@@ -94,23 +89,20 @@ div.vertical_flex2{
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: 2%;
-    margin-bottom: 2%;
-    width: 100%;
-}
+    margin: auto;
+    width: 100%
+} 
 
 div.vertical_flex3{
     overflow: auto;
 	justify-content: center;
 	align-items: center;
     text-align: center;
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: 2%;
-    margin-bottom: 2%;
-    width: 100%;
+    margin: auto;
+    width: 40rem;
+    height: 35rem;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
     padding: 3rem;
     border-radius: 1rem;
     background-color: var(--blue-one);
@@ -148,11 +140,11 @@ div.vertical_flex5{
 	justify-content: center;
 	align-items: center;
     text-align: center;
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: 2%;
-    margin-bottom: 2%;
-    width: 50%;
+    margin: auto;
+    width: 40rem;
+    height: 20rem;
+    margin-top: 5rem;
+    margin-bottom: 10rem;
     padding: 1rem;
     border-radius: 1rem;
     background: linear-gradient(to bottom, var(--blue-eight) 25%, var(--blue-one) 0%);
@@ -646,9 +638,8 @@ input[type=text], select {
   textarea[type=textarea], select {
     font-family: Montserrat;
     font-weight: 700;
-    color: var(--blue-three);
-    width: 60%;
-    resize: none;
+    color: #3e7192;
+    width: 52%;
     padding: 12px 20px;
     display: table-cell;
     /* margin-top: -100px; */
