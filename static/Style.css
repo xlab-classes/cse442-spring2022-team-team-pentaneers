@@ -78,8 +78,11 @@ div.vertical_flex{
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-    min-width: 780px;
-    margin-left: 23%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    width: 100%;
 }
 
 div.vertical_flex2{
@@ -87,8 +90,11 @@ div.vertical_flex2{
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-    margin-left: 23%;
-    min-width: 780px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    width: 100%;
 }
 
 div.vertical_flex3{
@@ -96,11 +102,11 @@ div.vertical_flex3{
 	justify-content: center;
 	align-items: center;
     text-align: center;
-    margin-left: 26%;
-    width: 40rem;
-    height: 35rem;
-    margin-top: 5rem;
-    margin-bottom: 5rem;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    width: 100%;
     padding: 3rem;
     border-radius: 1rem;
     background-color: var(--blue-one);
@@ -137,11 +143,11 @@ div.vertical_flex5{
 	justify-content: center;
 	align-items: center;
     text-align: center;
-    margin-left: 26%;
-    width: 40rem;
-    height: 20rem;
-    margin-top: 5rem;
-    margin-bottom: 10rem;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    width: 50%;
     padding: 1rem;
     border-radius: 1rem;
     background: linear-gradient(to bottom, var(--blue-eight) 35%, var(--blue-one) 0%);
