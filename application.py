@@ -230,7 +230,7 @@ def update_survey(surveys_id):
         survey_expiration = int(get_expiration)
         timestamp = datetime.fromtimestamp(survey_expiration)
         survey_expiration = timestamp.strftime('%Y-%m-%dT%H:%M')
-    survey_info = json.dumps(survey_info).replace('"', '\\"')
+    survey_info = json.dumps(survey_info).replace('"', '\\"').replace("'", "\\'")
 
     return render_template('Update_Survey.html', title="Update Survey", survey_data=survey_info, actual_expiration=survey_expiration, mindate=mindate, survey_title=survey_title, survey_description=survey_description, question_1_title=question_1_title)
     
