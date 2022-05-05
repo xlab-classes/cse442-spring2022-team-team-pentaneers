@@ -11,7 +11,7 @@
     </head>
 <body>
 
-    <img class="corner_duck" src="{{url_for('static', filename='corner_duck.png')}}">
+    <img class="corner_duck" src="{{url_for('static', filename='corner_duck.png')}}" onclick="home()">
 
     <a button class = "buttonlogout" href = "{{ url_for('logout') }}" >Log out</button></a>
     <button id="toggle" class="dark_button" onclick="setDarkMode()">Theme</button>
@@ -50,6 +50,10 @@
 
             alert("URL Copied.");
             return result;
+        }
+    
+        function home(){
+            location.href = '/'
         }
     </script>
 

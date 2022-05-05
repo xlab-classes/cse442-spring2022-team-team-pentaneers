@@ -11,7 +11,7 @@
     </head>
 <body>
 
-    <img class="corner_duck" src="{{url_for('static', filename='corner_duck.png')}}">
+    <img class="corner_duck" src="{{url_for('static', filename='corner_duck.png')}}" onclick="home()">
 
     <a button class = "buttonlogout" href = "{{ url_for('logout') }}" >Log out</button></a>
 
@@ -31,6 +31,12 @@
 		<a button class = "button" href = "{{ url_for('user_homepage') }}">Browse surveys</button></a>
 
 	</div>
+
+    <script>
+        function home(){
+            location.href = '/'
+        }
+    </script>
 
 </body>
 

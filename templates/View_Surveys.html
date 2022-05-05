@@ -12,7 +12,7 @@
         <link href="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
     </head>
 <body>
-    <img class="corner_duck" src="{{url_for('static', filename='corner_duck.png')}}">
+    <img class="corner_duck" src="{{url_for('static', filename='corner_duck.png')}}" onclick="home()">
 
     <a button class = "buttonlogout" href = "{{ url_for('logout') }}" >Log out</button></a>
 
@@ -197,16 +197,23 @@
         }
     </script>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function(event) { 
-        var keepscrollposs = localStorage.getItem('scrollpos');
-        if (keepscrollposs) window.scrollTo(0, keepscrollposs);
-    });
+    <script>
+        document.addEventListener("DOMContentLoaded", function(event) { 
+            var keepscrollposs = localStorage.getItem('scrollpos');
+            if (keepscrollposs) window.scrollTo(0, keepscrollposs);
+        });
 
-    window.onbeforeunload = function(e) {
-        localStorage.setItem('keepscrollposs', window.scrollY);
-    };
-</script>
+        window.onbeforeunload = function(e) {
+            localStorage.setItem('keepscrollposs', window.scrollY);
+        };
+    </script>
+
+    <script>
+        function home(){
+            location.href = '/'
+        }
+    </script>
+    
     </body>
 
 </html>

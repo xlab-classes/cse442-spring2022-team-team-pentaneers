@@ -12,7 +12,7 @@
 <body>
     <button id="toggle" class="dark_button" onclick="setDarkMode()">Theme</button>
     <script src="{{url_for('static', filename='Dark_Mode.js')}}"></script>
-    <img class="corner_duck" src="{{url_for('static', filename='corner_duck.png')}}">
+    <img class="corner_duck" src="{{url_for('static', filename='corner_duck.png')}}" onclick="home()">
 
     <div class="vertical_flex2">
 
@@ -27,6 +27,11 @@
 
 	</div>
 
+    <script>
+        function home(){
+            location.href = '/'
+        }
+    </script>
 </body>
 
 </html>

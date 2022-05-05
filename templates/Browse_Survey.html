@@ -12,7 +12,7 @@
     </head>
 <body>
 
-    <img class="corner_duck" src="{{url_for('static', filename='corner_duck.png')}}">
+    <img class="corner_duck" src="{{url_for('static', filename='corner_duck.png')}}" onclick="home()">
 
     <a button class = "buttonhome" href = "{{ url_for('home') }}" >Homepage</button></a>
     <button id="toggle" class="dark_button" onclick="setDarkMode()">Theme</button>
@@ -42,6 +42,10 @@
         function getLink(URL) {
             var text = URL
             window.open(URL)
+        }
+
+        function home(){
+            location.href = '/'
         }
     </script>
 

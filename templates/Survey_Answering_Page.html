@@ -7,7 +7,8 @@
         <link rel=stylesheet type=text/css href="{{ url_for('static', filename='Survey_Answering.css') }}">
         <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
         <link href="https://fonts.googleapis.com/css2?family=Fredoka+One" rel="stylesheet">
-        <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon_duck.png') }}" sizes ="32x32"/>
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon_duck.png') }}" sizes ="32x32"
+        onclick="home()"/>
     </head>
 <body>
     <img class="corner_duck" src="{{url_for('static', filename='corner_duck.png')}}">
@@ -128,6 +129,9 @@
                     xhr.send(data);
                     location.href = "/submission_success" 
                 }    
+            }
+            function home(){
+                location.href = '/'
             }
         </script>
 
