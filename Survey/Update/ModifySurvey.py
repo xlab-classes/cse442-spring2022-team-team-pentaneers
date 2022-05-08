@@ -184,16 +184,16 @@ def modifySurvey(id, data):
                 # Checking to see if the question title has changed
                 if new_question_title != old_survey_questions[old_question_number-1][0]:
                 
-                    update_question_title = "UPDATE Questions SET question_title = %s WHERE question_id = %s"
-                    val = (new_question_title, question_id)
+                    update_question_title = "UPDATE Questions SET question_title = %s WHERE question_id = %s AND survey_id=%s"
+                    val = (new_question_title, question_id, id)
                     mycursor.execute(update_question_title, val)
                     mydb.commit()
                     print(mycursor.rowcount, "record(s) affected for survey_title in Questions")
                 
                 # Checking to see if the question type has changed
                 if new_question_type != old_survey_questions[old_question_number-1][1]:
-                    update_question_type = "UPDATE Questions SET question_type = %s WHERE question_id = %s"
-                    val = (new_question_type, question_id)
+                    update_question_type = "UPDATE Questions SET question_type = %s WHERE question_id = %s AND survey_id=%s"
+                    val = (new_question_type, question_id, id)
                     mycursor.execute(update_question_type, val)
                     mydb.commit()
                     print(mycursor.rowcount, "record(s) affected for survey_type in Questions")
@@ -201,8 +201,8 @@ def modifySurvey(id, data):
                     # Checking to see if the question options have changed
                     if new_question_options != old_survey_questions[old_question_number-1][2]:
                         if new_question_options is None:
-                            update_question_options = "UPDATE Questions SET options = %s WHERE question_id = %s"
-                            val = (new_question_options, question_id)
+                            update_question_options = "UPDATE Questions SET options = %s WHERE question_id = %s AND survey_id=%s"
+                            val = (new_question_options, question_id, id)
                             mycursor.execute(update_question_options, val)
                             mydb.commit()
                         if new_question_options != None:
@@ -211,8 +211,8 @@ def modifySurvey(id, data):
                             for choice in new_question_options:
                                 index+=1
                                 options+=str(index)+":"+choice+";"
-                            update_question_options = "UPDATE Questions SET options = %s WHERE question_id = %s"
-                            val = (options, question_id)
+                            update_question_options = "UPDATE Questions SET options = %s WHERE question_id = %s AND survey_id=%s"
+                            val = (options, question_id, id)
                             mycursor.execute(update_question_options, val)
                             mydb.commit()
                             print(mycursor.rowcount, "record(s) affected for survey_options in Questions")
@@ -253,8 +253,8 @@ def modifySurvey(id, data):
                     # Checking to see if the question options have changed
                     if new_question_options != old_survey_questions[question_id-1][2]:
                         if new_question_options is None:
-                            update_question_options = "UPDATE Questions SET options = %s WHERE question_id = %s"
-                            val = (new_question_options, question_id)
+                            update_question_options = "UPDATE Questions SET options = %s WHERE question_id = %s AND survey_id=%s"
+                            val = (new_question_options, question_id, id)
                             mycursor.execute(update_question_options, val)
                             mydb.commit()
                         if new_question_options != None:
@@ -263,8 +263,8 @@ def modifySurvey(id, data):
                             for choice in new_question_options:
                                 index+=1
                                 options+=str(index)+":"+choice+";"
-                            update_question_options = "UPDATE Questions SET options = %s WHERE question_id = %s"
-                            val = (options, question_id)
+                            update_question_options = "UPDATE Questions SET options = %s WHERE question_id = %s AND survey_id=%s"
+                            val = (options, question_id, id)
                             mycursor.execute(update_question_options, val)
                             mydb.commit()
                             print(mycursor.rowcount, "record(s) affected for survey_options in Questions")
@@ -310,15 +310,15 @@ def modifySurvey(id, data):
             # Checking to see if the question title has changed
             if new_question_title != old_survey_questions[question_id-1][0]:
             
-                update_question_title = "UPDATE Questions SET question_title = %s WHERE question_id = %s"
-                val = (new_question_title, question_id)
+                update_question_title = "UPDATE Questions SET question_title = %s WHERE question_id = %s AND survey_id=%s"
+                val = (new_question_title, question_id, id)
                 mycursor.execute(update_question_title, val)
                 mydb.commit()
             
             # Checking to see if the question type has changed
             if new_question_type != old_survey_questions[question_id-1][1]:
-                update_question_type = "UPDATE Questions SET question_type = %s WHERE question_id = %s"
-                val = (new_question_type, question_id)
+                update_question_type = "UPDATE Questions SET question_type = %s WHERE question_id = %s AND survey_id=%s"
+                val = (new_question_type, question_id, id)
                 mycursor.execute(update_question_type, val)
                 mydb.commit()
                 print(mycursor.rowcount, "record(s) affected for survey_type in Questions")
@@ -326,8 +326,8 @@ def modifySurvey(id, data):
                 # Checking to see if the question options have changed
                 if new_question_options != old_survey_questions[question_id-1][2]:
                     if new_question_options is None:
-                        update_question_options = "UPDATE Questions SET options = %s WHERE question_id = %s"
-                        val = (new_question_options, question_id)
+                        update_question_options = "UPDATE Questions SET options = %s WHERE question_id = %s AND survey_id=%s"
+                        val = (new_question_options, question_id, id)
                         mycursor.execute(update_question_options, val)
                         mydb.commit()
                     if new_question_options != None:
@@ -336,8 +336,8 @@ def modifySurvey(id, data):
                         for choice in new_question_options:
                             index+=1
                             options+=str(index)+":"+choice+";"
-                        update_question_options = "UPDATE Questions SET options = %s WHERE question_id = %s"
-                        val = (options, question_id)
+                        update_question_options = "UPDATE Questions SET options = %s WHERE question_id = %s AND survey_id=%s"
+                        val = (options, question_id, id)
                         mycursor.execute(update_question_options, val)
                         mydb.commit()
                         print(mycursor.rowcount, "record(s) affected for survey_options in Questions")
@@ -378,8 +378,8 @@ def modifySurvey(id, data):
                 # Checking to see if the question options have changed
                 if new_question_options != old_survey_questions[question_id-1][2]:
                     if new_question_options is None:
-                        update_question_options = "UPDATE Questions SET options = %s WHERE question_id = %s"
-                        val = (new_question_options, question_id)
+                        update_question_options = "UPDATE Questions SET options = %s WHERE question_id = %s AND survey_id=%s"
+                        val = (new_question_options, question_id, id)
                         mycursor.execute(update_question_options, val)
                         mydb.commit()
                     if new_question_options != None:
@@ -388,8 +388,8 @@ def modifySurvey(id, data):
                         for choice in new_question_options:
                             index+=1
                             options+=str(index)+":"+choice+";"
-                        update_question_options = "UPDATE Questions SET options = %s WHERE question_id = %s"
-                        val = (options, question_id)
+                        update_question_options = "UPDATE Questions SET options = %s WHERE question_id = %s AND survey_id=%s"
+                        val = (options, question_id, id)
                         mycursor.execute(update_question_options, val)
                         mydb.commit()
                         print(mycursor.rowcount, "record(s) affected for survey_options in Questions")
@@ -508,16 +508,16 @@ def modifySurvey(id, data):
                 # Checking to see if the question title has changed
                 if new_question_title != old_survey_questions[old_question_number-1][0]:
                 
-                    update_question_title = "UPDATE Questions SET question_title = %s WHERE question_id = %s"
-                    val = (new_question_title, question_id)
+                    update_question_title = "UPDATE Questions SET question_title = %s WHERE question_id = %s AND survey_id=%s"
+                    val = (new_question_title, question_id, id)
                     mycursor.execute(update_question_title, val)
                     mydb.commit()
                     print(mycursor.rowcount, "record(s) affected for survey_title in Questions")
                 
                 # Checking to see if the question type has changed
                 if new_question_type != old_survey_questions[old_question_number-1][1]:
-                    update_question_type = "UPDATE Questions SET question_type = %s WHERE question_id = %s"
-                    val = (new_question_type, question_id)
+                    update_question_type = "UPDATE Questions SET question_type = %s WHERE question_id = %s AND survey_id=%s"
+                    val = (new_question_type, question_id, id)
                     mycursor.execute(update_question_type, val)
                     mydb.commit()
                     print(mycursor.rowcount, "record(s) affected for survey_type in Questions")
@@ -525,8 +525,8 @@ def modifySurvey(id, data):
                     # Checking to see if the question options have changed
                     if new_question_options != old_survey_questions[old_question_number-1][2]:
                         if new_question_options is None:
-                            update_question_options = "UPDATE Questions SET options = %s WHERE question_id = %s"
-                            val = (new_question_options, question_id)
+                            update_question_options = "UPDATE Questions SET options = %s WHERE question_id = %s AND survey_id=%s"
+                            val = (new_question_options, question_id, id)
                             mycursor.execute(update_question_options, val)
                             mydb.commit()
                         if new_question_options != None:
@@ -535,8 +535,8 @@ def modifySurvey(id, data):
                             for choice in new_question_options:
                                 index+=1
                                 options+=str(index)+":"+choice+";"
-                            update_question_options = "UPDATE Questions SET options = %s WHERE question_id = %s"
-                            val = (options, question_id)
+                            update_question_options = "UPDATE Questions SET options = %s WHERE question_id = %s AND survey_id=%s"
+                            val = (options, question_id, id)
                             mycursor.execute(update_question_options, val)
                             mydb.commit()
                             print(mycursor.rowcount, "record(s) affected for survey_options in Questions")
@@ -577,8 +577,8 @@ def modifySurvey(id, data):
                     # Checking to see if the question options have changed
                     if new_question_options != old_survey_questions[question_id-1][2]:
                         if new_question_options is None:
-                            update_question_options = "UPDATE Questions SET options = %s WHERE question_id = %s"
-                            val = (new_question_options, question_id)
+                            update_question_options = "UPDATE Questions SET options = %s WHERE question_id = %s AND survey_id=%s"
+                            val = (new_question_options, question_id, id)
                             mycursor.execute(update_question_options, val)
                             mydb.commit()
                         if new_question_options != None:
@@ -587,8 +587,8 @@ def modifySurvey(id, data):
                             for choice in new_question_options:
                                 index+=1
                                 options+=str(index)+":"+choice+";"
-                            update_question_options = "UPDATE Questions SET options = %s WHERE question_id = %s"
-                            val = (options, question_id)
+                            update_question_options = "UPDATE Questions SET options = %s WHERE question_id = %s AND survey_id=%s"
+                            val = (options, question_id, id)
                             mycursor.execute(update_question_options, val)
                             mydb.commit()
                             print(mycursor.rowcount, "record(s) affected for survey_options in Questions")
