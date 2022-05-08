@@ -322,8 +322,10 @@ def creation_success():
 #------------------The path to our survey answer submission success page-----------------------
 @app.route("/submission_success", methods=['POST', 'GET'])
 def submission_success():
-    # print('lets_go')
-    return render_template('Answer_Completion.html', title = "Survey Submission Success")
+    authenticated = False
+    if 'email' in session.keys():
+        authenticated = True
+    return render_template('Answer_Completion.html', title = "Survey Submission Success", authenticated = authenticated)
 
 #------------------The path to our survey answer submission success page-----------------------
 @app.route("/deleted_survey", methods=['POST', 'GET'])

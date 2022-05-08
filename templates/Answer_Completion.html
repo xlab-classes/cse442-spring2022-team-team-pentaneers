@@ -13,7 +13,11 @@
 
     <img class="corner_duck" src="{{url_for('static', filename='corner_duck.png')}}">
 
+    {% if authenticated %}
     <a button class = "buttonlogout" href = "{{ url_for('logout') }}" >Log out</button></a>
+    {% else %}
+    <a button class = "buttonlogout" href = "{{ url_for('home') }}" >Home</button></a>
+    {% endif %}
 
     <button id="toggle" class="dark_button" onclick="setDarkMode()">Theme</button>
     <script src="{{url_for('static', filename='Dark_Mode.js')}}"></script>
@@ -24,12 +28,14 @@
 
         <br><br><br><br><br><br><br><br><br><br>
 
-    	<a button class = "button" href = "{{ url_for('view_surveys') }}">View your surveys</button></a>
+        {% if authenticated %}
+            <a button class = "button" href = "{{ url_for('view_surveys') }}">View your surveys</button></a>
 
-		<a button class = "button" href = "{{ url_for('survey_editor') }}">Create a survey</button></a>
+            <a button class = "button" href = "{{ url_for('survey_editor') }}">Create a survey</button></a>
 
-		<a button class = "button" href = "{{ url_for('browse_surveys') }}">Browse surveys</button></a>
-
+            <a button class = "button" href = "{{ url_for('browse_surveys') }}">Browse surveys</button></a>
+        {% else %}
+        {% endif %}
 	</div>
 
 </body>
