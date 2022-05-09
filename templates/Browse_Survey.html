@@ -12,7 +12,7 @@
     </head>
 <body>
 
-    <img class="corner_duck" src="{{url_for('static', filename='corner_duck.png')}}">
+    <img class="corner_duck" src="{{url_for('static', filename='corner_duck.png')}}" onclick="home()">
 
     {% if authenticated %}
     <a button class = "buttonhome" href = "{{ url_for('user_homepage') }}" >Home</button></a>
@@ -49,6 +49,10 @@
         function getLink(URL) {
             var text = URL
             window.open(URL)
+        }
+
+        function home(){
+            location.href = '/'
         }
     </script>
 

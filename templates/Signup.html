@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='Login_Signup_Style.css') }}">
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2? family=Fredoka+One" rel="stylesheet">
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon_duck.png') }}" sizes ="32x32"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
     <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
@@ -98,15 +98,11 @@
       var hide=document.getElementById('hide').value;
 
       if (encypt_password.length > 4 && encypt_password.length < 33){
-        document.getElementById("hide").value = document.getElementById("password").value;
-        var hashed = CryptoJS.MD5(encypt_password);
-        document.getElementById('password').value=hashed;
-
-
+        var hash = CryptoJS.MD5(encypt_password);
+        document.getElementById('password').value=hash;
         var conf_pass=document.getElementById('confirm_password').value;
         var hide=document.getElementById('hide').value;
 
-        document.getElementById("hide").value = document.getElementById("confirm_password").value;
         var hash = CryptoJS.MD5(conf_pass);
         document.getElementById('confirm_password').value=hash;
         return true;

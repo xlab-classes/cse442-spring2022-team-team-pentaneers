@@ -13,7 +13,7 @@
     </head>
     <body onload="load_survey('{{survey_data}}')" >
         
-        <img class="corner_duck" src="{{url_for('static', filename='corner_duck.png')}}">
+        <img class="corner_duck" src="{{url_for('static', filename='corner_duck.png')}}" onclick="home()">
 
         <a button class = "buttonlogout" href = "{{ url_for('logout') }}" >Log out</button></a>
         <button id="toggle" class="dark_button" onclick="setDarkMode()">Theme</button>
@@ -63,7 +63,12 @@
 
             <a button class="button-publish" onclick="publish()">Publish</button></a>
         </div>
-
+    
+    <script>
+        function home(){
+            location.href = '/'
+        }
+    </script>
     </body>
     
 </html>
