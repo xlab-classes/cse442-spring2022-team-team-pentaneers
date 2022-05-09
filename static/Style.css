@@ -761,9 +761,12 @@ label{
 
 
 .button-mc{
-    display: block;
-    float: right;
-    margin-right: 20rem;
+    /* display: block; */
+    position: relative;
+    left: 70%;
+    /* float: right; */
+    /* margin-right: 20rem; */
+    margin-left: 10px;
     margin-bottom: 1rem;
     margin-top: 0.5rem;
     width: 80px;
@@ -801,9 +804,12 @@ label{
 
 
 .button-wr{
-    display: block;
-    float: right;
-    margin-right: 1rem;
+    /* display: block; */
+    /* float: right; */
+    position: relative;
+    left: 70%;
+    margin-left: 10px;
+    /* margin-right: 1rem; */
     margin-bottom: 1rem;
     margin-top: 0.5rem;
     width: 80px;
