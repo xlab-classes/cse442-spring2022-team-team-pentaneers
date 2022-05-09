@@ -26,23 +26,25 @@
     <h1>Explore surveys!</h1><br><br>
     <h3>Select a survey below to begin!</h3>
 
-    {% if all_surveys %}
-        {% for surveys in all_surveys %}
-            <div class = "vertical_flex5">
+    {% if all_surveys != None %}
+        {% if all_surveys %}
+            {% for surveys in all_surveys %}
+                <div class = "vertical_flex5">
 
-                {% set count = {'value': 0} %}
+                    {% set count = {'value': 0} %}
 
-                <h11>{{surveys[count.value]}}</h11><br><br><br>
-                {% if count.update({'value': (count.value + 1)}) %} {% endif %}
+                    <h11>{{surveys[count.value]}}</h11><br><br><br>
+                    {% if count.update({'value': (count.value + 1)}) %} {% endif %}
 
-                <h8>{{surveys[count.value]}}</h8><br><br>
-                {% if count.update({'value': (count.value + 1)}) %} {% endif %}
+                    <h8>{{surveys[count.value]}}</h8><br><br>
+                    {% if count.update({'value': (count.value + 1)}) %} {% endif %}
 
-                <button onclick = "getLink('{{surveys[count.value]}}')" button class = "buttonlink2">Start survey</button>
-                {% if count.update({'value': (count.value + 1)}) %} {% endif %} 
+                    <button onclick = "getLink('{{surveys[count.value]}}')" button class = "buttonlink2">Start survey</button>
+                    {% if count.update({'value': (count.value + 1)}) %} {% endif %} 
 
-            </div>
-        {% endfor %}
+                </div>
+            {% endfor %}
+        {% endif %}
     {% endif %}
 
     <script>
